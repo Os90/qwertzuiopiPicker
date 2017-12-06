@@ -1,0 +1,28 @@
+PODS:
+  - ActionSheetPicker-3.0 (2.2.0)
+  - BarcodeScanner (3.0.0)
+  - MIBadgeButton-Swift (0.5)
+
+DEPENDENCIES:
+  - ActionSheetPicker-3.0 (~> 2.2.0)
+  - BarcodeScanner (~> 3.0)
+  - MIBadgeButton-Swift (from `https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git`, branch `master`)
+
+EXTERNAL SOURCES:
+  MIBadgeButton-Swift:
+    :branch: master
+    :git: https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git
+
+CHECKOUT OPTIONS:
+  MIBadgeButton-Swift:
+    :commit: 3c2638d2e6e46ec2e6dd978d8ada8863df3df5e6
+    :git: https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git
+
+SPEC CHECKSUMS:
+  ActionSheetPicker-3.0: d11a4c12c6aaf704b8a3f56d179198c99f3e41e6
+  BarcodeScanner: 4ba61e8b2d50da7b17685085d4bb8e1a0c14613e
+  MIBadgeButton-Swift: 9e57309b00b168d75ca8fecb45bc75124a8ffddf
+
+PODFILE CHECKSUM: 61cff47c08c5fc7116cad4c400ac7bba5f083aaf
+
+COCOAPODS: 1.1.1

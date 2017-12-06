@@ -1,0 +1,11 @@
+framework module OrderedDictionary {
+  umbrella header "OrderedDictionary.h"
+
+  export *
+  module * { export * }
+}
+
+module OrderedDictionary.Swift {
+    header "OrderedDictionary-Swift.h"
+    requires objc
+}
