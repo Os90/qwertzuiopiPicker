@@ -2,7 +2,7 @@
 //  MainViewController.swift
 //  iPicker
 //
-//  Created by Osman Ashraf on 07.11.17.
+//  Created by Osman Ashraf on 07.11.2017.
 //  Copyright © 2017 Osman Ashraf. All rights reserved.
 //
 
