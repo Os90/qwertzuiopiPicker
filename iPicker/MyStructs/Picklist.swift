@@ -16,7 +16,7 @@ struct Picklist : Codable {
     var menge = Int()
     
     static var myArray:[Picklist] = []
-    static var WarenEingang:[bestellung] = []
+    static var WarenEingang : antwort?
     //static var meineListe = Picklist.init(from: Decodable as! Decoder)
 }
 

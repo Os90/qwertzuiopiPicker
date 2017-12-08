@@ -11,38 +11,66 @@ import UIKit
 class WEViewController: UIViewController {
 
     @IBOutlet weak var mytbl: UITableView!
-    
-    var ListBestellung : [bestellung] = []
+    var WarenEingang : antwort?
+    var ListBestellung : [objects] = []
+    var bestellungsNrTitle = String()
     var ListatIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        DispatchQueue.main.async {
-//            self.navigationController?.navigationBar.backIndicatorImage = UIImage(named: "icons8-left_4")
-//            self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "icons8-left_4")
-//            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "sf", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
-//            let barbUtton =  UIBarButtonItem(barButtonSystemItem: ., target: self, action: #selector(self.goBack))
-//            barBbarbUttonuttonItem.image = UIImage(named: "image")
-//            self.navigationItem.leftBarButtonItem =
+//        DispatchQueue.main.async {
+//            let closeButtonImage = UIImage(named: "icons8-left_4")
+//            self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: closeButtonImage, style: .plain, target: self, action:  #selector(self.goBack))
+//
+//        }
+        urlWithForBestellung(url: "http://139.59.129.92/api/dummyorder") {(result : antwort) in
+            print(result)
             
-            
-            let closeButtonImage = UIImage(named: "icons8-left_4")
-            self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: closeButtonImage, style: .plain, target: self, action:  #selector(self.goBack))
-
+            if let myresult = result.objects{
+                self.ListBestellung = myresult
+                DispatchQueue.main.async {
+                    self.mytbl.reloadData()
+                }
+            }
+//
+//
+//            let a = result.objects
+//            self.WarenEingang?.objects = []
+//            self.WarenEingang?.objects = a
+//            if  self.WarenEingang?.objects?.count != 0{
+//                print("hat geklappt")
+//                self.ListBestellung = a!
+//               // print(self.WarenEingang?.objects?.count)
+//                //ListBestellung.append(Picklist.WarenEingang?.objects)
+//                //self.ListBestellung = (Picklist.WarenEingang?.objects)!
+//
+//
+//
+//                //ListBestellung = (Picklist.WarenEingang?.objects)!
+//            }
         }
-       urlWithForBestellung(url: "oajsdfoasdf")
-        
-        if Picklist.WarenEingang.count != 0{
-            print("hat geklappt")
-            ListBestellung = Picklist.WarenEingang
-        }
-        
+//
+//      //  print(Picklist.WarenEingang)
+//
+//
+//        if  Picklist.WarenEingang?.objects.count != 0{
+//            print("hat geklappt")
+//            print(Picklist.WarenEingang?.objects.count)
+//            //ListBestellung.append(Picklist.WarenEingang?.objects)
+//            ListBestellung = (Picklist.WarenEingang?.objects)!
+//
+//
+//            //ListBestellung = (Picklist.WarenEingang?.objects)!
+//        }
     }
-
+    
     @objc func goBack()
     {
-        self.navigationController?.popViewController(animated: true)
+        if let navigationController = navigationController {
+            //NotificationCenter.default.post(name:Notification.Name(GSNotifications.backToStart), object: nil, userInfo: nil)
+            navigationController.popViewController(animated: true)
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -50,10 +78,12 @@ class WEViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "liste"{
-//            let destinationVC = segue.destination as! WareneingangListeViewController
-//            destinationVC.myListe = ListBestellung[ListatIndex].liste
-//        }
+        if segue.identifier == "liste"{
+            self.navigationItem.title = bestellungsNrTitle
+            let destinationVC = segue.destination as! WareneingangListeViewController
+            destinationVC.myListe = ListBestellung[ListatIndex].artikel!
+            bestellugAntwort.bestellungsNr = Int(bestellungsNrTitle)!
+        }
     }
 }
 
@@ -63,23 +93,21 @@ extension WEViewController : UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        // return ListBestellung.count
-        return 6
+        return ListBestellung.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        //cell.textLabel?.text  = ListBestellung[indexPath.row].bestellungsNR
-        
-        cell.textLabel?.text  = "asdf"
-        
-        
-        //cell.detailTextLabel?.text = "Seit 30 min"
+        if let text = ListBestellung[indexPath.row].bestellungsNr{
+            cell.textLabel?.text = String(describing: text)
+             cell.detailTextLabel?.text = ListBestellung[indexPath.row].status
+        }
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         ListatIndex = indexPath.row
-         let cell = mytbl.cellForRow(at: indexPath)
-            print(cell?.textLabel?.text)
-            performSegue(withIdentifier: "liste", sender: self)
+        let cell = mytbl.cellForRow(at: indexPath)
+        bestellungsNrTitle = (cell?.textLabel?.text)!
+        performSegue(withIdentifier: "liste", sender: self)
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

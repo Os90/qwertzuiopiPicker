@@ -59,33 +59,13 @@ class MainViewController: UIViewController {
 
     
     @objc func imageTappedFirst(){
-//        let mainStoryboardIpad : UIStoryboard = UIStoryboard(name: "Wareneingang", bundle: nil)
-//        let nav = mainStoryboardIpad.instantiateViewController(withIdentifier: "WarenEingang") as! UINavigationController
-//        self.navigationController!.pushViewController(nav, animated: true)
+
+        let storyboard = UIStoryboard(name: "Wareneingang", bundle: nil)
+        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "WarenEingang")
+            if let navigationController = navigationController {
+                navigationController.pushViewController(recentSearchesViewController, animated: true)
+            }
         
-        //self.window?.rootViewController = nav
-        
-        let loginVC = UIStoryboard(name: "Wareneingang", bundle: nil).instantiateViewController(withIdentifier: "WarenEingang") as! UINavigationController
-        //dself.navigationController?.pushViewController(loginVC, animated: true)
-        
-        self.present(loginVC, animated: true, completion: nil)
-        
-        //present( UIStoryboard(name: "Wareneingang", bundle: nil).instantiateViewController(withIdentifier: "WE") as UIViewController, animated: true, completion: nil)
-//
-//        let VC1 = self.storyboard!.instantiateViewController(withIdentifier: "WarenEingang")
-//        self.navigationController!.pushViewController(VC1, animated: true)
-//
-//        let storyboard = UIStoryboard(name: "Wareneingang", bundle: nil)
-//        let vc = storyboard.instantiateViewController(withIdentifier: "WarenEingang") as! WEViewController
-//        present(vc, animated: true, completion: nil)
-        
-        
-        //performSegue(withIdentifier: "Picken", sender: self)
-        
-//
-//        let storyboard: UIStoryboard = UIStoryboard(name: "Wareneingang", bundle: nil)
-//        let vc = storyboard.instantiateViewController(withIdentifier: "WarenEingang")
-//        self.show(vc, sender: self)
         }
     
     
@@ -94,6 +74,15 @@ class MainViewController: UIViewController {
     }
     @objc func imageTappedThird(){
         performSegue(withIdentifier: "picken", sender: self)
+    }
+    
+    @objc func imageTappedLast(){
+        let storyboard = UIStoryboard(name: "warenausgang", bundle: nil)
+        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "warenausgangCtrl")
+        if let navigationController = navigationController {
+            navigationController.pushViewController(recentSearchesViewController, animated: true)
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -159,12 +148,19 @@ class MainViewController: UIViewController {
         let tapGestureRecognizerThird = UITapGestureRecognizer(target: self, action: #selector(imageTappedThird))
         thirdView.isUserInteractionEnabled = true
         thirdView.addGestureRecognizer(tapGestureRecognizerThird)
+        
+        
+        let tapGestureRecognizerLast = UITapGestureRecognizer(target: self, action: #selector(imageTappedLast))
+        LastView.isUserInteractionEnabled = true
+        LastView.addGestureRecognizer(tapGestureRecognizerLast)
     }
 }
 
 extension UIViewController{
-    func urlWithForBestellung(url : String){
-        
+    
+    
+    func urlWithForBestellung(url: String, completion: @escaping (_ result: antwort) -> Void) {
+
         let jsonUrlString = url
         guard let url = URL(string: jsonUrlString) else {
             return
@@ -172,16 +168,51 @@ extension UIViewController{
         URLSession.shared.dataTask(with: url){(data,response,err) in
             guard let data = data else {return}
             do{
-                let webSiteDesc = try JSONDecoder().decode(bestellung.self, from: data)
-                Picklist.WarenEingang.append(webSiteDesc)
-//                print(Picklist.WarenEingang.count)
-//                print(Picklist.WarenEingang[0].liste.count)
-//                print(Picklist.WarenEingang[0].liste)
+                let webSiteDesc = try JSONDecoder().decode(antwort.self, from: data)
+                completion(webSiteDesc)
+//                print(webSiteDesc)
+//                Picklist.WarenEingang = webSiteDesc
+//
+//                // Picklist.WarenEingang.append(webSiteDesc)
+//                //                print(Picklist.WarenEingang.count)
+//                //                print(Picklist.WarenEingang[0].liste.count)
+//                //                print(Picklist.WarenEingang[0].liste)
             }catch let jsonErr{
                 print(jsonErr)
-                }
+            }
             
             }.resume()
+        
     }
+    
+//    func urlWithForBestellung(url : String, completion: anto{
+//    print("Hello World")
+//    })
+    
+    
+//    func urlWithForBestellung(url : String)-> (Picklist) in {
+//
+//        let jsonUrlString = url
+//        guard let url = URL(string: jsonUrlString) else {
+//            return
+//        }
+//        URLSession.shared.dataTask(with: url){(data,response,err) in
+//            guard let data = data else {return}
+//            do{
+//                let webSiteDesc = try JSONDecoder().decode(antwort.self, from: data)
+//
+//                print(webSiteDesc)
+//                Picklist.WarenEingang = webSiteDesc
+//
+//               // Picklist.WarenEingang.append(webSiteDesc)
+////                print(Picklist.WarenEingang.count)
+////                print(Picklist.WarenEingang[0].liste.count)
+////                print(Picklist.WarenEingang[0].liste)
+//            }catch let jsonErr{
+//                print(jsonErr)
+//                }
+//
+//            }.resume()
+//    }
 
 }

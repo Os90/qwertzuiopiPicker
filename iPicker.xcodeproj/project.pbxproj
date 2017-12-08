@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		151048D71FB0E6A8004352A8 /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151048D61FB0E6A8004352A8 /* MyCollectionViewCell.swift */; };
+		1527D6CF1FD9AC3D00F90377 /* CompleteWAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527D6CE1FD9AC3D00F90377 /* CompleteWAViewController.swift */; };
 		152FAEC41FAF92AB00D68C42 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152FAEC31FAF92AB00D68C42 /* AppDelegate.swift */; };
 		152FAEC61FAF92AB00D68C42 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152FAEC51FAF92AB00D68C42 /* ViewController.swift */; };
 		152FAEC91FAF92AB00D68C42 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 152FAEC71FAF92AB00D68C42 /* Main.storyboard */; };
@@ -84,6 +85,7 @@
 /* Begin PBXFileReference section */
 		1315F173CB5A99F902C45027 /* Pods-iPickerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iPickerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iPickerUITests/Pods-iPickerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		151048D61FB0E6A8004352A8 /* MyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCollectionViewCell.swift; sourceTree = "<group>"; };
+		1527D6CE1FD9AC3D00F90377 /* CompleteWAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteWAViewController.swift; sourceTree = "<group>"; };
 		152FAEC01FAF92AB00D68C42 /* iPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		152FAEC31FAF92AB00D68C42 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		152FAEC51FAF92AB00D68C42 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				15A5D0A91FCF573C00015FAB /* warenausgang.storyboard */,
 				15532C001FCF589F00029798 /* WarenausgangViewController.swift */,
 				15532C021FCF5A3C00029798 /* WarenausgangListeViewController.swift */,
+				1527D6CE1FD9AC3D00F90377 /* CompleteWAViewController.swift */,
 			);
 			path = Warenausang;
 			sourceTree = "<group>";
@@ -625,6 +628,7 @@
 				AC7CC0851FBF1EFC0007724F /* PickerTableViewCell.swift in Sources */,
 				153816731FB2657D00B46230 /* MainViewController.swift in Sources */,
 				155A8D1A1FC1CD5B00A10E01 /* Picklist.swift in Sources */,
+				1527D6CF1FD9AC3D00F90377 /* CompleteWAViewController.swift in Sources */,
 				15532C011FCF589F00029798 /* WarenausgangViewController.swift in Sources */,
 				15AF50541FC7577C004BF17F /* AuthViewController.swift in Sources */,
 				152FAEC61FAF92AB00D68C42 /* ViewController.swift in Sources */,

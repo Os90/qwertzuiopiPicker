@@ -15,8 +15,20 @@ class WarenausgangViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+//        DispatchQueue.main.async {
+//            let closeButtonImage = UIImage(named: "icons8-left_4")
+//            self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: closeButtonImage, style: .plain, target: self, action:  #selector(self.goBack))
+//
+//        }
 
+    }
+    
+    @objc func goBack()
+    {
+        if let navigationController = navigationController {
+            //NotificationCenter.default.post(name:Notification.Name(GSNotifications.backToStart), object: nil, userInfo: nil)
+            navigationController.popViewController(animated: true)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,8 +59,8 @@ extension WarenausgangViewController: UITableViewDelegate,UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
         cell.textLabel?.text = "Order numer : q2343124"
-        cell.textLabel?.text = "Seit 15 min"
-        cell.imageView?.image = UIImage(named :"icons8-checkmark_filled-1")
+        cell.detailTextLabel?.text = "Seit 15 min"
+        //cell.imageView?.image = UIImage(named :"icons8-checkmark_filled-1")
         return cell
     }
 //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
@@ -57,18 +69,26 @@ extension WarenausgangViewController: UITableViewDelegate,UITableViewDataSource{
 //
 //    }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Aufträge (0)"
+    }
+    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
-        
-        let favorite = UITableViewRowAction(style: .normal, title: "OK") { action, index in
-            print("ok button tapped")
-            self.ordernummerSelect(editActionsForRowAt.row)
-        }
-        favorite.backgroundColor = .red
-        
-        return [favorite]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.ordernummerSelect(indexPath.row)
     }
+    
+//    func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
+//
+//        let favorite = UITableViewRowAction(style: .normal, title: "OK") { action, index in
+//            print("ok button tapped")
+//
+//        }
+//        favorite.backgroundColor = .red
+//
+//        return [favorite]
+//    }
 }
