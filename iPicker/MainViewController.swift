@@ -19,16 +19,55 @@ class MainViewController: UIViewController {
     
     @IBOutlet weak var LastView: UIView!
     
+    @IBOutlet weak var firstViewBadge: UILabel!
+    
     @IBOutlet var secondViewLabel: UIView!
     
     @IBOutlet var thirdVuewLabel: UIView!
     
+    @IBOutlet weak var lastBadge: UILabel!
+    
+    
+    
     var eingeloggt = false
+    
+    var aufträge = 0
+    
+    var bestellungsAntwort : antwort?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initAllView()
+
     }
+    
+    func alleBestellungen(){
+        urlWithForBestellung(url: "http://139.59.129.92/api/dummyorder") {(result : antwort) in
+            print(result)
+            self.bestellungsAntwort = result
+            if let myresult = result.objects{
+                DispatchQueue.main.async {
+                    let a = myresult.count - Picklist.durchlaufBestellungen
+                     self.firstViewBadge.text = String(a)
+                }
+               
+               
+//                self.ListBestellung = myresult
+//
+//                    self.mytbl.reloadData()
+//                }
+            }
+    }
+        
+        
+    }
+    
+    func alleAufträge(){
+        aufträge = 2
+        aufträge = aufträge - Picklist.durchlaufAuftrage
+        lastBadge.text = String(aufträge)
+    }
+    
     func userAlreadyExist() -> Bool {
         return UserDefaults.standard.object(forKey: "name") != nil
     }
@@ -41,7 +80,7 @@ class MainViewController: UIViewController {
             else{
                 self.eingeloggt = true
                 
-                self.loginLabel.text = "Eingeloggt"
+                self.loginLabel.text = "Osman Ashraf"
                 
 //                self.fetchDataFromServer()
 //                self.countPick.text = String(self.pickIDStationID.count)
@@ -50,10 +89,9 @@ class MainViewController: UIViewController {
             }
         }
         
-        //        let od = OrderedDictionary()
-        //        od["Tim"] = 24
-        //        print(od.description)
-        //test 
+        alleBestellungen()
+        alleAufträge()
+        
     }
     
 
@@ -61,8 +99,9 @@ class MainViewController: UIViewController {
     @objc func imageTappedFirst(){
 
         let storyboard = UIStoryboard(name: "Wareneingang", bundle: nil)
-        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "WarenEingang")
+        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "WarenEingang") as! WEViewController
             if let navigationController = navigationController {
+                recentSearchesViewController.ListBestellung = (bestellungsAntwort?.objects)!
                 navigationController.pushViewController(recentSearchesViewController, animated: true)
             }
         
@@ -107,6 +146,12 @@ class MainViewController: UIViewController {
         secondView.layer.shadowOpacity = 1.0
         secondView.layer.shadowRadius = 5
         
+        
+        firstViewBadge.layer.cornerRadius = firstViewBadge.frame.width/2
+        firstViewBadge.layer.masksToBounds = true
+        
+        lastBadge.layer.cornerRadius = firstViewBadge.frame.width/2
+        lastBadge.layer.masksToBounds = true
         
         secondViewLabel.layer.cornerRadius = secondViewLabel.frame.width/2
         secondViewLabel.layer.masksToBounds = true

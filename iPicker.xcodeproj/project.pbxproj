@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		151048D71FB0E6A8004352A8 /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151048D61FB0E6A8004352A8 /* MyCollectionViewCell.swift */; };
+		1510D5E61FDA7DF7003A9EC8 /* CompleteWEViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1510D5E51FDA7DF7003A9EC8 /* CompleteWEViewController.swift */; };
 		1527D6CF1FD9AC3D00F90377 /* CompleteWAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1527D6CE1FD9AC3D00F90377 /* CompleteWAViewController.swift */; };
 		152FAEC41FAF92AB00D68C42 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152FAEC31FAF92AB00D68C42 /* AppDelegate.swift */; };
 		152FAEC61FAF92AB00D68C42 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152FAEC51FAF92AB00D68C42 /* ViewController.swift */; };
@@ -85,6 +86,7 @@
 /* Begin PBXFileReference section */
 		1315F173CB5A99F902C45027 /* Pods-iPickerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iPickerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iPickerUITests/Pods-iPickerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		151048D61FB0E6A8004352A8 /* MyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCollectionViewCell.swift; sourceTree = "<group>"; };
+		1510D5E51FDA7DF7003A9EC8 /* CompleteWEViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteWEViewController.swift; sourceTree = "<group>"; };
 		1527D6CE1FD9AC3D00F90377 /* CompleteWAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteWAViewController.swift; sourceTree = "<group>"; };
 		152FAEC01FAF92AB00D68C42 /* iPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		152FAEC31FAF92AB00D68C42 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				15A5D09C1FCF443400015FAB /* Wareneingang.storyboard */,
 				159E61E61FD3019600B8117B /* WEViewController.swift */,
 				15A5D0A21FCF4B5700015FAB /* WareneingangListeViewController.swift */,
+				1510D5E51FDA7DF7003A9EC8 /* CompleteWEViewController.swift */,
 				159E61E81FD315B400B8117B /* PufferViewController.swift */,
 				15A5D0A41FCF4E5500015FAB /* WECell.xib */,
 				15A5D0A61FCF4F6200015FAB /* WarenEingangTableViewCell.swift */,
@@ -626,6 +629,7 @@
 				AC29903C1FC85A1500A7CFA4 /* AbschlussPickenViewController.swift in Sources */,
 				152FAEF61FAF949700D68C42 /* MyFile.swift in Sources */,
 				AC7CC0851FBF1EFC0007724F /* PickerTableViewCell.swift in Sources */,
+				1510D5E61FDA7DF7003A9EC8 /* CompleteWEViewController.swift in Sources */,
 				153816731FB2657D00B46230 /* MainViewController.swift in Sources */,
 				155A8D1A1FC1CD5B00A10E01 /* Picklist.swift in Sources */,
 				1527D6CF1FD9AC3D00F90377 /* CompleteWAViewController.swift in Sources */,

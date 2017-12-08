@@ -27,7 +27,7 @@ class WareneingangListeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Zurück", style: .plain, target: self, action: #selector(self.backAction))
         mytbl.register(UINib(nibName: "WECell", bundle: nil), forCellReuseIdentifier: "Cell")
         
         let aSelector : Selector = #selector(PickerViewController.updateTime)
@@ -36,10 +36,43 @@ class WareneingangListeViewController: UIViewController {
         addButon()
         initBestellungsAntwort()
         bestellugAntwort.bestellugArtikel = myListe
-        bestellugAntwort.bestellugEnd_time = 13
-        bestellugAntwort.bestellugStart_time = 10
+        //bestellugAntwort.bestellugStart_time =  Int(timestamp())!
+        bestellugAntwort.bestellugStart_time =  1
     }
+    @objc func backAction(){
+        
+        // create the alert
+        let alert = UIAlertController(title: "Sicher?", message: "Sie würden damit die Sitzung löschen!", preferredStyle: UIAlertControllerStyle.alert)
+        
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: "Ja", style: UIAlertActionStyle.default, handler: { action in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        //alert.addAction(UIAlertAction(title: "Nein, doch nicht", style: UIAlertActionStyle.cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Nein, doch nicht!", style: UIAlertActionStyle.destructive, handler: { action in
+            
+            // do something like...
+            // self.launchMissile()
+            
+        }))
+        
+        // show the alert
+        self.present(alert, animated: true, completion: nil)
+        
+        
+        
+    }
+
     
+    func timestamp()->String{
+        let date = NSDate()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0) as TimeZone!
+        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale!
+        print(formatter.string(from: date as Date))
+        return formatter.string(from: date as Date)
+    }
     
     func initBestellungsAntwort(){
         if bestellugAntwort.bestellugArtikel.count > 0 {
@@ -64,6 +97,12 @@ class WareneingangListeViewController: UIViewController {
         self.navigationItem.setTitle(title: "Positionieren", subtitle: subtitle)
     }
 
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ok"{
+            bestellugAntwort.bestellugEnd_time = 2
+        }
+    }
     
     
     override func didReceiveMemoryWarning() {
@@ -91,7 +130,7 @@ class WareneingangListeViewController: UIViewController {
         let refreshAlert = UIAlertController(title: "Fertig!", message: "Sind sie sich Sicher?", preferredStyle: UIAlertControllerStyle.alert)
         
         refreshAlert.addAction(UIAlertAction(title: "Ja", style: .default, handler: { (action: UIAlertAction!) in
-            print("Handle Ok logic here")
+            self.performSegue(withIdentifier: "ok", sender: self)
         }))
         
         refreshAlert.addAction(UIAlertAction(title: "Nein, doch nicht!", style: .cancel, handler: { (action: UIAlertAction!) in

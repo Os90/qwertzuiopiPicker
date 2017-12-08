@@ -24,16 +24,16 @@ class WEViewController: UIViewController {
 //            self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: closeButtonImage, style: .plain, target: self, action:  #selector(self.goBack))
 //
 //        }
-        urlWithForBestellung(url: "http://139.59.129.92/api/dummyorder") {(result : antwort) in
-            print(result)
-            
-            if let myresult = result.objects{
-                self.ListBestellung = myresult
-                DispatchQueue.main.async {
-                    self.mytbl.reloadData()
-                }
-            }
+//        urlWithForBestellung(url: "http://139.59.129.92/api/dummyorder") {(result : antwort) in
+//            print(result)
 //
+//            if let myresult = result.objects{
+//                self.ListBestellung = myresult
+//                DispatchQueue.main.async {
+//                    self.mytbl.reloadData()
+//                }
+//            }
+////
 //
 //            let a = result.objects
 //            self.WarenEingang?.objects = []
@@ -49,7 +49,7 @@ class WEViewController: UIViewController {
 //
 //                //ListBestellung = (Picklist.WarenEingang?.objects)!
 //            }
-        }
+        //}
 //
 //      //  print(Picklist.WarenEingang)
 //
@@ -79,10 +79,10 @@ class WEViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "liste"{
-            self.navigationItem.title = bestellungsNrTitle
+            self.navigationItem.title = String(ListBestellung[ListatIndex].bestellungsNr!)
             let destinationVC = segue.destination as! WareneingangListeViewController
             destinationVC.myListe = ListBestellung[ListatIndex].artikel!
-            bestellugAntwort.bestellungsNr = Int(bestellungsNrTitle)!
+            bestellugAntwort.bestellungsNr = ListBestellung[ListatIndex].bestellungsNr!
         }
     }
 }
@@ -98,15 +98,15 @@ extension WEViewController : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         if let text = ListBestellung[indexPath.row].bestellungsNr{
-            cell.textLabel?.text = String(describing: text)
-             cell.detailTextLabel?.text = ListBestellung[indexPath.row].status
+            cell.textLabel?.text = "Bestellungsnummer : \(text)"
+             cell.detailTextLabel?.text = "Seit 15 min..."
         }
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         ListatIndex = indexPath.row
         let cell = mytbl.cellForRow(at: indexPath)
-        bestellungsNrTitle = (cell?.textLabel?.text)!
+        bestellungsNrTitle = String(describing: ListBestellung[indexPath.row].bestellungsNr)
         performSegue(withIdentifier: "liste", sender: self)
     }
     

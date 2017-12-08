@@ -27,8 +27,38 @@ class WarenausgangListeViewController: UIViewController {
        mytbl.register(UINib(nibName: "WECell", bundle: nil), forCellReuseIdentifier: "Cell")
         let closeButtonImage = UIImage(named: "icons8-1_circle_filled")
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: closeButtonImage, style: .plain, target: self, action:  #selector(self.goBack))
-        
         self.navigationItem.rightBarButtonItem?.isEnabled = false
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Zurück", style: .plain, target: self, action: #selector(self.backAction))
+
+        
+        if self.navigationController?.interactivePopGestureRecognizer?.isEnabled != nil {
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        }
+    }
+    
+    @objc func backAction(){
+        
+        // create the alert
+        let alert = UIAlertController(title: "Sicher?", message: "Sie würden damit die Sitzung löschen!", preferredStyle: UIAlertControllerStyle.alert)
+        
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: "Ja", style: UIAlertActionStyle.default, handler: { action in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        //alert.addAction(UIAlertAction(title: "Nein, doch nicht", style: UIAlertActionStyle.cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Nein, doch nicht!", style: UIAlertActionStyle.destructive, handler: { action in
+            
+            // do something like...
+            // self.launchMissile()
+            
+        }))
+        
+        // show the alert
+        self.present(alert, animated: true, completion: nil)
+        
+        
+        
     }
 
     @objc func goBack()
@@ -37,7 +67,7 @@ class WarenausgangListeViewController: UIViewController {
         let alert = UIAlertController(title: "FERTIG!", message: "Alles Abgeholt", preferredStyle: UIAlertControllerStyle.alert)
         
         // add the actions (buttons)
-        alert.addAction(UIAlertAction(title: "Ja, bin am WA \(2)", style: UIAlertActionStyle.default, handler: { action in
+        alert.addAction(UIAlertAction(title: "Ja, bin am WA \(1)", style: UIAlertActionStyle.default, handler: { action in
             self.performSegue(withIdentifier: "done", sender: self)
         }))
         //alert.addAction(UIAlertAction(title: "Nein, doch nicht", style: UIAlertActionStyle.cancel, handler: nil))

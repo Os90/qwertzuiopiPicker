@@ -52,14 +52,14 @@ extension WarenausgangViewController: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 9
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
-        cell.textLabel?.text = "Order numer : q2343124"
-        cell.detailTextLabel?.text = "Seit 15 min"
+        cell.textLabel?.text = "Auftragsnummer : q2343124"
+        cell.detailTextLabel?.text = "Seit 15 min..."
         //cell.imageView?.image = UIImage(named :"icons8-checkmark_filled-1")
         return cell
     }

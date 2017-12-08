@@ -9,27 +9,22 @@
 import UIKit
 
 class CompleteWAViewController: UIViewController {
-
+    @IBOutlet weak var okbtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-       //icons8-1_circle_filled-1
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.navigationItem.setTitle(title: "Auftrags Nummer", subtitle: "\(1235)")
+        okbtn.layer.cornerRadius = 10.0
+        okbtn.layer.masksToBounds = true
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+    }
+    @IBAction func okBtnAction(_ sender: Any) {
+        Picklist.durchlaufAuftrage = Picklist.durchlaufAuftrage + 1
+        navigationController?.popToRootViewController(animated: true)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
