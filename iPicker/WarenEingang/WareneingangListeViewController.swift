@@ -39,6 +39,9 @@ class WareneingangListeViewController: UIViewController {
         //bestellugAntwort.bestellugStart_time =  Int(timestamp())!
         bestellugAntwort.bestellugStart_time =  1
     }
+    
+    
+    
     @objc func backAction(){
         
         // create the alert
@@ -46,7 +49,8 @@ class WareneingangListeViewController: UIViewController {
         
         // add the actions (buttons)
         alert.addAction(UIAlertAction(title: "Ja", style: UIAlertActionStyle.default, handler: { action in
-            self.dismiss(animated: true, completion: nil)
+            self.saveSession()
+            self.navigationController?.popToRootViewController(animated: true)
         }))
         //alert.addAction(UIAlertAction(title: "Nein, doch nicht", style: UIAlertActionStyle.cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Nein, doch nicht!", style: UIAlertActionStyle.destructive, handler: { action in
@@ -58,8 +62,24 @@ class WareneingangListeViewController: UIViewController {
         
         // show the alert
         self.present(alert, animated: true, completion: nil)
+   
+    }
+    func saveSession(){
+        let defaults = UserDefaults.standard
+        defaults.set(true, forKey: "session")
+        defaults.set("bestellung", forKey: "was")
+//        let dict:[String:String] = ["key":"Hello"]
+//        defaults.set(dict,forKey: "dict")
+        defaults.set(myArray, forKey: "myarray")
         
-        
+        let array = myListe
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(array), forKey:"struct")
+
+//
+//        if let data = UserDefaults.standard.value(forKey:"struct") as? Data {
+//            let songs2 = try? PropertyListDecoder().decode(Array<artikel>.self, from: data)
+//            print(songs2)
+//        }
         
     }
 

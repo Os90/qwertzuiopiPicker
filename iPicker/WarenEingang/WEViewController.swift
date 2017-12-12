@@ -19,52 +19,14 @@ class WEViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        DispatchQueue.main.async {
-//            let closeButtonImage = UIImage(named: "icons8-left_4")
-//            self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: closeButtonImage, style: .plain, target: self, action:  #selector(self.goBack))
-//
-//        }
-//        urlWithForBestellung(url: "http://139.59.129.92/api/dummyorder") {(result : antwort) in
-//            print(result)
-//
-//            if let myresult = result.objects{
-//                self.ListBestellung = myresult
-//                DispatchQueue.main.async {
-//                    self.mytbl.reloadData()
-//                }
-//            }
-////
-//
-//            let a = result.objects
-//            self.WarenEingang?.objects = []
-//            self.WarenEingang?.objects = a
-//            if  self.WarenEingang?.objects?.count != 0{
-//                print("hat geklappt")
-//                self.ListBestellung = a!
-//               // print(self.WarenEingang?.objects?.count)
-//                //ListBestellung.append(Picklist.WarenEingang?.objects)
-//                //self.ListBestellung = (Picklist.WarenEingang?.objects)!
-//
-//
-//
-//                //ListBestellung = (Picklist.WarenEingang?.objects)!
-//            }
-        //}
-//
-//      //  print(Picklist.WarenEingang)
-//
-//
-//        if  Picklist.WarenEingang?.objects.count != 0{
-//            print("hat geklappt")
-//            print(Picklist.WarenEingang?.objects.count)
-//            //ListBestellung.append(Picklist.WarenEingang?.objects)
-//            ListBestellung = (Picklist.WarenEingang?.objects)!
-//
-//
-//            //ListBestellung = (Picklist.WarenEingang?.objects)!
-//        }
+        if userAlreadyExist(key: "session"){
+            
+            self.performSegue(withIdentifier: "liste", sender: self)
+        }
     }
-    
+    func userAlreadyExist(key : String) -> Bool {
+        return UserDefaults.standard.object(forKey:key) != nil
+    }
     @objc func goBack()
     {
         if let navigationController = navigationController {

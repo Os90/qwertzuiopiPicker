@@ -27,7 +27,10 @@ class MainViewController: UIViewController {
     
     @IBOutlet weak var lastBadge: UILabel!
     
+    @IBOutlet weak var sessionBtn: UIButton!
     
+    
+    var sessionName = String()
     
     var eingeloggt = false
     
@@ -42,7 +45,7 @@ class MainViewController: UIViewController {
     }
     
     func alleBestellungen(){
-        urlWithForBestellung(url: "http://139.59.129.92/api/dummyorder/test") {(result : antwort) in
+        urlWithForBestellung(url: "http://139.59.129.92/api/dummyorder") {(result : antwort) in
             print(result)
             self.bestellungsAntwort = result
             if let myresult = result.objects{
@@ -62,19 +65,49 @@ class MainViewController: UIViewController {
         
     }
     
+    @IBAction func sessionAction(_ sender: Any) {
+        
+        if sessionName == "bestellung"{
+            goToWareneingang()
+        }
+        else{
+            goToWarenausang()
+        }
+    }
+    
+    
+    func checkIfSession(){
+        if userAlreadyExist(key: "session"){
+            print("session noch aktiv")
+            
+            /*
+             SESSIONID
+             Auftrag oder bestellung
+             den letzten stand
+             dictionary key value
+            */
+            
+        }
+        else{
+            print("kein Session")
+        }
+    }
+    
+    
+    
     func alleAufträge(){
         aufträge = 2
         aufträge = aufträge - Picklist.durchlaufAuftrage
         lastBadge.text = String(aufträge)
     }
     
-    func userAlreadyExist() -> Bool {
-        return UserDefaults.standard.object(forKey: "name") != nil
+    func userAlreadyExist(key : String) -> Bool {
+        return UserDefaults.standard.object(forKey:key) != nil
     }
     override func viewDidAppear(_ animated: Bool) {
         
         DispatchQueue.main.async {
-            if self.userAlreadyExist() == false {
+            if self.userAlreadyExist(key: "login") == false {
                 self.performSegue(withIdentifier: "login", sender: self)
             }
             else{
@@ -92,19 +125,50 @@ class MainViewController: UIViewController {
         alleBestellungen()
         alleAufträge()
         
+        if self.userAlreadyExist(key: "session"){
+            print("ja")
+            let dafaults = UserDefaults.standard
+            if let was = dafaults.object(forKey: "was"){
+                sessionBtn.isEnabled = true
+                switch(String(describing: was)){
+                case "bestellung":
+                    print("bestellung")
+                    sessionName = "bestellung"
+                    break
+                case "auftrag":
+                    print("auftrag")
+                    sessionName = "auftrag"
+                    break
+                default:
+                    break
+                }
+            }
+        }
     }
     
 
     
-    @objc func imageTappedFirst(){
-
+    func goToWareneingang(){
         let storyboard = UIStoryboard(name: "Wareneingang", bundle: nil)
         let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "WarenEingang") as! WEViewController
-            if let navigationController = navigationController {
-                recentSearchesViewController.ListBestellung = (bestellungsAntwort?.objects)!
-                navigationController.pushViewController(recentSearchesViewController, animated: true)
+        if let navigationController = navigationController {
+            if let obejcts = bestellungsAntwort?.objects{
+                recentSearchesViewController.ListBestellung = obejcts
             }
-        
+            navigationController.pushViewController(recentSearchesViewController, animated: true)
+        }
+    }
+    
+    func goToWarenausang(){
+        let storyboard = UIStoryboard(name: "warenausgang", bundle: nil)
+        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "warenausgangCtrl")
+        if let navigationController = navigationController {
+            navigationController.pushViewController(recentSearchesViewController, animated: true)
+        }
+    }
+    
+    @objc func imageTappedFirst(){
+        goToWareneingang()
         }
     
     
@@ -116,11 +180,8 @@ class MainViewController: UIViewController {
     }
     
     @objc func imageTappedLast(){
-        let storyboard = UIStoryboard(name: "warenausgang", bundle: nil)
-        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "warenausgangCtrl")
-        if let navigationController = navigationController {
-            navigationController.pushViewController(recentSearchesViewController, animated: true)
-        }
+
+        goToWarenausang()
         
     }
 
@@ -198,6 +259,9 @@ class MainViewController: UIViewController {
         let tapGestureRecognizerLast = UITapGestureRecognizer(target: self, action: #selector(imageTappedLast))
         LastView.isUserInteractionEnabled = true
         LastView.addGestureRecognizer(tapGestureRecognizerLast)
+        
+        
+        sessionBtn.isEnabled = false
     }
 }
 

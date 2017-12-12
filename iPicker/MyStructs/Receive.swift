@@ -24,7 +24,7 @@ struct objects : Decodable{
     let end_time : Int?
     let start_time : Int?
 }
-struct artikel: Decodable{
+struct artikel: Decodable,Encodable{
     var ean : Int?
     var menge: Int?
     var belegt : Int?

@@ -67,5 +67,53 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "iPicker/MainViewController.swift"
+            timestampString = "534789307.102847"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "viewDidAppear(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "iPicker.MainViewController.viewDidAppear(Swift.Bool) -&gt; ()"
+                  moduleName = "iPicker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/OsmanA/Desktop/qwertzuiopiPicker/iPicker/MainViewController.swift"
+                  timestampString = "534787374.065373"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "95"
+                  endingLineNumber = "95"
+                  offsetFromSymbolStart = "29">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in iPicker.MainViewController.viewDidAppear(Swift.Bool) -&gt; ()"
+                  moduleName = "iPicker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/OsmanA/Desktop/qwertzuiopiPicker/iPicker/MainViewController.swift"
+                  timestampString = "534787374.069249"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "96"
+                  endingLineNumber = "96"
+                  offsetFromSymbolStart = "17">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
