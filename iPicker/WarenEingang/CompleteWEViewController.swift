@@ -10,6 +10,10 @@ import UIKit
 
 class CompleteWEViewController: UIViewController {
     
+    
+    @IBOutlet weak var erfolgreichView: UIView!
+    @IBOutlet weak var nichterfolgreichView: UIView!
+    
     @IBOutlet weak var titlelabel: UILabel!
     
     @IBOutlet weak var time: UILabel!
@@ -27,8 +31,8 @@ class CompleteWEViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        OkBtn.layer.cornerRadius = 10.0
-        OkBtn.layer.masksToBounds = true
+//        OkBtn.layer.cornerRadius = 10.0
+//        OkBtn.layer.masksToBounds = true
         self.navigationItem.setTitle(title: "Bestellungsnummer", subtitle: "\(bestellugAntwort.bestellungsNr)")
         self.navigationItem.setHidesBackButton(true, animated: false)
         initComplete()
@@ -36,11 +40,17 @@ class CompleteWEViewController: UIViewController {
         UIView.animate(withDuration: 1.5, animations: {
             self.doneImage.alpha = 1.0
         })
+        
+        erfolgreichView.getCorner(erfolgreichView)
+        nichterfolgreichView.getCorner(nichterfolgreichView)
+        
     }
 
     func initComplete(){
         
-        titlelabel.text = "Ingesamt Ware \(bestellugAntwort.bestellugArtikel.count)"
+        
+        
+        //titlelabel.text = "Ingesamt Ware \(bestellugAntwort.bestellugArtikel.count)"
         
         time.text  = "Dauer : \(bestellugAntwort.bestellugStart_time)"
         
@@ -67,15 +77,24 @@ class CompleteWEViewController: UIViewController {
     
     
     @IBAction func bestätigen(_ sender: Any) {
-        if let navigationController = navigationController {
-            Picklist.durchlaufBestellungen = Picklist.durchlaufBestellungen + 1
-            navigationController.popToRootViewController(animated: true)
-        }
         
+        
+        let alert = UIAlertController(title: "Bestellung auf Position", message: "Super 😀",preferredStyle: UIAlertControllerStyle.alert)
+        self.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double((Int64)(1.0 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {() -> Void in
+            alert.dismiss(animated: true, completion: {() -> Void in
+                
+                if let navigationController = self.navigationController {
+                    Picklist.durchlaufBestellungen = Picklist.durchlaufBestellungen + 1
+                    navigationController.popToRootViewController(animated: true)
+                }
+            })
+        })
+
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
     }
 }

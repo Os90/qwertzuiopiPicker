@@ -50,16 +50,9 @@ class MainViewController: UIViewController {
                     let a = myresult.count - Picklist.durchlaufBestellungen
                      self.firstViewBadge.text = String(a)
                 }
-               
-               
-//                self.ListBestellung = myresult
-//
-//                    self.mytbl.reloadData()
-//                }
             }
-    }
-        
-        
+        }
+    
     }
     
     func alleAufträge(){
@@ -101,8 +94,10 @@ class MainViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Wareneingang", bundle: nil)
         let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "WarenEingang") as! WEViewController
             if let navigationController = navigationController {
-                recentSearchesViewController.ListBestellung = (bestellungsAntwort?.objects)!
-                navigationController.pushViewController(recentSearchesViewController, animated: true)
+                if let antwortReceive = bestellungsAntwort?.objects{
+                    recentSearchesViewController.ListBestellung = antwortReceive
+                }
+                 navigationController.pushViewController(recentSearchesViewController, animated: true)
             }
         
         }
