@@ -42,7 +42,7 @@ class MainViewController: UIViewController {
     }
     
     func alleBestellungen(){
-        urlWithForBestellung(url: "http://139.59.129.92/api/dummyorder") {(result : antwort) in
+        urlWithForBestellung(url: "http://139.59.129.92/api/dummyorder/test") {(result : antwort) in
             print(result)
             self.bestellungsAntwort = result
             if let myresult = result.objects{
