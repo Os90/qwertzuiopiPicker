@@ -9,6 +9,10 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    
+    @IBOutlet weak var bestellungsBild: UIImageView!
+    
+    
 
     @IBOutlet weak var loginLabel: UILabel!
     @IBOutlet weak var firstView: UIView!
@@ -126,7 +130,7 @@ class MainViewController: UIViewController {
         alleAufträge()
         
         if self.userAlreadyExist(key: "session"){
-            print("ja")
+           // print("ja")
             let dafaults = UserDefaults.standard
             if let was = dafaults.object(forKey: "was"){
                 sessionBtn.isEnabled = true
@@ -143,7 +147,18 @@ class MainViewController: UIViewController {
                     break
                 }
             }
+            
+            makeAllViewDisable()
         }
+        else{
+            sessionBtn.isEnabled = false
+            addGesture()
+        }
+    }
+    
+    func makeAllViewDisable(){
+        view.gestureRecognizers?.removeAll()
+        bestellungsBild.tintImageColor(color: UIColor.gray)
     }
     
 
@@ -238,10 +253,10 @@ class MainViewController: UIViewController {
         LastView.layer.shadowOffset = CGSize(width: 0.0 , height: 5.0)
         LastView.layer.shadowOpacity = 1.0
         LastView.layer.shadowRadius = 5
-        
-        
-        
-        
+
+    }
+    
+    func addGesture(){
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTappedFirst))
         firstView.isUserInteractionEnabled = true
         firstView.addGestureRecognizer(tapGestureRecognizer)
@@ -260,8 +275,6 @@ class MainViewController: UIViewController {
         LastView.isUserInteractionEnabled = true
         LastView.addGestureRecognizer(tapGestureRecognizerLast)
         
-        
-        sessionBtn.isEnabled = false
     }
 }
 
@@ -324,4 +337,10 @@ extension UIViewController{
 //            }.resume()
 //    }
 
+}
+extension UIImageView {
+    func tintImageColor(color : UIColor) {
+        self.image = self.image!.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        self.tintColor = color
+    }
 }

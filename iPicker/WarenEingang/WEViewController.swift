@@ -20,7 +20,7 @@ class WEViewController: UIViewController {
         super.viewDidLoad()
         
         if userAlreadyExist(key: "session"){
-            
+
             self.performSegue(withIdentifier: "liste", sender: self)
         }
     }
@@ -40,11 +40,29 @@ class WEViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        var objectToSend : objects?
+        
         if segue.identifier == "liste"{
-            self.navigationItem.title = String(ListBestellung[ListatIndex].bestellungsNr!)
-            let destinationVC = segue.destination as! WareneingangListeViewController
-            destinationVC.myListe = ListBestellung[ListatIndex].artikel!
-            bestellugAntwort.bestellungsNr = ListBestellung[ListatIndex].bestellungsNr!
+            
+            if userAlreadyExist(key: "session"){
+                
+                if let data = UserDefaults.standard.value(forKey:"struct") as? Data {
+                                let songs2 = try? PropertyListDecoder().decode(objects.self, from: data)
+                                Picklist.sessionObject = songs2
+                            }
+                
+                objectToSend =  Picklist.sessionObject
+                
+            }else{
+                objectToSend = sender as? objects
+            }
+            
+            Picklist.sessionObject = objectToSend
+            //let destinationVC = segue.destination as! WareneingangListeViewController
+            
+//            self.navigationItem.title = String(ListBestellung[ListatIndex].bestellungsNr!)
+//            destinationVC.myListe = ListBestellung[ListatIndex].artikel!
+//            bestellugAntwort.bestellungsNr = ListBestellung[ListatIndex].bestellungsNr!
         }
     }
 }
@@ -66,10 +84,13 @@ extension WEViewController : UITableViewDelegate,UITableViewDataSource{
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        ListatIndex = indexPath.row
-        let cell = mytbl.cellForRow(at: indexPath)
-        bestellungsNrTitle = String(describing: ListBestellung[indexPath.row].bestellungsNr)
-        performSegue(withIdentifier: "liste", sender: self)
+//        ListatIndex = indexPath.row
+//        let cell = mytbl.cellForRow(at: indexPath)
+//        bestellungsNrTitle = String(describing: ListBestellung[indexPath.row].bestellungsNr)
+        
+        let selectedObject = ListBestellung[indexPath.row]
+        
+        performSegue(withIdentifier: "liste", sender: selectedObject)
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

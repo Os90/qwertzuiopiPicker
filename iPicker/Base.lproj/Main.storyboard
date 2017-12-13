@@ -178,6 +178,7 @@
                     <navigationItem key="navigationItem" title="iPicker" id="3wK-bH-5me"/>
                     <connections>
                         <outlet property="LastView" destination="4n9-ba-cEm" id="bTL-xj-wPU"/>
+                        <outlet property="bestellungsBild" destination="5ZX-72-7Xa" id="oo2-uw-75E"/>
                         <outlet property="firstView" destination="8U6-YZ-Q5X" id="Lep-Bw-jes"/>
                         <outlet property="firstViewBadge" destination="Q6K-Jx-Jot" id="5qn-ko-suA"/>
                         <outlet property="lastBadge" destination="yBh-1Z-nLb" id="0D8-tW-mzI"/>

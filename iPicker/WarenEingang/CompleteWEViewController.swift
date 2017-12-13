@@ -63,11 +63,24 @@ class CompleteWEViewController: UIViewController {
         nichtErfolgreich.text = String(falsch)
         
     }
+    func sessionInitAll(){
+        let prefs = UserDefaults.standard
+        //keyValue = prefs.string(forKey:"TESTKEY")
+        prefs.removeObject(forKey:"session")
+        prefs.removeObject(forKey:"was")
+        prefs.removeObject(forKey:"struct")
+        let empty : objects? = nil
+        Picklist.sessionObject = empty
+    }
     
     
     
     @IBAction func bestätigen(_ sender: Any) {
         if let navigationController = navigationController {
+            
+            
+            
+            
             Picklist.durchlaufBestellungen = Picklist.durchlaufBestellungen + 1
             navigationController.popToRootViewController(animated: true)
         }
