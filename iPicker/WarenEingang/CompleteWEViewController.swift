@@ -20,6 +20,7 @@ class CompleteWEViewController: UIViewController {
     
     @IBOutlet weak var OkBtn: UIButton!
     
+    @IBOutlet weak var abbrechenBtn: UIButton!
     
     var richtig = 0
     var falsch = 0
@@ -73,19 +74,38 @@ class CompleteWEViewController: UIViewController {
         Picklist.sessionObject = empty
     }
     
-    
-    
+    func saveResultToServer() -> Bool{
+        return true
+    }
+
     @IBAction func bestätigen(_ sender: Any) {
         if let navigationController = navigationController {
-            
-            
-            
-            
-            Picklist.durchlaufBestellungen = Picklist.durchlaufBestellungen + 1
-            navigationController.popToRootViewController(animated: true)
+            if saveResultToServer(){
+                sessionInitAll()
+                Picklist.durchlaufBestellungen = Picklist.durchlaufBestellungen + 1
+                navigationController.popToRootViewController(animated: true)
+            }else{
+                print("Kein Internet")
+            }
         }
         
     }
+    @IBAction func abbrechenAction(_ sender: Any) {
+        
+        //alert
+        //if ja
+        let Snummer = Picklist.sessionObject?.bestellungsNr
+        let Susername = Picklist.username
+        
+        cancelSession(wer: Susername, nummer: Snummer!)
+        
+    }
+    
+    func cancelSession(wer : String, nummer: Int){
+        
+    }
+    
+    @IBOutlet weak var abbrechenAction: UIButton!
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

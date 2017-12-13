@@ -11,8 +11,6 @@ import UIKit
 class MainViewController: UIViewController {
     
     @IBOutlet weak var bestellungsBild: UIImageView!
-    
-    
 
     @IBOutlet weak var loginLabel: UILabel!
     @IBOutlet weak var firstView: UIView!
@@ -57,12 +55,6 @@ class MainViewController: UIViewController {
                     let a = myresult.count - Picklist.durchlaufBestellungen
                      self.firstViewBadge.text = String(a)
                 }
-               
-               
-//                self.ListBestellung = myresult
-//
-//                    self.mytbl.reloadData()
-//                }
             }
     }
         
@@ -79,26 +71,7 @@ class MainViewController: UIViewController {
         }
     }
     
-    
-    func checkIfSession(){
-        if userAlreadyExist(key: "session"){
-            print("session noch aktiv")
-            
-            /*
-             SESSIONID
-             Auftrag oder bestellung
-             den letzten stand
-             dictionary key value
-            */
-            
-        }
-        else{
-            print("kein Session")
-        }
-    }
-    
-    
-    
+
     func alleAufträge(){
         aufträge = 2
         aufträge = aufträge - Picklist.durchlaufAuftrage
@@ -115,8 +88,10 @@ class MainViewController: UIViewController {
                 self.performSegue(withIdentifier: "login", sender: self)
             }
             else{
+                Picklist.username = UserDefaults.standard.object(forKey:"login") as! String
                 self.eingeloggt = true
                 
+                //username
                 self.loginLabel.text = "Osman Ashraf"
                 
 //                self.fetchDataFromServer()
@@ -128,9 +103,13 @@ class MainViewController: UIViewController {
         
         alleBestellungen()
         alleAufträge()
-        
+        checkLastSession()
+       
+    }
+    
+    func checkLastSession(){
         if self.userAlreadyExist(key: "session"){
-           // print("ja")
+            // print("ja")
             let dafaults = UserDefaults.standard
             if let was = dafaults.object(forKey: "was"){
                 sessionBtn.isEnabled = true
@@ -292,13 +271,6 @@ extension UIViewController{
             do{
                 let webSiteDesc = try JSONDecoder().decode(antwort.self, from: data)
                 completion(webSiteDesc)
-//                print(webSiteDesc)
-//                Picklist.WarenEingang = webSiteDesc
-//
-//                // Picklist.WarenEingang.append(webSiteDesc)
-//                //                print(Picklist.WarenEingang.count)
-//                //                print(Picklist.WarenEingang[0].liste.count)
-//                //                print(Picklist.WarenEingang[0].liste)
             }catch let jsonErr{
                 print(jsonErr)
             }
@@ -307,36 +279,25 @@ extension UIViewController{
         
     }
     
-//    func urlWithForBestellung(url : String, completion: anto{
-//    print("Hello World")
-//    })
+    func urlWithForAuftrag(url: String, completion: @escaping (_ result: antwort) -> Void) {
+        
+        let jsonUrlString = url
+        guard let url = URL(string: jsonUrlString) else {
+            return
+        }
+        URLSession.shared.dataTask(with: url){(data,response,err) in
+            guard let data = data else {return}
+            do{
+                let webSiteDesc = try JSONDecoder().decode(antwort.self, from: data)
+                completion(webSiteDesc)
+            }catch let jsonErr{
+                print(jsonErr)
+            }
+            
+            }.resume()
+        
+    }
     
-    
-//    func urlWithForBestellung(url : String)-> (Picklist) in {
-//
-//        let jsonUrlString = url
-//        guard let url = URL(string: jsonUrlString) else {
-//            return
-//        }
-//        URLSession.shared.dataTask(with: url){(data,response,err) in
-//            guard let data = data else {return}
-//            do{
-//                let webSiteDesc = try JSONDecoder().decode(antwort.self, from: data)
-//
-//                print(webSiteDesc)
-//                Picklist.WarenEingang = webSiteDesc
-//
-//               // Picklist.WarenEingang.append(webSiteDesc)
-////                print(Picklist.WarenEingang.count)
-////                print(Picklist.WarenEingang[0].liste.count)
-////                print(Picklist.WarenEingang[0].liste)
-//            }catch let jsonErr{
-//                print(jsonErr)
-//                }
-//
-//            }.resume()
-//    }
-
 }
 extension UIImageView {
     func tintImageColor(color : UIColor) {

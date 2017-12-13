@@ -247,6 +247,9 @@
                                 <state key="normal" title="abbrechen">
                                     <color key="titleColor" red="0.96323668959999997" green="0.4224435091" blue="0.51098275179999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
+                                <connections>
+                                    <action selector="abbrechenAction:" destination="6NW-DJ-hY3" eventType="touchUpInside" id="thX-Gt-ylQ"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -254,6 +257,7 @@
                     </view>
                     <connections>
                         <outlet property="OkBtn" destination="bC3-dW-tyo" id="i5P-WT-9R6"/>
+                        <outlet property="abbrechenBtn" destination="eQh-T5-9cm" id="tEl-XT-XeF"/>
                         <outlet property="doneImage" destination="Lu6-q3-Zu4" id="bfJ-2R-GPR"/>
                         <outlet property="erfolgreich" destination="nAy-jR-co9" id="cEF-l8-gKr"/>
                         <outlet property="nichtErfolgreich" destination="ouQ-vS-cWN" id="Dwe-wA-8OX"/>

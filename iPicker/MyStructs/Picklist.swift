@@ -22,6 +22,9 @@ struct Picklist : Codable {
     static var durchlaufBestellungen = 0
     
     static var sessionObject : objects?
+    
+    static var username = String()
+    
 }
 
 
