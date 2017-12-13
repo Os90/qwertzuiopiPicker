@@ -100,7 +100,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TIA-VE-Zch">
-                                <rect key="frame" x="47" y="535" width="300" height="1"/>
+                                <rect key="frame" x="40" y="637" width="300" height="1"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.22352941179999999" green="0.32156862749999998" blue="0.43921568630000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -108,7 +108,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38b-SV-4ga">
-                                <rect key="frame" x="47" y="544" width="300" height="30"/>
+                                <rect key="frame" x="47" y="608" width="300" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="BTC Gmbh">
                                     <color key="titleColor" red="0.22352941179999999" green="0.32156862749999998" blue="0.43921568630000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -116,14 +116,6 @@
                                 <connections>
                                     <segue destination="w6X-ey-bb4" kind="show" id="fgs-GY-YyL"/>
                                 </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5dO-We-oF4">
-                                <rect key="frame" x="16" y="637" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="Copyright by © dowellapp">
-                                    <color key="titleColor" red="0.22352941179999999" green="0.32156862749999998" blue="0.43921568630000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Inventur" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PtS-hO-31G">
                                 <rect key="frame" x="233" y="256" width="114" height="21"/>
@@ -163,6 +155,22 @@
                                 <color key="textColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JcJ-Zq-cOd">
+                                <rect key="frame" x="164" y="522" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="sessionAction:" destination="q1y-tb-LFT" eventType="touchUpInside" id="m2T-Sn-nQg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5dO-We-oF4">
+                                <rect key="frame" x="16" y="637" width="343" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <state key="normal" title="Copyright by © dowellapp">
+                                    <color key="titleColor" red="0.22352941179999999" green="0.32156862749999998" blue="0.43921568630000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="iIC-CD-g6d"/>
@@ -170,12 +178,14 @@
                     <navigationItem key="navigationItem" title="iPicker" id="3wK-bH-5me"/>
                     <connections>
                         <outlet property="LastView" destination="4n9-ba-cEm" id="bTL-xj-wPU"/>
+                        <outlet property="bestellungsBild" destination="5ZX-72-7Xa" id="oo2-uw-75E"/>
                         <outlet property="firstView" destination="8U6-YZ-Q5X" id="Lep-Bw-jes"/>
                         <outlet property="firstViewBadge" destination="Q6K-Jx-Jot" id="5qn-ko-suA"/>
                         <outlet property="lastBadge" destination="yBh-1Z-nLb" id="0D8-tW-mzI"/>
                         <outlet property="loginLabel" destination="qFb-uo-CG0" id="OIU-ZV-a45"/>
                         <outlet property="secondView" destination="DOE-6L-pN4" id="tYU-Ol-sY9"/>
                         <outlet property="secondViewLabel" destination="vGx-H9-nHZ" id="ekv-mB-fOG"/>
+                        <outlet property="sessionBtn" destination="JcJ-Zq-cOd" id="crW-w1-Ov9"/>
                         <outlet property="thirdView" destination="3Y2-P0-IIj" id="Ju7-UX-1cp"/>
                         <outlet property="thirdVuewLabel" destination="zYu-uu-67t" id="7wA-jl-25A"/>
                         <segue destination="irT-hM-bDj" kind="show" identifier="Inventur" id="2NU-dw-9xd"/>

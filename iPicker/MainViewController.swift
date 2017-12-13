@@ -9,6 +9,8 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    
+    @IBOutlet weak var bestellungsBild: UIImageView!
 
     @IBOutlet weak var loginLabel: UILabel!
     @IBOutlet weak var firstView: UIView!
@@ -27,7 +29,10 @@ class MainViewController: UIViewController {
     
     @IBOutlet weak var lastBadge: UILabel!
     
+    @IBOutlet weak var sessionBtn: UIButton!
     
+    
+    var sessionName = String()
     
     var eingeloggt = false
     
@@ -55,24 +60,37 @@ class MainViewController: UIViewController {
     
     }
     
+    @IBAction func sessionAction(_ sender: Any) {
+        
+        if sessionName == "bestellung"{
+            goToWareneingang()
+        }
+        else{
+            goToWarenausang()
+        }
+    }
+    
+
     func alleAufträge(){
         aufträge = 2
         aufträge = aufträge - Picklist.durchlaufAuftrage
         lastBadge.text = String(aufträge)
     }
     
-    func userAlreadyExist() -> Bool {
-        return UserDefaults.standard.object(forKey: "name") != nil
+    func userAlreadyExist(key : String) -> Bool {
+        return UserDefaults.standard.object(forKey:key) != nil
     }
     override func viewDidAppear(_ animated: Bool) {
         
         DispatchQueue.main.async {
-            if self.userAlreadyExist() == false {
+            if self.userAlreadyExist(key: "login") == false {
                 self.performSegue(withIdentifier: "login", sender: self)
             }
             else{
+                Picklist.username = UserDefaults.standard.object(forKey:"login") as! String
                 self.eingeloggt = true
                 
+                //username
                 self.loginLabel.text = "Osman Ashraf"
                 
 //                self.fetchDataFromServer()
@@ -84,22 +102,67 @@ class MainViewController: UIViewController {
         
         alleBestellungen()
         alleAufträge()
-        
+        checkLastSession()
+       
+    }
+    
+    func checkLastSession(){
+        if self.userAlreadyExist(key: "session"){
+            // print("ja")
+            let dafaults = UserDefaults.standard
+            if let was = dafaults.object(forKey: "was"){
+                sessionBtn.isEnabled = true
+                switch(String(describing: was)){
+                case "bestellung":
+                    print("bestellung")
+                    sessionName = "bestellung"
+                    break
+                case "auftrag":
+                    print("auftrag")
+                    sessionName = "auftrag"
+                    break
+                default:
+                    break
+                }
+            }
+            
+            makeAllViewDisable()
+        }
+        else{
+            sessionBtn.isEnabled = false
+            addGesture()
+        }
+    }
+    
+    func makeAllViewDisable(){
+        view.gestureRecognizers?.removeAll()
+        bestellungsBild.tintImageColor(color: UIColor.gray)
     }
     
 
     
-    @objc func imageTappedFirst(){
-
+    func goToWareneingang(){
         let storyboard = UIStoryboard(name: "Wareneingang", bundle: nil)
         let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "WarenEingang") as! WEViewController
-            if let navigationController = navigationController {
-                if let antwortReceive = bestellungsAntwort?.objects{
-                    recentSearchesViewController.ListBestellung = antwortReceive
-                }
-                 navigationController.pushViewController(recentSearchesViewController, animated: true)
+
+        if let navigationController = navigationController {
+            if let obejcts = bestellungsAntwort?.objects{
+                recentSearchesViewController.ListBestellung = obejcts
             }
-        
+            navigationController.pushViewController(recentSearchesViewController, animated: true)
+        }
+    }
+    
+    func goToWarenausang(){
+        let storyboard = UIStoryboard(name: "warenausgang", bundle: nil)
+        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "warenausgangCtrl")
+        if let navigationController = navigationController {
+            navigationController.pushViewController(recentSearchesViewController, animated: true)
+        }
+    }
+    
+    @objc func imageTappedFirst(){
+        goToWareneingang()
         }
     
     
@@ -111,11 +174,8 @@ class MainViewController: UIViewController {
     }
     
     @objc func imageTappedLast(){
-        let storyboard = UIStoryboard(name: "warenausgang", bundle: nil)
-        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "warenausgangCtrl")
-        if let navigationController = navigationController {
-            navigationController.pushViewController(recentSearchesViewController, animated: true)
-        }
+
+        goToWarenausang()
         
     }
 
@@ -172,10 +232,10 @@ class MainViewController: UIViewController {
         LastView.layer.shadowOffset = CGSize(width: 0.0 , height: 5.0)
         LastView.layer.shadowOpacity = 1.0
         LastView.layer.shadowRadius = 5
-        
-        
-        
-        
+
+    }
+    
+    func addGesture(){
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTappedFirst))
         firstView.isUserInteractionEnabled = true
         firstView.addGestureRecognizer(tapGestureRecognizer)
@@ -193,6 +253,7 @@ class MainViewController: UIViewController {
         let tapGestureRecognizerLast = UITapGestureRecognizer(target: self, action: #selector(imageTappedLast))
         LastView.isUserInteractionEnabled = true
         LastView.addGestureRecognizer(tapGestureRecognizerLast)
+        
     }
 }
 
@@ -210,13 +271,6 @@ extension UIViewController{
             do{
                 let webSiteDesc = try JSONDecoder().decode(antwort.self, from: data)
                 completion(webSiteDesc)
-//                print(webSiteDesc)
-//                Picklist.WarenEingang = webSiteDesc
-//
-//                // Picklist.WarenEingang.append(webSiteDesc)
-//                //                print(Picklist.WarenEingang.count)
-//                //                print(Picklist.WarenEingang[0].liste.count)
-//                //                print(Picklist.WarenEingang[0].liste)
             }catch let jsonErr{
                 print(jsonErr)
             }
@@ -225,34 +279,29 @@ extension UIViewController{
         
     }
     
-//    func urlWithForBestellung(url : String, completion: anto{
-//    print("Hello World")
-//    })
+    func urlWithForAuftrag(url: String, completion: @escaping (_ result: antwort) -> Void) {
+        
+        let jsonUrlString = url
+        guard let url = URL(string: jsonUrlString) else {
+            return
+        }
+        URLSession.shared.dataTask(with: url){(data,response,err) in
+            guard let data = data else {return}
+            do{
+                let webSiteDesc = try JSONDecoder().decode(antwort.self, from: data)
+                completion(webSiteDesc)
+            }catch let jsonErr{
+                print(jsonErr)
+            }
+            
+            }.resume()
+        
+    }
     
-    
-//    func urlWithForBestellung(url : String)-> (Picklist) in {
-//
-//        let jsonUrlString = url
-//        guard let url = URL(string: jsonUrlString) else {
-//            return
-//        }
-//        URLSession.shared.dataTask(with: url){(data,response,err) in
-//            guard let data = data else {return}
-//            do{
-//                let webSiteDesc = try JSONDecoder().decode(antwort.self, from: data)
-//
-//                print(webSiteDesc)
-//                Picklist.WarenEingang = webSiteDesc
-//
-//               // Picklist.WarenEingang.append(webSiteDesc)
-////                print(Picklist.WarenEingang.count)
-////                print(Picklist.WarenEingang[0].liste.count)
-////                print(Picklist.WarenEingang[0].liste)
-//            }catch let jsonErr{
-//                print(jsonErr)
-//                }
-//
-//            }.resume()
-//    }
-
+}
+extension UIImageView {
+    func tintImageColor(color : UIColor) {
+        self.image = self.image!.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        self.tintColor = color
+    }
 }

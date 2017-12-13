@@ -24,6 +24,7 @@ class CompleteWEViewController: UIViewController {
     
     @IBOutlet weak var OkBtn: UIButton!
     
+    @IBOutlet weak var abbrechenBtn: UIButton!
     
     var richtig = 0
     var falsch = 0
@@ -73,12 +74,30 @@ class CompleteWEViewController: UIViewController {
         nichtErfolgreich.text = String(falsch)
         
     }
+    func sessionInitAll(){
+        let prefs = UserDefaults.standard
+        //keyValue = prefs.string(forKey:"TESTKEY")
+        prefs.removeObject(forKey:"session")
+        prefs.removeObject(forKey:"was")
+        prefs.removeObject(forKey:"struct")
+        let empty : objects? = nil
+        Picklist.sessionObject = empty
+    }
     
-    
-    
+    func saveResultToServer() -> Bool{
+        return true
+    }
+
     @IBAction func bestätigen(_ sender: Any) {
-        
-        
+        if let navigationController = navigationController {
+            if saveResultToServer(){
+                sessionInitAll()
+                Picklist.durchlaufBestellungen = Picklist.durchlaufBestellungen + 1
+                navigationController.popToRootViewController(animated: true)
+            }else{
+                print("Kein Internet")
+            }
+        }
         let alert = UIAlertController(title: "Bestellung auf Position", message: "Super 😀",preferredStyle: UIAlertControllerStyle.alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double((Int64)(1.0 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {() -> Void in
@@ -92,6 +111,22 @@ class CompleteWEViewController: UIViewController {
         })
 
     }
+    @IBAction func abbrechenAction(_ sender: Any) {
+        
+        //alert
+        //if ja
+        let Snummer = Picklist.sessionObject?.bestellungsNr
+        let Susername = Picklist.username
+        
+        cancelSession(wer: Susername, nummer: Snummer!)
+        
+    }
+    
+    func cancelSession(wer : String, nummer: Int){
+        
+    }
+    
+    @IBOutlet weak var abbrechenAction: UIButton!
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

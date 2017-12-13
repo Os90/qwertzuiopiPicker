@@ -85,7 +85,7 @@ class AuthViewController: UIViewController,UITextFieldDelegate  {
             view.endEditing(true)
             
             let userDefaults = UserDefaults.standard
-            userDefaults.setValue(name, forKey: "name")
+            userDefaults.setValue(name, forKey: "login")
             self.navigationController?.popToRootViewController(animated: true)
            // self.performSegue(withIdentifier: "login", sender: self)
         }

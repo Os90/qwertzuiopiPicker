@@ -19,52 +19,14 @@ class WEViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        DispatchQueue.main.async {
-//            let closeButtonImage = UIImage(named: "icons8-left_4")
-//            self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: closeButtonImage, style: .plain, target: self, action:  #selector(self.goBack))
-//
-//        }
-//        urlWithForBestellung(url: "http://139.59.129.92/api/dummyorder") {(result : antwort) in
-//            print(result)
-//
-//            if let myresult = result.objects{
-//                self.ListBestellung = myresult
-//                DispatchQueue.main.async {
-//                    self.mytbl.reloadData()
-//                }
-//            }
-////
-//
-//            let a = result.objects
-//            self.WarenEingang?.objects = []
-//            self.WarenEingang?.objects = a
-//            if  self.WarenEingang?.objects?.count != 0{
-//                print("hat geklappt")
-//                self.ListBestellung = a!
-//               // print(self.WarenEingang?.objects?.count)
-//                //ListBestellung.append(Picklist.WarenEingang?.objects)
-//                //self.ListBestellung = (Picklist.WarenEingang?.objects)!
-//
-//
-//
-//                //ListBestellung = (Picklist.WarenEingang?.objects)!
-//            }
-        //}
-//
-//      //  print(Picklist.WarenEingang)
-//
-//
-//        if  Picklist.WarenEingang?.objects.count != 0{
-//            print("hat geklappt")
-//            print(Picklist.WarenEingang?.objects.count)
-//            //ListBestellung.append(Picklist.WarenEingang?.objects)
-//            ListBestellung = (Picklist.WarenEingang?.objects)!
-//
-//
-//            //ListBestellung = (Picklist.WarenEingang?.objects)!
-//        }
+        if userAlreadyExist(key: "session"){
+
+            self.performSegue(withIdentifier: "liste", sender: self)
+        }
     }
-    
+    func userAlreadyExist(key : String) -> Bool {
+        return UserDefaults.standard.object(forKey:key) != nil
+    }
     @objc func goBack()
     {
         if let navigationController = navigationController {
@@ -78,11 +40,29 @@ class WEViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        var objectToSend : objects?
+        
         if segue.identifier == "liste"{
-            self.navigationItem.title = String(ListBestellung[ListatIndex].bestellungsNr!)
-            let destinationVC = segue.destination as! WareneingangListeViewController
-            destinationVC.myListe = ListBestellung[ListatIndex].artikel!
-            bestellugAntwort.bestellungsNr = ListBestellung[ListatIndex].bestellungsNr!
+            
+            if userAlreadyExist(key: "session"){
+                
+                if let data = UserDefaults.standard.value(forKey:"struct") as? Data {
+                                let songs2 = try? PropertyListDecoder().decode(objects.self, from: data)
+                                Picklist.sessionObject = songs2
+                            }
+                
+                objectToSend =  Picklist.sessionObject
+                
+            }else{
+                objectToSend = sender as? objects
+            }
+            
+            Picklist.sessionObject = objectToSend
+            //let destinationVC = segue.destination as! WareneingangListeViewController
+            
+//            self.navigationItem.title = String(ListBestellung[ListatIndex].bestellungsNr!)
+//            destinationVC.myListe = ListBestellung[ListatIndex].artikel!
+//            bestellugAntwort.bestellungsNr = ListBestellung[ListatIndex].bestellungsNr!
         }
     }
 }
@@ -104,10 +84,13 @@ extension WEViewController : UITableViewDelegate,UITableViewDataSource{
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        ListatIndex = indexPath.row
-        let cell = mytbl.cellForRow(at: indexPath)
-        bestellungsNrTitle = String(describing: ListBestellung[indexPath.row].bestellungsNr)
-        performSegue(withIdentifier: "liste", sender: self)
+//        ListatIndex = indexPath.row
+//        let cell = mytbl.cellForRow(at: indexPath)
+//        bestellungsNrTitle = String(describing: ListBestellung[indexPath.row].bestellungsNr)
+        
+        let selectedObject = ListBestellung[indexPath.row]
+        
+        performSegue(withIdentifier: "liste", sender: selectedObject)
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

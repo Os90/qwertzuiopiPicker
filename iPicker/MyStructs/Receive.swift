@@ -14,17 +14,17 @@ struct antwort : Decodable{
     let total_pages: Int?
     var objects : [objects]?
 }
-struct objects : Decodable{
-    let _created: Int?
-    let _id : Int?
-    let _update : Int?
-    let status : String?
-    let bestellungsNr: Int?
-    let artikel : [artikel]?
-    let end_time : Int?
-    let start_time : Int?
+struct objects : Decodable,Encodable{
+    var _created: Int?
+    var _id : Int?
+    var _update : Int?
+    var status : String?
+    var bestellungsNr: Int?
+    var artikel : [artikel]?
+    var end_time : Int?
+    var start_time : Int?
 }
-struct artikel: Decodable{
+struct artikel: Decodable,Encodable{
     var ean : Int?
     var menge: Int?
     var belegt : Int?
