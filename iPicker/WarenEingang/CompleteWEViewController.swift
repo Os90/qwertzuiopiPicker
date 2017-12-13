@@ -92,12 +92,16 @@ class CompleteWEViewController: UIViewController {
         if let navigationController = navigationController {
             if saveResultToServer(){
                 sessionInitAll()
-                Picklist.durchlaufBestellungen = Picklist.durchlaufBestellungen + 1
-                navigationController.popToRootViewController(animated: true)
+                doneAlert()
             }else{
                 print("Kein Internet")
             }
         }
+
+
+    }
+    
+    func doneAlert(){
         let alert = UIAlertController(title: "Bestellung auf Position", message: "Super 😀",preferredStyle: UIAlertControllerStyle.alert)
         self.present(alert, animated: true, completion: nil)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double((Int64)(1.0 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {() -> Void in
@@ -109,7 +113,6 @@ class CompleteWEViewController: UIViewController {
                 }
             })
         })
-
     }
     @IBAction func abbrechenAction(_ sender: Any) {
         

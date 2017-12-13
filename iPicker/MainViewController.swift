@@ -11,6 +11,10 @@ import UIKit
 class MainViewController: UIViewController {
     
     @IBOutlet weak var bestellungsBild: UIImageView!
+    @IBOutlet weak var inventurBild: UIImageView!
+    @IBOutlet weak var picklisteBild: UIImageView!
+    @IBOutlet weak var auftragBild: UIImageView!
+    
 
     @IBOutlet weak var loginLabel: UILabel!
     @IBOutlet weak var firstView: UIView!
@@ -30,6 +34,9 @@ class MainViewController: UIViewController {
     @IBOutlet weak var lastBadge: UILabel!
     
     @IBOutlet weak var sessionBtn: UIButton!
+    
+    @IBOutlet weak var sessionView: UIView!
+    
     
     
     var sessionName = String()
@@ -108,10 +115,11 @@ class MainViewController: UIViewController {
     
     func checkLastSession(){
         if self.userAlreadyExist(key: "session"){
-            // print("ja")
             let dafaults = UserDefaults.standard
             if let was = dafaults.object(forKey: "was"){
-                sessionBtn.isEnabled = true
+                sessionBtn.isHidden = false
+                //sessionBtn.isEnabled = true
+                sessionView.isHidden = false
                 switch(String(describing: was)){
                 case "bestellung":
                     print("bestellung")
@@ -125,18 +133,28 @@ class MainViewController: UIViewController {
                     break
                 }
             }
-            
+            firstViewBadge.backgroundColor = UIColor.gray
+            lastBadge.backgroundColor = UIColor.gray
             makeAllViewDisable()
         }
         else{
-            sessionBtn.isEnabled = false
+            firstViewBadge.backgroundColor = UIColor(rgb: 0x395270)
+            lastBadge.backgroundColor = UIColor(rgb: 0x395270)
+           // sessionBtn.isEnabled = false
+            sessionBtn.isHidden = true
+            sessionView.isHidden = true
             addGesture()
         }
     }
     
     func makeAllViewDisable(){
-        view.gestureRecognizers?.removeAll()
+        DispatchQueue.main.async {
+            self.view.gestureRecognizers?.removeAll()
+        }
         bestellungsBild.tintImageColor(color: UIColor.gray)
+        auftragBild.tintImageColor(color: UIColor.gray)
+        inventurBild.tintImageColor(color: UIColor.gray)
+        picklisteBild.tintImageColor(color: UIColor.gray)
     }
     
 
@@ -233,6 +251,15 @@ class MainViewController: UIViewController {
         LastView.layer.shadowOpacity = 1.0
         LastView.layer.shadowRadius = 5
 
+        
+        sessionView.layer.cornerRadius = 10.0
+        sessionView.layer.shadowColor = UIColor.red.cgColor
+        sessionView.layer.masksToBounds = false
+        sessionView.layer.shadowOffset = CGSize(width: 0.0 , height: 2.0)
+        sessionView.layer.shadowOpacity = 1.0
+        sessionView.layer.shadowRadius = 5
+        
+        
     }
     
     func addGesture(){
