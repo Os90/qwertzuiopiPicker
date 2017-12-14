@@ -11,7 +11,6 @@ import UIKit
 class WEViewController: UIViewController {
 
     @IBOutlet weak var mytbl: UITableView!
-    var WarenEingang : antwort?
     var ListBestellung : [objects] = []
     var bestellungsNrTitle = String()
     var ListatIndex = 0
@@ -58,11 +57,6 @@ class WEViewController: UIViewController {
             }
             
             Picklist.sessionObject = objectToSend
-            //let destinationVC = segue.destination as! WareneingangListeViewController
-            
-//            self.navigationItem.title = String(ListBestellung[ListatIndex].bestellungsNr!)
-//            destinationVC.myListe = ListBestellung[ListatIndex].artikel!
-//            bestellugAntwort.bestellungsNr = ListBestellung[ListatIndex].bestellungsNr!
         }
     }
 }
@@ -84,12 +78,7 @@ extension WEViewController : UITableViewDelegate,UITableViewDataSource{
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        ListatIndex = indexPath.row
-//        let cell = mytbl.cellForRow(at: indexPath)
-//        bestellungsNrTitle = String(describing: ListBestellung[indexPath.row].bestellungsNr)
-        
         let selectedObject = ListBestellung[indexPath.row]
-        
         performSegue(withIdentifier: "liste", sender: selectedObject)
     }
     

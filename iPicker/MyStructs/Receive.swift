@@ -30,6 +30,7 @@ struct artikel: Decodable,Encodable{
     var belegt : Int?
     var pickerID : Int?
     var position : String?
+    var comment : String?
 }
 
 struct bestellugAntwort : Encodable{

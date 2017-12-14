@@ -64,7 +64,6 @@ class MainViewController: UIViewController {
                 }
             }
         }
-    
     }
     
     @IBAction func sessionAction(_ sender: Any) {
@@ -79,9 +78,16 @@ class MainViewController: UIViewController {
     
 
     func alleAufträge(){
-        aufträge = 2
-        aufträge = aufträge - Picklist.durchlaufAuftrage
-        lastBadge.text = String(aufträge)
+        urlWithForBestellung(url: "http://139.59.129.92/api/dummyorder") {(result : antwort) in
+            print(result)
+            self.bestellungsAntwort = result
+            if let myresult = result.objects{
+                DispatchQueue.main.async {
+                    let a = myresult.count - Picklist.durchlaufBestellungen
+                    self.firstViewBadge.text = String(a)
+                }
+            }
+        }
     }
     
     func userAlreadyExist(key : String) -> Bool {
@@ -173,8 +179,11 @@ class MainViewController: UIViewController {
     
     func goToWarenausang(){
         let storyboard = UIStoryboard(name: "warenausgang", bundle: nil)
-        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "warenausgangCtrl")
+        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "warenausgangCtrl") as! WarenausgangViewController
         if let navigationController = navigationController {
+            if let obejcts = bestellungsAntwort?.objects{
+                recentSearchesViewController.ListBestellung = obejcts
+            }
             navigationController.pushViewController(recentSearchesViewController, animated: true)
         }
     }

@@ -9,17 +9,12 @@
 import UIKit
 
 class WarenausgangViewController: UIViewController {
-
-    
-    
+    var ListBestellung : [objects] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        DispatchQueue.main.async {
-//            let closeButtonImage = UIImage(named: "icons8-left_4")
-//            self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: closeButtonImage, style: .plain, target: self, action:  #selector(self.goBack))
-//
-//        }
+        if userAlreadyExist(key: "session"){
+            self.performSegue(withIdentifier: "ordernummer", sender: self)
+        }
 
     }
     
@@ -35,10 +30,29 @@ class WarenausgangViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func ordernummerSelect(_ nummer : Int){
+    func userAlreadyExist(key : String) -> Bool {
+        return UserDefaults.standard.object(forKey:key) != nil
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        var objectToSend : objects?
         
-        self.performSegue(withIdentifier: "ordernummer", sender: self)
+        if segue.identifier == "ordernummer"{
+            
+            if userAlreadyExist(key: "session"){
+                
+                if let data = UserDefaults.standard.value(forKey:"struct") as? Data {
+                    let songs2 = try? PropertyListDecoder().decode(objects.self, from: data)
+                    Picklist.sessionObject = songs2
+                }
+                
+                objectToSend =  Picklist.sessionObject
+                
+            }else{
+                objectToSend = sender as? objects
+            }
+            
+            Picklist.sessionObject = objectToSend
+        }
     }
     
 }
@@ -52,23 +66,20 @@ extension WarenausgangViewController: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 2
+        return ListBestellung.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        //let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
-        cell.textLabel?.text = "Auftragsnummer : q2343124"
-        cell.detailTextLabel?.text = "Seit 15 min..."
-        //cell.imageView?.image = UIImage(named :"icons8-checkmark_filled-1")
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        if let text = ListBestellung[indexPath.row].bestellungsNr{
+            cell.textLabel?.text = "Auftragsnummer : \(text)"
+            cell.detailTextLabel?.text = "Seit 15 min..."
+        }
         return cell
     }
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
-//    {
-//        return 97.00
-//
-//    }
-    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Aufträge (0)"
     }
@@ -78,17 +89,8 @@ extension WarenausgangViewController: UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.ordernummerSelect(indexPath.row)
+        let selectedObject = ListBestellung[indexPath.row]
+        performSegue(withIdentifier: "ordernummer", sender: selectedObject)
     }
     
-//    func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
-//
-//        let favorite = UITableViewRowAction(style: .normal, title: "OK") { action, index in
-//            print("ok button tapped")
-//
-//        }
-//        favorite.backgroundColor = .red
-//
-//        return [favorite]
-//    }
 }

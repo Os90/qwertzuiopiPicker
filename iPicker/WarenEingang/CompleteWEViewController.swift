@@ -84,7 +84,41 @@ class CompleteWEViewController: UIViewController {
         Picklist.sessionObject = empty
     }
     
+    func PostResultSession(urlString: String, completion: @escaping (_ wert : Bool) -> Void) {
+        let request = NSMutableURLRequest(url: NSURL(string: "http://192.168.178.24/neu/index.php")! as URL)
+        request.httpMethod = "POST"
+        let encoder = JSONEncoder()
+        do{
+            let jsonData = try encoder.encode(Picklist.sessionObject)
+            request.httpBody = jsonData
+            print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
+        } catch {
+            print("ERROR")
+        }
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            
+            if error != nil {
+                print("error=\(error)")
+                completion(false)
+                return
+            }
+            
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(responseString)")
+            completion(true)
+            return
+        }
+        task.resume()
+    }
+    
     func saveResultToServer() -> Bool{
+        
+        PostResultSession(urlString: "http://myBestURL.com", completion: { isSuccess in
+            print(isSuccess)
+        })
+
         return true
     }
 

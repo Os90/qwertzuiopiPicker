@@ -18,7 +18,7 @@ class WarenausgangListeViewController: UIViewController {
     var donArray : [Int] = []
     var wrongArrary : [Int] = []
     var count = 0
-    //var myarray = ["1","2","3","4"]
+    var komplett  = true
 
     @IBOutlet weak var mytbl: UITableView!
     override func viewDidLoad() {
@@ -44,7 +44,8 @@ class WarenausgangListeViewController: UIViewController {
         
         // add the actions (buttons)
         alert.addAction(UIAlertAction(title: "Ja", style: UIAlertActionStyle.default, handler: { action in
-            self.dismiss(animated: true, completion: nil)
+            self.saveSession()
+            self.navigationController?.popToRootViewController(animated: true)
         }))
         //alert.addAction(UIAlertAction(title: "Nein, doch nicht", style: UIAlertActionStyle.cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Nein, doch nicht!", style: UIAlertActionStyle.destructive, handler: { action in
@@ -68,13 +69,10 @@ class WarenausgangListeViewController: UIViewController {
         
         // add the actions (buttons)
         alert.addAction(UIAlertAction(title: "Ja, bin am WA \(1)", style: UIAlertActionStyle.default, handler: { action in
-            self.performSegue(withIdentifier: "done", sender: self)
+            //PERFORM SEGUE
         }))
         //alert.addAction(UIAlertAction(title: "Nein, doch nicht", style: UIAlertActionStyle.cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Nein, doch nicht!", style: UIAlertActionStyle.destructive, handler: { action in
-            
-            // do something like...
-            // self.launchMissile()
             
         }))
         
@@ -84,6 +82,19 @@ class WarenausgangListeViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    func checkIfComplete(){
+        if komplett{
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
+        }else{
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+        }
+    }
+    func saveSession(){
+        let defaults = UserDefaults.standard
+        defaults.set(true, forKey: "session")
+        defaults.set("auftrag", forKey: "was")
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(Picklist.sessionObject), forKey:"struct")
     }
 
 }
@@ -97,30 +108,45 @@ extension WarenausgangListeViewController: UITableViewDelegate,UITableViewDataSo
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 2
+        if let count  = Picklist.sessionObject?.artikel?.count{
+            return count
+        }
+        else{
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! WarenEingangTableViewCell
-        
-        cell.Ean.text = "asadfdsf"
-        cell.menge.text = "10x"
-        cell.Position.text = "yListe[indexPath.row].position"
-        //cell.status.backgroundColor = UIColor(rgb: 0x395270)
-        if donArray.contains(indexPath.row){
-            cell.status.backgroundColor = UIColor(rgb: 0x395270)
-            count = count + 1
-        }else if wrongArrary.contains(indexPath.row){
-            cell.status.backgroundColor = UIColor.red
-            count = count + 1
+        if (indexPath.row % 2 == 0){
+            cell.backgroundColor = UIColor(rgb: 0xEBEBEB)
         }
         else{
-            cell.status.backgroundColor = UIColor.white
+            cell.backgroundColor = UIColor.white
+        }
+        if let ean = Picklist.sessionObject?.artikel![indexPath.row].ean{
+            cell.Ean.text = String(ean)
+        }
+        if let menge = Picklist.sessionObject?.artikel![indexPath.row].menge{
+            cell.menge.text = "\(menge)x"
+        }
+        if let pos = Picklist.sessionObject?.artikel![indexPath.row].position
+        {
+            cell.Position.text = pos
+        }
+        
+        if let belegt = Picklist.sessionObject?.artikel![indexPath.row].belegt{
+            if belegt == 0{
+                cell.status.backgroundColor = UIColor.red
+            }else if belegt == 1{
+                cell.status.backgroundColor = UIColor(rgb: 0x395270)
+            }
+        }
+        else{
             cell.status.layer.borderWidth = 0.5
             cell.status.layer.borderColor = UIColor.black.cgColor
+            komplett = false
         }
-
-        checkCount(count)
         return cell
     }
     
@@ -153,20 +179,26 @@ extension WarenausgangListeViewController: UITableViewDelegate,UITableViewDataSo
         
     }
     
-    func myAlert(_ index : IndexPath){
+    func myAlert(_ myindex : IndexPath){
         // create the alert
         let alert = UIAlertController(title: "Nicht OK", message: "Ware nicht vorhanden, ja?", preferredStyle: UIAlertControllerStyle.alert)
         
         // add the actions (buttons)
         alert.addAction(UIAlertAction(title: "JA!", style: UIAlertActionStyle.default, handler: { action in
-            self.wrongArrary.append(index.row)
+            if let _ = Picklist.sessionObject?.artikel![myindex.row].belegt{
+                //"ware nicht vorhanden"
+                Picklist.sessionObject?.artikel![myindex.row].belegt = 0
+            }
             self.mytbl.reloadData()
         }))
         alert.addAction(UIAlertAction(title: "Abbrechen", style: UIAlertActionStyle.cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Andere Gründe(nicht komplett,beschädigt usw..)", style: UIAlertActionStyle.destructive, handler: { action in
             
-           self.wrongArrary.append(index.row)
-             self.mytbl.reloadData()
+            if let _ = Picklist.sessionObject?.artikel![myindex.row].belegt{
+                //"andere Gründe"
+                Picklist.sessionObject?.artikel![myindex.row].belegt = 0
+            }
+            self.mytbl.reloadData()
             
         }))
 
@@ -179,7 +211,9 @@ extension WarenausgangListeViewController: UITableViewDelegate,UITableViewDataSo
         let modifyAction = UIContextualAction(style: .normal, title:  "Richtig", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
             print("Richtig action ...")
             AudioServicesPlaySystemSound (self.DonesystemSoundID)
-            self.donArray.append(indexPath.row)
+            if let _ = Picklist.sessionObject?.artikel![indexPath.row].belegt{
+                Picklist.sessionObject?.artikel![indexPath.row].belegt = 1
+            }
             success(true)
             self.mytbl.reloadData()
         })
@@ -187,6 +221,12 @@ extension WarenausgangListeViewController: UITableViewDelegate,UITableViewDataSo
         modifyAction.backgroundColor = UIColor(rgb: 0x395270)
         
         return UISwipeActionsConfiguration(actions: [modifyAction])
+    }
+    private func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: IndexPath) {
+        let lastRowIndex = tableView.numberOfRows(inSection: 0)
+        if indexPath.row == lastRowIndex - 1 {
+            checkIfComplete()
+        }
     }
     
 }

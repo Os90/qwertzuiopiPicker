@@ -11,9 +11,7 @@ import AudioToolbox
 
 class WareneingangListeViewController: UIViewController {
     //https://github.com/TUNER88/iOSSystemSoundsLibrary
-    
-    
-    
+
     var komplett  = true
     let DonesystemSoundID: SystemSoundID = 1000
     
@@ -23,10 +21,7 @@ class WareneingangListeViewController: UIViewController {
     
     var timer = Timer()
     var startTime = TimeInterval()
-    //var myListe : [artikel] = []
     var subtitle = String()
-    
-    //var myArray :[Int] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,35 +32,13 @@ class WareneingangListeViewController: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: aSelector, userInfo: nil, repeats: true)
         startTime = Date.timeIntervalSinceReferenceDate
         addButon()
-        
-        //checkIfComplete()
-        
-        
-        
-        //initBestellungsAntwort()
-        //bestellugAntwort.bestellugArtikel = myListe
-        //bestellugAntwort.bestellugStart_time =  Int(timestamp())!
-        //bestellugAntwort.bestellugStart_time =  1
-        //initObject(Picklist.sessionObject!)
-        //Picklist.sessionObject.
+        dummyTest()
     }
     
-//    func initObject(_ myObject : objects){
-//        var StartTimeToSave = Int()
-//
-//        if let startTime = Picklist.sessionObject?.start_time{
-//            StartTimeToSave = startTime
-//        }
-//        else{
-//            StartTimeToSave = 0
-//        }
-//    }
+    func dummyTest(){
+        Picklist.sessionObject?.artikel![1].belegt = nil
+    }
     
-    
-//    func foo(){
-//        self.mytbl.reloadData()
-//        checkIfComplete()
-//    }
     
     func checkIfComplete(){
         if komplett{
@@ -102,19 +75,7 @@ class WareneingangListeViewController: UIViewController {
         let defaults = UserDefaults.standard
         defaults.set(true, forKey: "session")
         defaults.set("bestellung", forKey: "was")
-//        let dict:[String:String] = ["key":"Hello"]
-//        defaults.set(dict,forKey: "dict")
-       // defaults.set(myArray, forKey: "myarray")
-        
-        //let array = myListe
         UserDefaults.standard.set(try? PropertyListEncoder().encode(Picklist.sessionObject), forKey:"struct")
-
-//
-//        if let data = UserDefaults.standard.value(forKey:"struct") as? Data {
-//            let songs2 = try? PropertyListDecoder().decode(Array<artikel>.self, from: data)
-//            print(songs2)
-//        }
-        
     }
 
     
@@ -239,38 +200,19 @@ extension WareneingangListeViewController: UITableViewDelegate,UITableViewDataSo
         {
             cell.Position.text = pos
         }
-        
-        
+
         if let belegt = Picklist.sessionObject?.artikel![indexPath.row].belegt{
-            
             if belegt == 0{
                  cell.status.backgroundColor = UIColor.red
             }else if belegt == 1{
                  cell.status.backgroundColor = UIColor(rgb: 0x395270)
             }
-            else{
-                komplett = false
-            }
         }
-        
-//
-//        if myArray.contains(indexPath.row){
-//            if bestellugAntwort.bestellugArtikel[indexPath.row].belegt == 0 {
-//                cell.status.backgroundColor = UIColor.red
-//            }
-//            else{
-//                cell.status.backgroundColor = UIColor(rgb: 0x395270)
-//            }
-//        }
-//        else{
-//            cell.status.layer.borderWidth = 0.5
-//            cell.status.layer.borderColor = UIColor.black.cgColor
-//        }
-//
-//        if myArray.count == bestellugAntwort.bestellugArtikel.count{
-//            self.navigationItem.rightBarButtonItem?.isEnabled = true
-//        }
-    
+        else{
+            cell.status.layer.borderWidth = 0.5
+            cell.status.layer.borderColor = UIColor.black.cgColor
+            komplett = false
+        }
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
@@ -337,13 +279,7 @@ extension WareneingangListeViewController: UITableViewDelegate,UITableViewDataSo
             if let _ = Picklist.sessionObject?.artikel![indexPath.row].belegt{
                 Picklist.sessionObject?.artikel![indexPath.row].belegt = 1
             }
-            
-            //Picklist.sessionObject?.artikel[indexPath.row].belegt = 1
-//            self.myArray.append(indexPath.row)
-//            self.arraySort(self.myArray)
-//            bestellugAntwort.bestellugArtikel[indexPath.row].belegt = 1
             success(true)
-            //self.foo()
             self.mytbl.reloadData()
         })
         modifyAction.image = UIImage(named: "icons8-checkmark_filled-1")
