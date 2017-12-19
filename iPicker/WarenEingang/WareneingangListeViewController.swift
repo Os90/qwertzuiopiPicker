@@ -41,11 +41,15 @@ class WareneingangListeViewController: UIViewController {
     
     
     func checkIfComplete(){
-        if komplett{
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
-        }else{
-            self.navigationItem.rightBarButtonItem?.isEnabled = false
-        }
+        
+        self.navigationItem.rightBarButtonItem?.isEnabled = true
+        
+        
+//        if komplett{
+//            self.navigationItem.rightBarButtonItem?.isEnabled = true
+//        }else{
+//            self.navigationItem.rightBarButtonItem?.isEnabled = false
+//        }
     }
     
     
@@ -183,6 +187,7 @@ extension WareneingangListeViewController: UITableViewDelegate,UITableViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! WarenEingangTableViewCell
         if (indexPath.row % 2 == 0){
          cell.backgroundColor = UIColor(rgb: 0xEBEBEB)
@@ -207,12 +212,18 @@ extension WareneingangListeViewController: UITableViewDelegate,UITableViewDataSo
             }else if belegt == 1{
                  cell.status.backgroundColor = UIColor(rgb: 0x395270)
             }
+//            count = count + 1
         }
         else{
             cell.status.layer.borderWidth = 0.5
             cell.status.layer.borderColor = UIColor.black.cgColor
             komplett = false
         }
+        
+//        if count == (Picklist.sessionObject?.artikel?.count)!{
+//            checkIfComplete()
+//        }
+        
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
@@ -248,18 +259,20 @@ extension WareneingangListeViewController: UITableViewDelegate,UITableViewDataSo
         
         // add the actions (buttons)
         alert.addAction(UIAlertAction(title: "JA!", style: UIAlertActionStyle.default, handler: { action in
-            if let _ = Picklist.sessionObject?.artikel![myindex.row].belegt{
-                Picklist.sessionObject?.artikel![myindex.row].belegt = 0
-            }
+            Picklist.sessionObject?.artikel![myindex.row].belegt = 0
+//            if let _ = Picklist.sessionObject?.artikel![myindex.row].belegt{
+//                Picklist.sessionObject?.artikel![myindex.row].belegt = 0
+//            }
             //self.foo()
             self.mytbl.reloadData()
             
         }))
         alert.addAction(UIAlertAction(title: "Abbrechen", style: UIAlertActionStyle.cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Andere Gründe", style: UIAlertActionStyle.destructive, handler: { action in
-            if let _ = Picklist.sessionObject?.artikel![myindex.row].belegt{
-                Picklist.sessionObject?.artikel![myindex.row].belegt = 0
-            }
+            Picklist.sessionObject?.artikel![myindex.row].belegt = 0
+//            if let _ = Picklist.sessionObject?.artikel![myindex.row].belegt{
+//                Picklist.sessionObject?.artikel![myindex.row].belegt = 0
+//            }
             //self.foo()
             self.mytbl.reloadData()
             
@@ -275,10 +288,10 @@ extension WareneingangListeViewController: UITableViewDelegate,UITableViewDataSo
         let modifyAction = UIContextualAction(style: .normal, title:  "Richtig", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
             print("Richtig action ...")
             AudioServicesPlaySystemSound (self.DonesystemSoundID)
-            
-            if let _ = Picklist.sessionObject?.artikel![indexPath.row].belegt{
-                Picklist.sessionObject?.artikel![indexPath.row].belegt = 1
-            }
+            Picklist.sessionObject?.artikel![indexPath.row].belegt = 1
+//            if let _ = Picklist.sessionObject?.artikel![indexPath.row].belegt{
+//
+//            }
             success(true)
             self.mytbl.reloadData()
         })
@@ -288,10 +301,17 @@ extension WareneingangListeViewController: UITableViewDelegate,UITableViewDataSo
         return UISwipeActionsConfiguration(actions: [modifyAction])
     }
     
-    private func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let lastRowIndex = tableView.numberOfRows(inSection: 0)
         if indexPath.row == lastRowIndex - 1 {
-            checkIfComplete()
+            for index in (Picklist.sessionObject?.artikel)!{
+                if index.belegt == nil{
+                    break
+                }
+                else{
+                      checkIfComplete()
+                }
+            }
         }
     }
 

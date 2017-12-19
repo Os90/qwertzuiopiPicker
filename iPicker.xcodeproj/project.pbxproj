@@ -48,6 +48,8 @@
 		AC7CC0851FBF1EFC0007724F /* PickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7CC0841FBF1EFC0007724F /* PickerTableViewCell.swift */; };
 		AC7CC0871FBF21970007724F /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7CC0861FBF21970007724F /* PickerViewController.swift */; };
 		AC7CC0891FBF44230007724F /* WagenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7CC0881FBF44230007724F /* WagenViewController.swift */; };
+		ACB6997A1FE5CD8400124C11 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB699791FE5CD8400124C11 /* TestViewController.swift */; };
+		ACB6997C1FE5CFA700124C11 /* test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACB6997B1FE5CFA700124C11 /* test.storyboard */; };
 		B8031C13391255C2D39306DD /* Pods_iPickerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44FD81DBA8436D429906C950 /* Pods_iPickerTests.framework */; };
 		FF9EBDA7AED8B7A843CBB6E5 /* Pods_iPickerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 544A35A48CC0F5FD4EEEE86B /* Pods_iPickerUITests.framework */; };
 /* End PBXBuildFile section */
@@ -137,6 +139,8 @@
 		AC7CC0841FBF1EFC0007724F /* PickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableViewCell.swift; sourceTree = "<group>"; };
 		AC7CC0861FBF21970007724F /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 		AC7CC0881FBF44230007724F /* WagenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WagenViewController.swift; sourceTree = "<group>"; };
+		ACB699791FE5CD8400124C11 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		ACB6997B1FE5CFA700124C11 /* test.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = test.storyboard; sourceTree = "<group>"; };
 		F31D0F9959785329F5D05487 /* Pods-iPickerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iPickerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-iPickerUITests/Pods-iPickerUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -172,6 +176,8 @@
 		152FAEB71FAF92AB00D68C42 = {
 			isa = PBXGroup;
 			children = (
+				ACB6997B1FE5CFA700124C11 /* test.storyboard */,
+				ACB699791FE5CD8400124C11 /* TestViewController.swift */,
 				AC7CC07E1FBF09000007724F /* OrderedDictionary.framework */,
 				152FAEC21FAF92AB00D68C42 /* iPicker */,
 				152FAEDA1FAF92AB00D68C42 /* iPickerTests */,
@@ -449,6 +455,7 @@
 				15A5D09D1FCF443400015FAB /* Wareneingang.storyboard in Resources */,
 				152FAECE1FAF92AB00D68C42 /* Assets.xcassets in Resources */,
 				AC2990401FC85A7500A7CFA4 /* ListPickCell.xib in Resources */,
+				ACB6997C1FE5CFA700124C11 /* test.storyboard in Resources */,
 				152FAEC91FAF92AB00D68C42 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -637,6 +644,7 @@
 				15AF50541FC7577C004BF17F /* AuthViewController.swift in Sources */,
 				152FAEC61FAF92AB00D68C42 /* ViewController.swift in Sources */,
 				159E61E91FD315B400B8117B /* PufferViewController.swift in Sources */,
+				ACB6997A1FE5CD8400124C11 /* TestViewController.swift in Sources */,
 				152FAEC41FAF92AB00D68C42 /* AppDelegate.swift in Sources */,
 				15A5D09F1FCF448C00015FAB /* WareneingagViewController.swift in Sources */,
 				156688AB1FB442BA00D16525 /* AbschlussViewController.swift in Sources */,

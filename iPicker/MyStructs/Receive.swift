@@ -9,9 +9,9 @@
 import Foundation
 
 struct antwort : Decodable{
-    let num_results:Int?
-    let page: Int?
-    let total_pages: Int?
+    var num_results:Int?
+    var page: Int?
+    var total_pages: Int?
     var objects : [objects]?
 }
 struct objects : Decodable,Encodable{

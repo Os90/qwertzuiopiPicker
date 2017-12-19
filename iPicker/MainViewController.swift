@@ -14,27 +14,18 @@ class MainViewController: UIViewController {
     @IBOutlet weak var inventurBild: UIImageView!
     @IBOutlet weak var picklisteBild: UIImageView!
     @IBOutlet weak var auftragBild: UIImageView!
-    
-
     @IBOutlet weak var loginLabel: UILabel!
     @IBOutlet weak var firstView: UIView!
-    
     @IBOutlet weak var secondView: UIView!
-    
     @IBOutlet weak var thirdView: UIView!
     
     @IBOutlet weak var LastView: UIView!
     
     @IBOutlet weak var firstViewBadge: UILabel!
-    
     @IBOutlet var secondViewLabel: UIView!
-    
     @IBOutlet var thirdVuewLabel: UIView!
-    
     @IBOutlet weak var lastBadge: UILabel!
-    
     @IBOutlet weak var sessionBtn: UIButton!
-    
     @IBOutlet weak var sessionView: UIView!
     
     
@@ -55,12 +46,25 @@ class MainViewController: UIViewController {
     
     func alleBestellungen(){
         urlWithForBestellung(url: "http://139.59.129.92/api/dummyorder") {(result : antwort) in
-            print(result)
+            //print(result)
+            let myGroup = DispatchGroup()
             self.bestellungsAntwort = result
-            if let myresult = result.objects{
-                DispatchQueue.main.async {
-                    let a = myresult.count - Picklist.durchlaufBestellungen
-                     self.firstViewBadge.text = String(a)
+            if let count = self.bestellungsAntwort?.objects?.count{
+                var count2 = count
+                count2 = count2 - 1
+                    for myInd in 0 ... count2 - 1 {
+                        myGroup.enter()
+                        if self.bestellungsAntwort?.objects![myInd].status != "WE"{
+                            self.bestellungsAntwort?.objects?.remove(at: myInd)
+                        }
+                    }
+                    myGroup.notify(queue: .main) {
+                                    print("Finished all requests.")
+                                }
+                if  let badges = self.bestellungsAntwort?.objects?.count{
+                    DispatchQueue.main.async{
+                        self.firstViewBadge.text = String(describing: badges)
+                    }
                 }
             }
         }
