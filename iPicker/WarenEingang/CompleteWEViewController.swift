@@ -34,7 +34,7 @@ class CompleteWEViewController: UIViewController {
         
 //        OkBtn.layer.cornerRadius = 10.0
 //        OkBtn.layer.masksToBounds = true
-        self.navigationItem.setTitle(title: "Bestellungsnummer", subtitle: "\(bestellugAntwort.bestellungsNr)")
+        self.navigationItem.setTitle(title: "Bestellungsnummer", subtitle: "\(Picklist.sessionObject?.bestellungsNr)")
         self.navigationItem.setHidesBackButton(true, animated: false)
         initComplete()
         
@@ -53,16 +53,16 @@ class CompleteWEViewController: UIViewController {
         
         //titlelabel.text = "Ingesamt Ware \(bestellugAntwort.bestellugArtikel.count)"
         
-        time.text  = "Dauer : \(bestellugAntwort.bestellugStart_time)"
+        time.text  = "Dauer : \(Picklist.sessionObject?.start_time)"
         
         filter()
         }
     
     func filter(){
         
-        for i in 0 ... bestellugAntwort.bestellugArtikel.count - 1 {
+        for i in 0 ... (Picklist.sessionObject?.artikel?.count)! - 1 {
             
-            if bestellugAntwort.bestellugArtikel[i].belegt == 0{
+            if Picklist.sessionObject?.artikel?[i].belegt == 0{
                 falsch = falsch + 1
             }
             else{
@@ -70,8 +70,10 @@ class CompleteWEViewController: UIViewController {
             }
             
         }
-         erfolgreich.text = String(richtig)
+        erfolgreich.text = String(richtig)
         nichtErfolgreich.text = String(falsch)
+        
+        Picklist.sessionObject?.status = "am Position"
         
     }
     func sessionInitAll(){
@@ -84,17 +86,68 @@ class CompleteWEViewController: UIViewController {
         Picklist.sessionObject = empty
     }
     
-    func PostResultSession(urlString: String, completion: @escaping (_ wert : Bool) -> Void) {
-        let request = NSMutableURLRequest(url: NSURL(string: "http://192.168.178.24/neu/index.php")! as URL)
-        request.httpMethod = "POST"
+    
+    func test(completion: @escaping (_ wert : Bool) -> Void) {
+
+        let request = NSMutableURLRequest(url: NSURL(string: "http://139.59.129.92/api/dummyorder/1")! as URL)
+        request.httpMethod = "PATCH"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let encoder = JSONEncoder()
         do{
-            let jsonData = try encoder.encode(Picklist.sessionObject)
+            let json: [String: Any] = ["status": "OSMAAAAAN"]
+            let jsonData = try? JSONSerialization.data(withJSONObject: json)
             request.httpBody = jsonData
             print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
         } catch {
             print("ERROR")
         }
+
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+
+            if error != nil {
+                print("error=\(error)")
+                completion(false)
+                return
+            }
+
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(responseString)")
+            completion(true)
+            return
+        }
+        task.resume()
+    }
+    
+    func PostResultSession(urlString: String, completion: @escaping (_ wert : Bool) -> Void) {
+        let id = String(describing: Picklist.sessionObject?._id)
+        let myURL = "http://139.59.129.92/api/dummyorder/\(id)"
+        let request = NSMutableURLRequest(url: NSURL(string: myURL)! as URL)
+        request.httpMethod = "PATCH"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+       // let encoder = JSONEncoder()
+        
+        
+        let encoder = JSONEncoder()
+        do{
+            let jsonData = try encoder.encode(Picklist.sessionObject)
+            //let jsonString = String(data: jsonData, encoding: .utf8)
+            request.httpBody = jsonData
+            print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
+        } catch {
+            print("ERROR")
+        }
+        
+        
+//
+//        do{
+//            let json: [String: Any] = ["status": "am Position2222"]
+//            let jsonData = try? JSONSerialization.data(withJSONObject: json)
+//            request.httpBody = jsonData
+//            print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
+//        } catch {
+//            print("ERROR")
+//        }
         
         let task = URLSession.shared.dataTask(with: request as URLRequest) {
             data, response, error in
@@ -113,26 +166,23 @@ class CompleteWEViewController: UIViewController {
         task.resume()
     }
     
-    func saveResultToServer() -> Bool{
+    func saveResultToServer(){
         
         PostResultSession(urlString: "http://myBestURL.com", completion: { isSuccess in
-            print(isSuccess)
-        })
-
-        return true
+            if isSuccess{
+                self.sessionInitAll()
+                self.doneAlert()
+            }else{
+                print("Kein Internet")
+            }})
     }
 
     @IBAction func bestätigen(_ sender: Any) {
+        
+        
         if let navigationController = navigationController {
-            if saveResultToServer(){
-                sessionInitAll()
-                doneAlert()
-            }else{
-                print("Kein Internet")
-            }
+            saveResultToServer()
         }
-
-
     }
     
     func doneAlert(){

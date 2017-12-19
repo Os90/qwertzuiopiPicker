@@ -41,32 +41,51 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initAllView()
-
+        //alleBestellungen()
     }
     
     func alleBestellungen(){
+        
+      //  http://139.59.129.92/api/dummyorder?q={"filters":[{"name":"status","op":"eq","val":"WE"}]}
+        
+        
         urlWithForBestellung(url: "http://139.59.129.92/api/dummyorder") {(result : antwort) in
             //print(result)
             let myGroup = DispatchGroup()
             self.bestellungsAntwort = result
-            if let count = self.bestellungsAntwort?.objects?.count{
-                var count2 = count
-                count2 = count2 - 1
-                    for myInd in 0 ... count2 - 1 {
-                        myGroup.enter()
-                        if self.bestellungsAntwort?.objects![myInd].status != "WE"{
-                            self.bestellungsAntwort?.objects?.remove(at: myInd)
-                        }
-                    }
-                    myGroup.notify(queue: .main) {
-                                    print("Finished all requests.")
+//            if let count = self.bestellungsAntwort?.objects?.count{
+//                var tmpObjects: [objects] = []
+//                //tmpObjects = (self.bestellungsAntwort?.objects)!
+//                var count2 = count
+//                count2 = count2 - 1
+//                    for myInd in 0 ... count2 {
+//                        myGroup.enter()
+//                        if self.bestellungsAntwort?.objects![myInd].status != "WE"{
+//                            //tmpObjects
+//                        }
+//                        else{
+//                            tmpObjects.append((self.bestellungsAntwort?.objects![myInd])!)
+//                        }
+//
+//                    }
+//
+//                self.bestellungsAntwort?.objects?.removeAll()
+//                self.bestellungsAntwort?.objects = tmpObjects
+//                myGroup.notify(queue: .main) {
+//
+//            }
+//                if  let badges = self.bestellungsAntwort?.objects?.count{
+//                    DispatchQueue.main.async{
+//                        self.firstViewBadge.text = String(describing: badges)
+//                    }
+//                }
+//            }
+            
+            if  let badges = self.bestellungsAntwort?.objects?.count{
+                                    DispatchQueue.main.async{
+                                        self.firstViewBadge.text = String(describing: badges)
+                                    }
                                 }
-                if  let badges = self.bestellungsAntwort?.objects?.count{
-                    DispatchQueue.main.async{
-                        self.firstViewBadge.text = String(describing: badges)
-                    }
-                }
-            }
         }
     }
     
@@ -97,9 +116,13 @@ class MainViewController: UIViewController {
     func userAlreadyExist(key : String) -> Bool {
         return UserDefaults.standard.object(forKey:key) != nil
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         
-        DispatchQueue.main.async {
+        alleBestellungen()
+        alleAufträge()
+        checkLastSession()
+
             if self.userAlreadyExist(key: "login") == false {
                 self.performSegue(withIdentifier: "login", sender: self)
             }
@@ -109,18 +132,7 @@ class MainViewController: UIViewController {
                 
                 //username
                 self.loginLabel.text = "Osman Ashraf"
-                
-//                self.fetchDataFromServer()
-//                self.countPick.text = String(self.pickIDStationID.count)
-//                let defaults = UserDefaults.standard
-//                self.Username.text = defaults.object(forKey:"name") as! String?
             }
-        }
-        
-        alleBestellungen()
-        alleAufträge()
-        checkLastSession()
-       
     }
     
     func checkLastSession(){

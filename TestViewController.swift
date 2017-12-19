@@ -38,7 +38,7 @@ class TestViewController: UIViewController {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let encoder = JSONEncoder()
         do{
-            let json: [String: Any] = ["status": "WE"]
+            let json: [String: Any] = ["status": "OSMAAAAAN"]
             let jsonData = try? JSONSerialization.data(withJSONObject: json)
             request.httpBody = jsonData
             print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")

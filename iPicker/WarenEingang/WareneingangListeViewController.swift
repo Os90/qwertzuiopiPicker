@@ -32,7 +32,7 @@ class WareneingangListeViewController: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: aSelector, userInfo: nil, repeats: true)
         startTime = Date.timeIntervalSinceReferenceDate
         addButon()
-        dummyTest()
+       // dummyTest()
     }
     
     func dummyTest(){
@@ -303,15 +303,17 @@ extension WareneingangListeViewController: UITableViewDelegate,UITableViewDataSo
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let lastRowIndex = tableView.numberOfRows(inSection: 0)
+        var ja = false
         if indexPath.row == lastRowIndex - 1 {
             for index in (Picklist.sessionObject?.artikel)!{
                 if index.belegt == nil{
+                    ja   = true
                     break
                 }
-                else{
-                      checkIfComplete()
-                }
             }
+            if !ja{
+                 checkIfComplete()
+            } 
         }
     }
 
