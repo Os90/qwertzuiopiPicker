@@ -17,7 +17,6 @@ class WEViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if userAlreadyExist(key: "session"){
 
             self.performSegue(withIdentifier: "liste", sender: self)

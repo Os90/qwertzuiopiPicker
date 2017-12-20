@@ -26,7 +26,7 @@ class WarenausgangListeViewController: UIViewController {
         self.navigationItem.title = "Abholen"
        mytbl.register(UINib(nibName: "WECell", bundle: nil), forCellReuseIdentifier: "Cell")
         let closeButtonImage = UIImage(named: "icons8-1_circle_filled")
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: closeButtonImage, style: .plain, target: self, action:  #selector(self.goBack))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: closeButtonImage, style: .plain, target: self, action:  #selector(self.goForward))
         self.navigationItem.rightBarButtonItem?.isEnabled = false
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Zurück", style: .plain, target: self, action: #selector(self.backAction))
@@ -62,14 +62,14 @@ class WarenausgangListeViewController: UIViewController {
         
     }
 
-    @objc func goBack()
+    @objc func goForward()
     {
         // create the alert
         let alert = UIAlertController(title: "FERTIG!", message: "Alles Abgeholt", preferredStyle: UIAlertControllerStyle.alert)
         
         // add the actions (buttons)
         alert.addAction(UIAlertAction(title: "Ja, bin am WA \(1)", style: UIAlertActionStyle.default, handler: { action in
-            //PERFORM SEGUE
+            self.performSegue(withIdentifier: "done", sender: self)
         }))
         //alert.addAction(UIAlertAction(title: "Nein, doch nicht", style: UIAlertActionStyle.cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Nein, doch nicht!", style: UIAlertActionStyle.destructive, handler: { action in
@@ -84,11 +84,7 @@ class WarenausgangListeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     func checkIfComplete(){
-        if komplett{
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
-        }else{
-            self.navigationItem.rightBarButtonItem?.isEnabled = false
-        }
+        self.navigationItem.rightBarButtonItem?.isEnabled = true
     }
     func saveSession(){
         let defaults = UserDefaults.standard
@@ -185,19 +181,18 @@ extension WarenausgangListeViewController: UITableViewDelegate,UITableViewDataSo
         
         // add the actions (buttons)
         alert.addAction(UIAlertAction(title: "JA!", style: UIAlertActionStyle.default, handler: { action in
-            if let _ = Picklist.sessionObject?.artikel![myindex.row].belegt{
-                //"ware nicht vorhanden"
-                Picklist.sessionObject?.artikel![myindex.row].belegt = 0
-            }
+            Picklist.sessionObject?.artikel![myindex.row].belegt = 0
+            Picklist.sessionObject?.artikel![myindex.row].comment = "Ware nicht vorhanden!"
+            Picklist.sessionObject?.artikel![myindex.row].pickerID = 99
+            //Picklist.username
+            
             self.mytbl.reloadData()
         }))
         alert.addAction(UIAlertAction(title: "Abbrechen", style: UIAlertActionStyle.cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Andere Gründe(nicht komplett,beschädigt usw..)", style: UIAlertActionStyle.destructive, handler: { action in
-            
-            if let _ = Picklist.sessionObject?.artikel![myindex.row].belegt{
-                //"andere Gründe"
-                Picklist.sessionObject?.artikel![myindex.row].belegt = 0
-            }
+            Picklist.sessionObject?.artikel![myindex.row].belegt = 0
+            Picklist.sessionObject?.artikel![myindex.row].comment = "Andere Gründe"
+            Picklist.sessionObject?.artikel![myindex.row].pickerID = 99
             self.mytbl.reloadData()
             
         }))
@@ -211,9 +206,10 @@ extension WarenausgangListeViewController: UITableViewDelegate,UITableViewDataSo
         let modifyAction = UIContextualAction(style: .normal, title:  "Richtig", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
             print("Richtig action ...")
             AudioServicesPlaySystemSound (self.DonesystemSoundID)
-            if let _ = Picklist.sessionObject?.artikel![indexPath.row].belegt{
-                Picklist.sessionObject?.artikel![indexPath.row].belegt = 1
-            }
+            Picklist.sessionObject?.artikel![indexPath.row].belegt = 1
+            Picklist.sessionObject?.artikel![indexPath.row].comment = "OK"
+            Picklist.sessionObject?.artikel![indexPath.row].pickerID = 99
+            
             success(true)
             self.mytbl.reloadData()
         })
@@ -222,11 +218,19 @@ extension WarenausgangListeViewController: UITableViewDelegate,UITableViewDataSo
         
         return UISwipeActionsConfiguration(actions: [modifyAction])
     }
-    private func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let lastRowIndex = tableView.numberOfRows(inSection: 0)
+        var ja = false
         if indexPath.row == lastRowIndex - 1 {
-            checkIfComplete()
+            for index in (Picklist.sessionObject?.artikel)!{
+                if index.belegt == nil{
+                    ja   = true
+                    break
+                }
+            }
+            if !ja{
+                checkIfComplete()
+            }
         }
     }
-    
 }

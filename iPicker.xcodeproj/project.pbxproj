@@ -48,6 +48,7 @@
 		AC7CC0851FBF1EFC0007724F /* PickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7CC0841FBF1EFC0007724F /* PickerTableViewCell.swift */; };
 		AC7CC0871FBF21970007724F /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7CC0861FBF21970007724F /* PickerViewController.swift */; };
 		AC7CC0891FBF44230007724F /* WagenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7CC0881FBF44230007724F /* WagenViewController.swift */; };
+		AC843BB61FEAE2FB00818323 /* SessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC843BB51FEAE2FB00818323 /* SessionViewController.swift */; };
 		ACB6997A1FE5CD8400124C11 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB699791FE5CD8400124C11 /* TestViewController.swift */; };
 		ACB6997C1FE5CFA700124C11 /* test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACB6997B1FE5CFA700124C11 /* test.storyboard */; };
 		B8031C13391255C2D39306DD /* Pods_iPickerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44FD81DBA8436D429906C950 /* Pods_iPickerTests.framework */; };
@@ -139,6 +140,7 @@
 		AC7CC0841FBF1EFC0007724F /* PickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableViewCell.swift; sourceTree = "<group>"; };
 		AC7CC0861FBF21970007724F /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 		AC7CC0881FBF44230007724F /* WagenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WagenViewController.swift; sourceTree = "<group>"; };
+		AC843BB51FEAE2FB00818323 /* SessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewController.swift; sourceTree = "<group>"; };
 		ACB699791FE5CD8400124C11 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		ACB6997B1FE5CFA700124C11 /* test.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = test.storyboard; sourceTree = "<group>"; };
 		F31D0F9959785329F5D05487 /* Pods-iPickerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iPickerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-iPickerUITests/Pods-iPickerUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				152FAEC31FAF92AB00D68C42 /* AppDelegate.swift */,
 				152FAECF1FAF92AB00D68C42 /* LaunchScreen.storyboard */,
 				152FAEC71FAF92AB00D68C42 /* Main.storyboard */,
+				AC843BB51FEAE2FB00818323 /* SessionViewController.swift */,
 				152FAECD1FAF92AB00D68C42 /* Assets.xcassets */,
 				152FAED21FAF92AB00D68C42 /* Info.plist */,
 				152FAECA1FAF92AB00D68C42 /* iPicker.xcdatamodeld */,
@@ -622,6 +625,7 @@
 				1537B1A41FC1E15500BA134A /* InventurViewController.swift in Sources */,
 				AC7CC0871FBF21970007724F /* PickerViewController.swift in Sources */,
 				15532C031FCF5A3C00029798 /* WarenausgangListeViewController.swift in Sources */,
+				AC843BB61FEAE2FB00818323 /* SessionViewController.swift in Sources */,
 				159E61E51FD2D1FA00B8117B /* Receive.swift in Sources */,
 				15A5D0A31FCF4B5700015FAB /* WareneingangListeViewController.swift in Sources */,
 				152FAECC1FAF92AB00D68C42 /* iPicker.xcdatamodeld in Sources */,

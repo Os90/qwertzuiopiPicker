@@ -18,27 +18,74 @@ class TestViewController: UIViewController {
                 print("isSuccess")
             }
         })
+//
+//        test2(completion: { isSuccess in
+//            if isSuccess{
+//                print("isSuccess")
+//            }
+//        })
         
-        test2(completion: { isSuccess in
-            if isSuccess{
-                print("isSuccess")
-            }
-        })
+//        test3(completion: { isSuccess in
+//            if isSuccess{
+//                print("isSuccess")
+//            }
+//        })
 
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    
-   func test(completion: @escaping (_ wert : Bool) -> Void) {
+    func test3(completion: @escaping (_ wert : Bool) -> Void) {
         
-        let request = NSMutableURLRequest(url: NSURL(string: "http://139.59.129.92/api/dummyorder/1")! as URL)
+        let longString = """
+http://139.59.129.92/api/dummyorder?q={"filters":[{"name":"status","op":"eq","val":"WE"}]}
+"""
+//     //  http://139.59.129.92/api/dummyorder?q={"filters":[{"name":"status","op":"eq","val":"WE"}]}
+//        let baseUrl = "http://139.59.129.92/api/dummyorder?q={"
+//
+//        var searchURL = baseUrl + "/" + "filters" + "/" + ":[{" + "/" + "name" + "/" + ":" + "/" + "status" + "/" + "," + "/"
+//            + "op" + "/" + ":" + "/" + "eq" + "/" + "," + "/" + "val" + "/" + ":" + "/" + "WE" + "/" + "}]}"
+//
+//        searchURL.enco
+        
+        let request = NSMutableURLRequest(url: NSURL(string: longString)! as URL)
         request.httpMethod = "PATCH"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let encoder = JSONEncoder()
         do{
             let json: [String: Any] = ["status": "OSMAAAAAN"]
+            let jsonData = try? JSONSerialization.data(withJSONObject: json)
+            request.httpBody = jsonData
+            print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
+        } catch {
+            print("ERROR")
+        }
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            
+            if error != nil {
+                print("error=\(error)")
+                completion(false)
+                return
+            }
+            
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(responseString)")
+            completion(true)
+            return
+        }
+        task.resume()
+    }
+   func test(completion: @escaping (_ wert : Bool) -> Void) {
+        
+        let request = NSMutableURLRequest(url: NSURL(string: "http://139.59.129.92/api/dummyorder/2")! as URL)
+        request.httpMethod = "PATCH"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let encoder = JSONEncoder()
+        do{
+            let json: [String: Any] = ["status": "WE"]
             let jsonData = try? JSONSerialization.data(withJSONObject: json)
             request.httpBody = jsonData
             print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")

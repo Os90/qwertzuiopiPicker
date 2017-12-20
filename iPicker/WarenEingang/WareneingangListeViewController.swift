@@ -32,24 +32,53 @@ class WareneingangListeViewController: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: aSelector, userInfo: nil, repeats: true)
         startTime = Date.timeIntervalSinceReferenceDate
         addButon()
-       // dummyTest()
+        
+        updateStatus(completion: { isSuccess in
+            if isSuccess{
+                print("isSuccess")
+            }
+            else{
+                print("kein Internet")
+            }
+        })
+        
+       // Picklist.sessionObject?.start_time = 3333
+        
     }
     
-    func dummyTest(){
-        Picklist.sessionObject?.artikel![1].belegt = nil
+    func updateStatus(completion: @escaping (_ wert : Bool) -> Void) {
+        guard let id = Picklist.sessionObject?._id else {return}
+        let request = NSMutableURLRequest(url: NSURL(string: "http://139.59.129.92/api/dummyorder/\(id)")! as URL)
+        request.httpMethod = "PATCH"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        // let encoder = JSONEncoder()
+        do{
+            let json: [String: Any] = ["status": "IN BEARBEITUNG"]
+            let jsonData = try? JSONSerialization.data(withJSONObject: json)
+            request.httpBody = jsonData
+            print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
+        } catch {
+            print("ERROR")
+        }
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            
+            if error != nil {
+                print("error=\(String(describing: error))")
+                completion(false)
+                return
+            }
+            
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(String(describing: responseString))")
+            completion(true)
+            return
+        }
+        task.resume()
     }
-    
-    
     func checkIfComplete(){
-        
         self.navigationItem.rightBarButtonItem?.isEnabled = true
-        
-        
-//        if komplett{
-//            self.navigationItem.rightBarButtonItem?.isEnabled = true
-//        }else{
-//            self.navigationItem.rightBarButtonItem?.isEnabled = false
-//        }
     }
     
     
@@ -97,8 +126,8 @@ class WareneingangListeViewController: UIViewController {
         if bestellugAntwort.bestellugArtikel.count > 0 {
             bestellugAntwort.bestellugArtikel.removeAll()
         }
-        bestellugAntwort.bestellugEnd_time = 0
-        bestellugAntwort.bestellugStart_time = 0
+//        bestellugAntwort.bestellugEnd_time = 0
+//        bestellugAntwort.bestellugStart_time = 0
     }
 
     
@@ -119,7 +148,7 @@ class WareneingangListeViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ok"{
-            bestellugAntwort.bestellugEnd_time = 2
+            //bestellugAntwort.bestellugEnd_time = 2
         }
     }
     
@@ -185,9 +214,6 @@ extension WareneingangListeViewController: UITableViewDelegate,UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! WarenEingangTableViewCell
         if (indexPath.row % 2 == 0){
          cell.backgroundColor = UIColor(rgb: 0xEBEBEB)
@@ -212,17 +238,13 @@ extension WareneingangListeViewController: UITableViewDelegate,UITableViewDataSo
             }else if belegt == 1{
                  cell.status.backgroundColor = UIColor(rgb: 0x395270)
             }
-//            count = count + 1
         }
         else{
             cell.status.layer.borderWidth = 0.5
             cell.status.layer.borderColor = UIColor.black.cgColor
             komplett = false
         }
-        
-//        if count == (Picklist.sessionObject?.artikel?.count)!{
-//            checkIfComplete()
-//        }
+
         
         return cell
     }
@@ -260,20 +282,18 @@ extension WareneingangListeViewController: UITableViewDelegate,UITableViewDataSo
         // add the actions (buttons)
         alert.addAction(UIAlertAction(title: "JA!", style: UIAlertActionStyle.default, handler: { action in
             Picklist.sessionObject?.artikel![myindex.row].belegt = 0
-//            if let _ = Picklist.sessionObject?.artikel![myindex.row].belegt{
-//                Picklist.sessionObject?.artikel![myindex.row].belegt = 0
-//            }
-            //self.foo()
+            Picklist.sessionObject?.artikel![myindex.row].comment = "Position schon belegt"
+            Picklist.sessionObject?.artikel![myindex.row].pickerID = 99
+            //Picklist.username
+
             self.mytbl.reloadData()
             
         }))
         alert.addAction(UIAlertAction(title: "Abbrechen", style: UIAlertActionStyle.cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Andere Gründe", style: UIAlertActionStyle.destructive, handler: { action in
+        alert.addAction(UIAlertAction(title: "Andere Gruende", style: UIAlertActionStyle.destructive, handler: { action in
             Picklist.sessionObject?.artikel![myindex.row].belegt = 0
-//            if let _ = Picklist.sessionObject?.artikel![myindex.row].belegt{
-//                Picklist.sessionObject?.artikel![myindex.row].belegt = 0
-//            }
-            //self.foo()
+            Picklist.sessionObject?.artikel![myindex.row].comment = "Andere Gründe"
+            Picklist.sessionObject?.artikel![myindex.row].pickerID = 99
             self.mytbl.reloadData()
             
         }))
@@ -289,9 +309,9 @@ extension WareneingangListeViewController: UITableViewDelegate,UITableViewDataSo
             print("Richtig action ...")
             AudioServicesPlaySystemSound (self.DonesystemSoundID)
             Picklist.sessionObject?.artikel![indexPath.row].belegt = 1
-//            if let _ = Picklist.sessionObject?.artikel![indexPath.row].belegt{
-//
-//            }
+            Picklist.sessionObject?.artikel![indexPath.row].comment = "OK"
+            Picklist.sessionObject?.artikel![indexPath.row].pickerID = 99
+            
             success(true)
             self.mytbl.reloadData()
         })

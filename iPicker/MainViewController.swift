@@ -28,86 +28,77 @@ class MainViewController: UIViewController {
     @IBOutlet weak var sessionBtn: UIButton!
     @IBOutlet weak var sessionView: UIView!
     
+    @IBOutlet weak var sessionImage: UIImageView!
     
     
-    var sessionName = String()
+  
     
     var eingeloggt = false
     
     var aufträge = 0
     
     var bestellungsAntwort : antwort?
+    var auftragsAntwort : antwort?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initAllView()
-        //alleBestellungen()
+        checkUser()
+    }
+    func checkUser(){
+        if self.userAlreadyExist(key: "login") == false {
+            self.performSegue(withIdentifier: "login", sender: self)
+        }
+        else{
+            Picklist.username = UserDefaults.standard.object(forKey:"login") as! String
+            self.eingeloggt = true
+            
+            //username
+            self.loginLabel.text = "Osman Ashraf"
+        }
     }
     
     func alleBestellungen(){
-        
-      //  http://139.59.129.92/api/dummyorder?q={"filters":[{"name":"status","op":"eq","val":"WE"}]}
-        
-        
-        urlWithForBestellung(url: "http://139.59.129.92/api/dummyorder") {(result : antwort) in
+        let longString = """
+        http://139.59.129.92/api/dummyorder?q={"filters":[{"name":"status","op":"eq","val":"WE"}]}
+        """
+        let urlString = longString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        urlWithForBestellung(url: urlString!) {(result : antwort) in
             //print(result)
-            let myGroup = DispatchGroup()
             self.bestellungsAntwort = result
-//            if let count = self.bestellungsAntwort?.objects?.count{
-//                var tmpObjects: [objects] = []
-//                //tmpObjects = (self.bestellungsAntwort?.objects)!
-//                var count2 = count
-//                count2 = count2 - 1
-//                    for myInd in 0 ... count2 {
-//                        myGroup.enter()
-//                        if self.bestellungsAntwort?.objects![myInd].status != "WE"{
-//                            //tmpObjects
-//                        }
-//                        else{
-//                            tmpObjects.append((self.bestellungsAntwort?.objects![myInd])!)
-//                        }
-//
-//                    }
-//
-//                self.bestellungsAntwort?.objects?.removeAll()
-//                self.bestellungsAntwort?.objects = tmpObjects
-//                myGroup.notify(queue: .main) {
-//
-//            }
-//                if  let badges = self.bestellungsAntwort?.objects?.count{
-//                    DispatchQueue.main.async{
-//                        self.firstViewBadge.text = String(describing: badges)
-//                    }
-//                }
-//            }
-            
-            if  let badges = self.bestellungsAntwort?.objects?.count{
-                                    DispatchQueue.main.async{
-                                        self.firstViewBadge.text = String(describing: badges)
-                                    }
-                                }
+            if let myresult = result.objects{
+                DispatchQueue.main.async {
+                   // let a = myresult.count - Picklist.durchlaufBestellungen
+                    self.firstViewBadge.text = String(myresult.count)
+                }
+            }
         }
     }
     
     @IBAction func sessionAction(_ sender: Any) {
-        
-        if sessionName == "bestellung"{
-            goToWareneingang()
-        }
-        else{
-            goToWarenausang()
+        goToSesion()
+    }
+    
+    func goToSesion(){
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "SessionViewController") as! SessionViewController
+        if let navigationController = navigationController {
+            navigationController.pushViewController(recentSearchesViewController, animated: true)
         }
     }
     
 
     func alleAufträge(){
-        urlWithForBestellung(url: "http://139.59.129.92/api/dummyorder") {(result : antwort) in
+        let longString = """
+        http://139.59.129.92/api/dummyorder?q={"filters":[{"name":"status","op":"eq","val":"IN BEARBEITUNG"}]}
+        """
+        let urlString = longString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        urlWithForBestellung(url: urlString!) {(result : antwort) in
             print(result)
-            self.bestellungsAntwort = result
+            self.auftragsAntwort = result
             if let myresult = result.objects{
                 DispatchQueue.main.async {
-                    let a = myresult.count - Picklist.durchlaufBestellungen
-                    self.firstViewBadge.text = String(a)
+                    //let a = myresult.count - Picklist.durchlaufBestellungen
+                    self.lastBadge.text =  String(myresult.count)
                 }
             }
         }
@@ -119,20 +110,10 @@ class MainViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         
+        initAllView()
+        checkLastSession()
         alleBestellungen()
         alleAufträge()
-        checkLastSession()
-
-            if self.userAlreadyExist(key: "login") == false {
-                self.performSegue(withIdentifier: "login", sender: self)
-            }
-            else{
-                Picklist.username = UserDefaults.standard.object(forKey:"login") as! String
-                self.eingeloggt = true
-                
-                //username
-                self.loginLabel.text = "Osman Ashraf"
-            }
     }
     
     func checkLastSession(){
@@ -141,15 +122,15 @@ class MainViewController: UIViewController {
             if let was = dafaults.object(forKey: "was"){
                 sessionBtn.isHidden = false
                 //sessionBtn.isEnabled = true
-                sessionView.isHidden = false
+                sessionImage.isHidden = false
                 switch(String(describing: was)){
                 case "bestellung":
                     print("bestellung")
-                    sessionName = "bestellung"
+                    Picklist.sessionName = "bestellung"
                     break
                 case "auftrag":
                     print("auftrag")
-                    sessionName = "auftrag"
+                    Picklist.sessionName = "auftrag"
                     break
                 default:
                     break
@@ -164,7 +145,7 @@ class MainViewController: UIViewController {
             lastBadge.backgroundColor = UIColor(rgb: 0x395270)
            // sessionBtn.isEnabled = false
             sessionBtn.isHidden = true
-            sessionView.isHidden = true
+            sessionImage.isHidden = true
             addGesture()
         }
     }
@@ -197,7 +178,7 @@ class MainViewController: UIViewController {
         let storyboard = UIStoryboard(name: "warenausgang", bundle: nil)
         let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "warenausgangCtrl") as! WarenausgangViewController
         if let navigationController = navigationController {
-            if let obejcts = bestellungsAntwort?.objects{
+            if let obejcts = auftragsAntwort?.objects{
                 recentSearchesViewController.ListBestellung = obejcts
             }
             navigationController.pushViewController(recentSearchesViewController, animated: true)
@@ -228,6 +209,12 @@ class MainViewController: UIViewController {
     }
 
     func initAllView(){
+        
+        
+        bestellungsBild.tintImageColor(color: UIColor(rgb: 0x395270))
+        auftragBild.tintImageColor(color: UIColor(rgb: 0x395270))
+        inventurBild.tintImageColor(color: UIColor(rgb: 0x395270))
+        picklisteBild.tintImageColor(color: UIColor(rgb: 0x395270))
         
         firstView.layer.cornerRadius = 10.0
         firstView.layer.shadowColor = UIColor.gray.cgColor
@@ -276,15 +263,6 @@ class MainViewController: UIViewController {
         LastView.layer.shadowOpacity = 1.0
         LastView.layer.shadowRadius = 5
 
-        
-        sessionView.layer.cornerRadius = 10.0
-        sessionView.layer.shadowColor = UIColor.red.cgColor
-        sessionView.layer.masksToBounds = false
-        sessionView.layer.shadowOffset = CGSize(width: 0.0 , height: 2.0)
-        sessionView.layer.shadowOpacity = 1.0
-        sessionView.layer.shadowRadius = 5
-        
-        
     }
     
     func addGesture(){
@@ -314,6 +292,8 @@ extension UIViewController{
     
     func urlWithForBestellung(url: String, completion: @escaping (_ result: antwort) -> Void) {
 
+        
+        
         let jsonUrlString = url
         guard let url = URL(string: jsonUrlString) else {
             return

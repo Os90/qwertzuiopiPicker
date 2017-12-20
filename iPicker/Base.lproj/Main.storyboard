@@ -153,21 +153,21 @@
                                     <color key="titleColor" red="0.22352941179999999" green="0.32156862749999998" blue="0.43921568630000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xuV-9y-QgG">
-                                <rect key="frame" x="133" y="497" width="109" height="109"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JcJ-Zq-cOd">
+                                <rect key="frame" x="222" y="69" width="147" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JcJ-Zq-cOd">
-                                        <rect key="frame" x="8" y="39" width="101" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Pause?"/>
-                                        <connections>
-                                            <action selector="sessionAction:" destination="q1y-tb-LFT" eventType="touchUpInside" id="m2T-Sn-nQg"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="Pause?">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="sessionAction:" destination="q1y-tb-LFT" eventType="touchUpInside" id="m2T-Sn-nQg"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icons8-circled_chevron_right_filled" translatesAutoresizingMaskIntoConstraints="NO" id="6XY-Bw-9bb">
+                                <rect key="frame" x="298" y="81" width="25" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="iIC-CD-g6d"/>
@@ -186,17 +186,97 @@
                         <outlet property="secondView" destination="DOE-6L-pN4" id="tYU-Ol-sY9"/>
                         <outlet property="secondViewLabel" destination="vGx-H9-nHZ" id="ekv-mB-fOG"/>
                         <outlet property="sessionBtn" destination="JcJ-Zq-cOd" id="crW-w1-Ov9"/>
-                        <outlet property="sessionView" destination="xuV-9y-QgG" id="TeI-ba-YOc"/>
+                        <outlet property="sessionImage" destination="6XY-Bw-9bb" id="LYc-bz-eFe"/>
                         <outlet property="thirdView" destination="3Y2-P0-IIj" id="Ju7-UX-1cp"/>
                         <outlet property="thirdVuewLabel" destination="zYu-uu-67t" id="7wA-jl-25A"/>
                         <segue destination="irT-hM-bDj" kind="show" identifier="Inventur" id="2NU-dw-9xd"/>
                         <segue destination="cK9-ok-gK7" kind="show" identifier="login" id="4E9-0t-7BK"/>
                         <segue destination="wiS-qY-PWR" kind="show" identifier="picken" id="LxM-Hd-6Ze"/>
+                        <segue destination="lue-2B-d8A" kind="show" id="eyF-Uf-bxW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RBr-2o-of3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1607.2" y="89.505247376311857"/>
+        </scene>
+        <!--Session View Controller-->
+        <scene sceneID="aTb-1H-Q6g">
+            <objects>
+                <viewController storyboardIdentifier="SessionViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lue-2B-d8A" customClass="SessionViewController" customModule="iPicker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="45r-qS-XBD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZFR-eK-n8Z">
+                                <rect key="frame" x="0.0" y="602" width="375" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.14655706290000001" green="0.25265952940000003" blue="0.37352794410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="weiter">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="weiter:" destination="lue-2B-d8A" eventType="touchUpInside" id="5gq-ae-LW5"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dq0-xv-yIL">
+                                <rect key="frame" x="207" y="269" width="159" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="abbruch">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="abbruch:" destination="lue-2B-d8A" eventType="touchUpInside" id="bLY-V2-fb5"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i4L-2W-1gE">
+                                <rect key="frame" x="16" y="272" width="171" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="wechsel">
+                                    <color key="titleColor" red="0.40318590399999998" green="0.6777969599" blue="0.74516034129999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="wechsel:" destination="lue-2B-d8A" eventType="touchUpInside" id="rt8-wp-y2Z"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icons8-cancel_filled" translatesAutoresizingMaskIntoConstraints="NO" id="nsP-tb-Krh">
+                                <rect key="frame" x="287" y="239" width="24" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icons8-add_user_filled" translatesAutoresizingMaskIntoConstraints="NO" id="NG5-Kn-9Ei">
+                                <rect key="frame" x="73" y="239" width="24" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icons8-circled_chevron_right_filled-1" translatesAutoresizingMaskIntoConstraints="NO" id="bKU-mJ-xwy">
+                                <rect key="frame" x="175" y="570" width="24" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="kqi-kx-FxE">
+                                <rect key="frame" x="16" y="77" width="343" height="133"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Sie haben die Wahl zwischen weiter, abbruch oder den Benutzer zu wechseln. Beim Nutzer wechsel wird das vorhande ein anderen Arbeiter zugeweisen. Bei Abbruch wird die komplette Bestellung/Auftrag auf 0 gestellt.</string>
+                                <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7vs-mu-fYk">
+                                <rect key="frame" x="195" y="216" width="4" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="yaz-jT-bgC"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u1o-5X-f0V" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-676" y="-208.24587706146929"/>
         </scene>
         <!--Wagen View Controller-->
         <scene sceneID="JEg-bX-JCP">
@@ -1001,8 +1081,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="icons8-add_user_filled" width="25" height="25"/>
         <image name="icons8-barcode_scanner_2_filled" width="100" height="100"/>
+        <image name="icons8-cancel_filled" width="25" height="25"/>
         <image name="icons8-checkmark_filled" width="100" height="100"/>
+        <image name="icons8-circled_chevron_right_filled" width="25" height="25"/>
+        <image name="icons8-circled_chevron_right_filled-1" width="25" height="25"/>
         <image name="icons8-in_transit_filled" width="50" height="50"/>
         <image name="icons8-move_by_trolley_filled" width="100" height="100"/>
         <image name="icons8-pos_terminal_filled-1" width="50" height="50"/>

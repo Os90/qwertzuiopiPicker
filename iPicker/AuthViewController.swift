@@ -83,11 +83,9 @@ class AuthViewController: UIViewController,UITextFieldDelegate  {
         if überprüfen(){
             print("richtig!")
             view.endEditing(true)
-            
             let userDefaults = UserDefaults.standard
             userDefaults.setValue(name, forKey: "login")
             self.navigationController?.popToRootViewController(animated: true)
-           // self.performSegue(withIdentifier: "login", sender: self)
         }
         else{
             let alertView = UIAlertController(title: "Falsche Eingabe", message: "Bitte wiederholen Sie den vorgang", preferredStyle: .actionSheet)
@@ -95,20 +93,13 @@ class AuthViewController: UIViewController,UITextFieldDelegate  {
             let cancelAction = UIAlertAction (title: "Ok", style: .cancel ) {  alertAction in
                 self.number1.becomeFirstResponder()
             }
-            
-            
             self.present(alertView, animated: true, completion: nil)
-            
-            
             DispatchQueue.main.async {
                 self.number1.text = ""
                 self.number2.text = ""
                 self.number3.text = ""
                 self.number4.text = ""
-                
             }
-            
-            
             alertView.addAction(cancelAction)
         }
     }

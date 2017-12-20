@@ -202,16 +202,22 @@
                                 <state key="normal" title="abbrechen">
                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="cancelBtn:" destination="1Os-m3-kJL" eventType="touchUpInside" id="z4x-Vq-yvk"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="ffR-u6-Ltc"/>
                     </view>
                     <connections>
+                        <outlet property="erfolgreich" destination="eQI-dA-0LJ" id="MWN-Ch-vnb"/>
                         <outlet property="erfolgreichView" destination="FT9-DW-hwm" id="S5e-aq-XVy"/>
                         <outlet property="halleView" destination="MUq-U7-ttx" id="r0w-6F-Q4X"/>
+                        <outlet property="nichtErfolgreich" destination="40f-Ml-Zhg" id="x1r-eE-oxv"/>
                         <outlet property="nichterfolgreichView" destination="Ss4-k7-73J" id="PR0-oL-4A9"/>
                         <outlet property="okbtn" destination="xuf-iR-oUd" id="NIU-Me-1JF"/>
+                        <outlet property="time" destination="VZl-Ow-QdE" id="FWN-z8-LV3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zFd-OC-8dO" userLabel="First Responder" sceneMemberID="firstResponder"/>
