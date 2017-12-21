@@ -40,7 +40,7 @@
                                 <rect key="frame" x="222" y="154" width="137" height="123"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icons8-pos_terminal_filled-1" translatesAutoresizingMaskIntoConstraints="NO" id="NOs-lk-zsk">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icons8-conference_filled-1" translatesAutoresizingMaskIntoConstraints="NO" id="NOs-lk-zsk">
                                         <rect key="frame" x="34" y="27" width="69" height="68"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -107,7 +107,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Inventur" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PtS-hO-31G">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Lager Chef" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PtS-hO-31G">
                                 <rect key="frame" x="233" y="256" width="114" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -1087,9 +1087,9 @@
         <image name="icons8-checkmark_filled" width="100" height="100"/>
         <image name="icons8-circled_chevron_right_filled" width="25" height="25"/>
         <image name="icons8-circled_chevron_right_filled-1" width="25" height="25"/>
+        <image name="icons8-conference_filled-1" width="75" height="75"/>
         <image name="icons8-in_transit_filled" width="50" height="50"/>
         <image name="icons8-move_by_trolley_filled" width="100" height="100"/>
-        <image name="icons8-pos_terminal_filled-1" width="50" height="50"/>
         <image name="icons8-right_4" width="50" height="50"/>
     </resources>
 </document>

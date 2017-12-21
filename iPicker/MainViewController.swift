@@ -51,7 +51,6 @@ class MainViewController: UIViewController {
         else{
             Picklist.username = UserDefaults.standard.object(forKey:"login") as! String
             self.eingeloggt = true
-            
             //username
             self.loginLabel.text = "Osman Ashraf"
         }
@@ -184,6 +183,17 @@ class MainViewController: UIViewController {
             navigationController.pushViewController(recentSearchesViewController, animated: true)
         }
     }
+    func goToLagerChef(){
+        let storyboard = UIStoryboard(name: "warenausgang", bundle: nil)
+        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "warenausgangCtrl") as! WarenausgangViewController
+        if let navigationController = navigationController {
+            if let obejcts = auftragsAntwort?.objects{
+                recentSearchesViewController.ListBestellung = obejcts
+            }
+            navigationController.pushViewController(recentSearchesViewController, animated: true)
+        }
+    }
+    
     
     @objc func imageTappedFirst(){
         goToWareneingang()
@@ -191,7 +201,7 @@ class MainViewController: UIViewController {
     
     
     @objc func imageTappedSecond(){
-        performSegue(withIdentifier: "Inventur", sender: self)
+        //performSegue(withIdentifier: "Inventur", sender: self)
     }
     @objc func imageTappedThird(){
         performSegue(withIdentifier: "picken", sender: self)

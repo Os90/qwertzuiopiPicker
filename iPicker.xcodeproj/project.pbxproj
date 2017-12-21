@@ -26,6 +26,8 @@
 		15532C031FCF5A3C00029798 /* WarenausgangListeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15532C021FCF5A3C00029798 /* WarenausgangListeViewController.swift */; };
 		155A8D1A1FC1CD5B00A10E01 /* Picklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155A8D191FC1CD5B00A10E01 /* Picklist.swift */; };
 		156688AB1FB442BA00D16525 /* AbschlussViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156688AA1FB442BA00D16525 /* AbschlussViewController.swift */; };
+		158953241FEB158E00DA49BC /* Lager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 158953231FEB158E00DA49BC /* Lager.storyboard */; };
+		158953261FEB15A200DA49BC /* LagerChefViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158953251FEB15A200DA49BC /* LagerChefViewController.swift */; };
 		159E61E51FD2D1FA00B8117B /* Receive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159E61E41FD2D1FA00B8117B /* Receive.swift */; };
 		159E61E71FD3019600B8117B /* WEViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159E61E61FD3019600B8117B /* WEViewController.swift */; };
 		159E61E91FD315B400B8117B /* PufferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159E61E81FD315B400B8117B /* PufferViewController.swift */; };
@@ -113,6 +115,8 @@
 		15532C021FCF5A3C00029798 /* WarenausgangListeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarenausgangListeViewController.swift; sourceTree = "<group>"; };
 		155A8D191FC1CD5B00A10E01 /* Picklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Picklist.swift; sourceTree = "<group>"; };
 		156688AA1FB442BA00D16525 /* AbschlussViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbschlussViewController.swift; sourceTree = "<group>"; };
+		158953231FEB158E00DA49BC /* Lager.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Lager.storyboard; sourceTree = "<group>"; };
+		158953251FEB15A200DA49BC /* LagerChefViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LagerChefViewController.swift; sourceTree = "<group>"; };
 		159E61E41FD2D1FA00B8117B /* Receive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receive.swift; sourceTree = "<group>"; };
 		159E61E61FD3019600B8117B /* WEViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WEViewController.swift; sourceTree = "<group>"; };
 		159E61E81FD315B400B8117B /* PufferViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PufferViewController.swift; sourceTree = "<group>"; };
@@ -203,6 +207,7 @@
 		152FAEC21FAF92AB00D68C42 /* iPicker */ = {
 			isa = PBXGroup;
 			children = (
+				158953221FEB157800DA49BC /* LagerChef */,
 				159E61E31FD2D1BA00B8117B /* MyStructs */,
 				15A5D0A81FCF572E00015FAB /* Warenausang */,
 				15A5D0A11FCF44B500015FAB /* WarenEingang */,
@@ -243,6 +248,15 @@
 				152FAEE81FAF92AB00D68C42 /* Info.plist */,
 			);
 			path = iPickerUITests;
+			sourceTree = "<group>";
+		};
+		158953221FEB157800DA49BC /* LagerChef */ = {
+			isa = PBXGroup;
+			children = (
+				158953231FEB158E00DA49BC /* Lager.storyboard */,
+				158953251FEB15A200DA49BC /* LagerChefViewController.swift */,
+			);
+			path = LagerChef;
 			sourceTree = "<group>";
 		};
 		159E61E31FD2D1BA00B8117B /* MyStructs */ = {
@@ -457,6 +471,7 @@
 				15A5D0A51FCF4E5500015FAB /* WECell.xib in Resources */,
 				15A5D09D1FCF443400015FAB /* Wareneingang.storyboard in Resources */,
 				152FAECE1FAF92AB00D68C42 /* Assets.xcassets in Resources */,
+				158953241FEB158E00DA49BC /* Lager.storyboard in Resources */,
 				AC2990401FC85A7500A7CFA4 /* ListPickCell.xib in Resources */,
 				ACB6997C1FE5CFA700124C11 /* test.storyboard in Resources */,
 				152FAEC91FAF92AB00D68C42 /* Main.storyboard in Resources */,
@@ -628,6 +643,7 @@
 				AC843BB61FEAE2FB00818323 /* SessionViewController.swift in Sources */,
 				159E61E51FD2D1FA00B8117B /* Receive.swift in Sources */,
 				15A5D0A31FCF4B5700015FAB /* WareneingangListeViewController.swift in Sources */,
+				158953261FEB15A200DA49BC /* LagerChefViewController.swift in Sources */,
 				152FAECC1FAF92AB00D68C42 /* iPicker.xcdatamodeld in Sources */,
 				AC2990421FC85B2D00A7CFA4 /* ListPickerCell.swift in Sources */,
 				15D7FA151FC76D9F00A267D3 /* NachScannenInventurViewController.swift in Sources */,
