@@ -184,12 +184,12 @@ class MainViewController: UIViewController {
         }
     }
     func goToLagerChef(){
-        let storyboard = UIStoryboard(name: "warenausgang", bundle: nil)
-        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "warenausgangCtrl") as! WarenausgangViewController
+        let storyboard = UIStoryboard(name: "Lager", bundle: nil)
+        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "LagerChefViewController") as! LagerChefViewController
         if let navigationController = navigationController {
-            if let obejcts = auftragsAntwort?.objects{
-                recentSearchesViewController.ListBestellung = obejcts
-            }
+//            if let obejcts = auftragsAntwort?.objects{
+//                recentSearchesViewController.ListBestellung = obejcts
+//            }
             navigationController.pushViewController(recentSearchesViewController, animated: true)
         }
     }
@@ -201,6 +201,7 @@ class MainViewController: UIViewController {
     
     
     @objc func imageTappedSecond(){
+        goToLagerChef()
         //performSegue(withIdentifier: "Inventur", sender: self)
     }
     @objc func imageTappedThird(){

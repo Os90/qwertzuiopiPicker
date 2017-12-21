@@ -80,7 +80,7 @@ http://139.59.129.92/api/dummyorder?q={"filters":[{"name":"status","op":"eq","va
     }
    func test(completion: @escaping (_ wert : Bool) -> Void) {
         
-        let request = NSMutableURLRequest(url: NSURL(string: "http://139.59.129.92/api/dummyorder/2")! as URL)
+        let request = NSMutableURLRequest(url: NSURL(string: "http://139.59.129.92/api/dummyorder/1")! as URL)
         request.httpMethod = "PATCH"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let encoder = JSONEncoder()

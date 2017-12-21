@@ -14,6 +14,15 @@ struct antwort : Decodable{
     var total_pages: Int?
     var objects : [objects]?
 }
+
+struct antwortNotComplete : Decodable{
+    var num_results:Int?
+    var page: Int?
+    var total_pages: Int?
+    var objects : [objects]?
+}
+
+
 struct objects : Decodable,Encodable{
     var _created: Int?
     var _id : Int?
@@ -23,6 +32,8 @@ struct objects : Decodable,Encodable{
     var artikel : [artikel]?
     var end_time : Int?
     var start_time : Int?
+    var comment : String?
+    var complete : Bool?
 }
 struct artikel: Decodable,Encodable{
     var ean : Int?

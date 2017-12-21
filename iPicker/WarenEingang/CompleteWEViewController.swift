@@ -41,7 +41,7 @@ class CompleteWEViewController: UIViewController {
         })
         erfolgreichView.getCorner(erfolgreichView)
         nichterfolgreichView.getCorner(nichterfolgreichView)
-        Picklist.sessionObject?.status = "am Position"
+
     }
 
     func initComplete(){
@@ -181,9 +181,15 @@ class CompleteWEViewController: UIViewController {
     func saveResultToServer(){
         
         if falsch > 0{
-            postIFWrong()
+            Picklist.sessionObject?.comment = "nicht komplett"
+            Picklist.sessionObject?.complete = false
+        }
+        else{
+            Picklist.sessionObject?.comment = "komplett"
+            Picklist.sessionObject?.complete = true
         }
 
+        Picklist.sessionObject?.status = "am Position"
         PostResultSession(urlString: "http://myBestURL.com", completion: { isSuccess in
             if isSuccess{
                 self.sessionInitAll()

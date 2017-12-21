@@ -10,8 +10,9 @@ import UIKit
 
 class LagerChefViewController: UIViewController {
     
-    var komplett : String?
-    var nichtkomplett : String?
+    var komplett : antwort?
+    var nichtkomplett : antwort?
+    var objectTosend : [artikel] = []
     
     
     @IBOutlet weak var segement: UISegmentedControl!
@@ -20,7 +21,18 @@ class LagerChefViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        alle()
+        
+        self.navigationItem.title = "Lager Chef Ansicht (Puffer Lager)"
+        
+        alleNotComplete()
+
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "weiter"{
+            let destinationVC = segue.destination as! LagerDetailViewController
+            destinationVC.artikelReceeive = objectTosend
+        }
     }
     
     func urlWithForLager(url: String, completion: @escaping (_ result: antwort) -> Void) {
@@ -39,18 +51,31 @@ class LagerChefViewController: UIViewController {
         }.resume()
     }
     
-    func alle(){
+    func alleComplete(){
         let longString = """
-        http://139.59.129.92/api/dummyorder?q={"filters":[{"name":"status","op":"eq","val":"WE"}]}
+        http://139.59.129.92/api/dummyorder?q={"filters":[{"name":"comment","op":"eq","val":"komplett"}]}
         """
         let urlString = longString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
         urlWithForLager(url: urlString!) {(result : antwort) in
-            print(result)
+            self.komplett = result
+            DispatchQueue.main.async {
+                self.mytbl.reloadData()
+            }
+        }
+    }
+    func alleNotComplete(){
+        let longString = """
+        http://139.59.129.92/api/dummyorder?q={"filters":[{"name":"comment","op":"eq","val":"nicht komplett"}]}
+        """
+        let urlString = longString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        urlWithForLager(url: urlString!) {(result : antwort) in
+            self.nichtkomplett = result
+            self.alleComplete()
         }
     }
     
     @IBAction func segmentCtrl(_ sender: Any) {
-        
+         mytbl.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -60,14 +85,94 @@ class LagerChefViewController: UIViewController {
 }
 extension LagerChefViewController : UITableViewDelegate,UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 0
+        return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        
+         var returnValue = 0
+        
+        switch(segement.selectedSegmentIndex)
+        {
+        case 0:
+             guard let count = nichtkomplett?.objects?.count else {return 0}
+             returnValue = count
+            break
+        case 1:
+            guard let count = komplett?.objects?.count else {return 0}
+             returnValue = count
+            break
+            
+        default:
+            break
+            
+        }
+        return returnValue
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
+        switch(segement.selectedSegmentIndex)
+        {
+        case 0:
+            if let nummer = nichtkomplett?.objects?[indexPath.row].bestellungsNr{
+                               cell.textLabel?.text  = String(describing:nummer)
+                        }
+            if let detail = nichtkomplett?.objects?[indexPath.row].comment{
+                                cell.detailTextLabel?.text = detail
+                        }
+            break
+        case 1:
+            if let nummer = komplett?.objects?[indexPath.row].bestellungsNr{
+                cell.textLabel?.text  = String(describing:nummer)
+            }
+            if let detail = komplett?.objects?[indexPath.row].comment{
+                cell.detailTextLabel?.text = detail
+            }
+            break
+            
+        default:
+            break
+            
+        }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch(segement.selectedSegmentIndex)
+        {
+        case 0:
+            guard let object  = komplett?.objects![indexPath.row].artikel else {return }
+            objectTosend = object
+            break
+        case 1:
+            guard let object  = nichtkomplett?.objects![indexPath.row].artikel else {return }
+            objectTosend = object
+            break
+        default:
+            break
+            
+        }
+        
+        self.performSegue(withIdentifier: "weiter", sender: self)
+    }
+    
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        var title = ""
+        switch(segement.selectedSegmentIndex)
+        {
+        case 0:
+            guard let count  = nichtkomplett?.objects?.count else {return title}
+            title = "nicht komplett (\(String(describing: count)))"
+            break
+        case 1:
+            guard let count  = komplett?.objects?.count else {return title}
+            title = "komplett heute : (\(String(describing: count)))"
+            break
+        default:
+            break
+            
+        }
+        return title
     }
 }

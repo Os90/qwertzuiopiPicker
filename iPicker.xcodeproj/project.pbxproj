@@ -53,6 +53,7 @@
 		AC843BB61FEAE2FB00818323 /* SessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC843BB51FEAE2FB00818323 /* SessionViewController.swift */; };
 		ACB6997A1FE5CD8400124C11 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB699791FE5CD8400124C11 /* TestViewController.swift */; };
 		ACB6997C1FE5CFA700124C11 /* test.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACB6997B1FE5CFA700124C11 /* test.storyboard */; };
+		ACF576AF1FEC0A6200471DDA /* LagerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF576AE1FEC0A6200471DDA /* LagerDetailViewController.swift */; };
 		B8031C13391255C2D39306DD /* Pods_iPickerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44FD81DBA8436D429906C950 /* Pods_iPickerTests.framework */; };
 		FF9EBDA7AED8B7A843CBB6E5 /* Pods_iPickerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 544A35A48CC0F5FD4EEEE86B /* Pods_iPickerUITests.framework */; };
 /* End PBXBuildFile section */
@@ -147,6 +148,7 @@
 		AC843BB51FEAE2FB00818323 /* SessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewController.swift; sourceTree = "<group>"; };
 		ACB699791FE5CD8400124C11 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		ACB6997B1FE5CFA700124C11 /* test.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = test.storyboard; sourceTree = "<group>"; };
+		ACF576AE1FEC0A6200471DDA /* LagerDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LagerDetailViewController.swift; sourceTree = "<group>"; };
 		F31D0F9959785329F5D05487 /* Pods-iPickerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iPickerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-iPickerUITests/Pods-iPickerUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -255,6 +257,7 @@
 			children = (
 				158953231FEB158E00DA49BC /* Lager.storyboard */,
 				158953251FEB15A200DA49BC /* LagerChefViewController.swift */,
+				ACF576AE1FEC0A6200471DDA /* LagerDetailViewController.swift */,
 			);
 			path = LagerChef;
 			sourceTree = "<group>";
@@ -660,6 +663,7 @@
 				153816731FB2657D00B46230 /* MainViewController.swift in Sources */,
 				155A8D1A1FC1CD5B00A10E01 /* Picklist.swift in Sources */,
 				1527D6CF1FD9AC3D00F90377 /* CompleteWAViewController.swift in Sources */,
+				ACF576AF1FEC0A6200471DDA /* LagerDetailViewController.swift in Sources */,
 				15532C011FCF589F00029798 /* WarenausgangViewController.swift in Sources */,
 				15AF50541FC7577C004BF17F /* AuthViewController.swift in Sources */,
 				152FAEC61FAF92AB00D68C42 /* ViewController.swift in Sources */,
