@@ -39,7 +39,6 @@ class WEViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         var objectToSend : objects?
-        
         if segue.identifier == "liste"{
             
             if userAlreadyExist(key: "session"){
@@ -54,7 +53,6 @@ class WEViewController: UIViewController {
             }else{
                 objectToSend = sender as? objects
             }
-            
             Picklist.sessionObject = objectToSend
         }
     }

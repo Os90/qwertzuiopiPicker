@@ -23,8 +23,10 @@ struct Picklist : Codable {
     
     static var sessionObject : objects?
     
-    static var username = String()
+    static var username : String?
     static var sessionName = String()
+
+    static var UserLagerChef : [String] = ["Kemal","Osman","Mimoun"]
 }
 
 var Timestamp: String {

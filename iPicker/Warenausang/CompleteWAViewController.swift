@@ -22,6 +22,8 @@ class CompleteWAViewController: UIViewController {
     var richtig = 0
     var falsch = 0
     
+    var myartikel : [artikel] = []
+    
     @IBOutlet weak var okbtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +44,7 @@ class CompleteWAViewController: UIViewController {
         })
         erfolgreichView.getCorner(erfolgreichView)
         nichterfolgreichView.getCorner(nichterfolgreichView)
-        Picklist.sessionObject?.status = "an der Halle X"
+       // Picklist.sessionObject?.status = "an der Halle X"
     }
     
     func initComplete(){
@@ -84,6 +86,17 @@ class CompleteWAViewController: UIViewController {
     }
     func saveResultToServer(){
         
+        
+        if falsch > 0{
+            Picklist.sessionObject?.comment = "nicht komplett"
+            Picklist.sessionObject?.complete = false
+        }
+        else{
+            Picklist.sessionObject?.comment = "komplett"
+            Picklist.sessionObject?.complete = true
+        }
+        
+        Picklist.sessionObject?.status = "am Position"
         PostResultSession(urlString: "http://myBestURL.com", completion: { isSuccess in
             if isSuccess{
                 self.sessionInitAll()
@@ -104,9 +117,9 @@ class CompleteWAViewController: UIViewController {
     
     func filter(){
         
-        for i in 0 ... (Picklist.sessionObject?.artikel?.count)! - 1 {
+        for index in myartikel{
             
-            if Picklist.sessionObject?.artikel?[i].belegt == 0{
+            if index.belegt == 0{
                 falsch = falsch + 1
             }
             else{
@@ -149,7 +162,7 @@ class CompleteWAViewController: UIViewController {
     @IBAction func cancelBtn(_ sender: Any) {
         let Snummer = Picklist.sessionObject?.bestellungsNr
         let Susername = Picklist.username
-        cancelSession(wer: Susername, nummer: Snummer!)
+        cancelSession(wer: Susername!, nummer: Snummer!)
     }
     
     func cancelSession(wer : String, nummer: Int){

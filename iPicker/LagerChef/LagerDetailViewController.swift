@@ -16,6 +16,7 @@ class LagerDetailViewController: UIViewController {
     @IBOutlet weak var mytbl: UITableView!
     
     var artikelReceeive : [artikel] = []
+    var nummer : String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +48,64 @@ class LagerDetailViewController: UIViewController {
     }
     func updateComplete(){
         
+        
+        
+        
     }
+    @IBAction func statusChanged(_ sender: Any) {
+        changedStatus(completion: { isSuccess in
+            if isSuccess{
+                self.doneAlert()
+            }
+            else{
+                print("ERRROR")
+            }
+        })
+        
+    }
+    func doneAlert(){
+        let alert = UIAlertController(title: "Status auf 'Wareneingang' gewechselt", message: "Super 😀",preferredStyle: UIAlertControllerStyle.alert)
+        self.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double((Int64)(1.0 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {() -> Void in
+            alert.dismiss(animated: true, completion: {() -> Void in
+                
+                if let navigationController = self.navigationController {
+                    //Picklist.durchlaufBestellungen = Picklist.durchlaufBestellungen + 1
+                    navigationController.popToRootViewController(animated: true)
+                }
+            })
+        })
+    }
+    func changedStatus(completion: @escaping (_ wert : Bool) -> Void) {
+        let request = NSMutableURLRequest(url: NSURL(string: "http://139.59.129.92/api/dummyorder/\(nummer)")! as URL)
+        request.httpMethod = "PATCH"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        do{
+            let json: [String: Any] = ["status": "WE"]
+            let jsonData = try? JSONSerialization.data(withJSONObject: json)
+            request.httpBody = jsonData
+            print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
+        } catch {
+            print("ERROR")
+        }
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            
+            if error != nil {
+                print("error=\(String(describing: error))")
+                completion(false)
+                return
+            }
+            
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(String(describing: responseString))")
+            completion(true)
+            return
+        }
+        task.resume()
+    }
+    
     
     
     override func didReceiveMemoryWarning() {
@@ -70,6 +128,18 @@ extension LagerDetailViewController : UITableViewDelegate,UITableViewDataSource{
         }
         if let comment = artikelReceeive[indexPath.row].comment{
             cell.detailTextLabel?.text = String(describing: comment)
+            
+            if comment == "OK"{
+                cell.backgroundColor = UIColor(rgb: 0x395270)
+                cell.textLabel?.textColor = UIColor.white
+                cell.detailTextLabel?.textColor = UIColor.white
+                cell.isUserInteractionEnabled = false
+            }else{
+                cell.backgroundColor = UIColor.white
+                cell.textLabel?.textColor = UIColor(rgb: 0x395270)
+                cell.detailTextLabel?.textColor = UIColor(rgb: 0x395270)
+                cell.isUserInteractionEnabled = true
+            }
         }
         
         
@@ -130,4 +200,7 @@ extension LagerDetailViewController : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Artikeln (\(artikelReceeive.count))"
     }
+    
+    
+    
 }

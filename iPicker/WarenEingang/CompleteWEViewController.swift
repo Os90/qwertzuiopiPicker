@@ -29,6 +29,8 @@ class CompleteWEViewController: UIViewController {
     var richtig = 0
     var falsch = 0
     
+    var myartikel : [artikel] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if let nummer = Picklist.sessionObject?.bestellungsNr{
@@ -51,10 +53,10 @@ class CompleteWEViewController: UIViewController {
         }
     
     func filter(){
-        
-        for i in 0 ... (Picklist.sessionObject?.artikel?.count)! - 1 {
+       
+        for index in myartikel{
             
-            if Picklist.sessionObject?.artikel?[i].belegt == 0{
+            if index.belegt == 0{
                 falsch = falsch + 1
             }
             else{
@@ -144,38 +146,38 @@ class CompleteWEViewController: UIViewController {
         task.resume()
     }
     
-    func postIFWrong(){
-        guard let id = Picklist.sessionObject?._id else {return}
-        let myURL = "http://139.59.129.92/api/dummyorder/\(id)"
-        let request = NSMutableURLRequest(url: NSURL(string: myURL)! as URL)
-        request.httpMethod = "PATCH"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        let encoder = JSONEncoder()
-        do{
-            let json: [String: Any] = ["_updated": "nicht komplett"]
-            let jsonData = try? JSONSerialization.data(withJSONObject: json)
-            request.httpBody = jsonData
-            print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
-        } catch {
-            print("ERROR")
-        }
-        
-        let task = URLSession.shared.dataTask(with: request as URLRequest) {
-            data, response, error in
-            
-            if error != nil {
-                print("error=\(error)")
-                //completion(false)
-                return
-            }
-            
-            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-            print("responseString = \(responseString)")
-            //completion(true)
-            return
-        }
-        task.resume()
-    }
+//    func postIFWrong(){
+//        guard let id = Picklist.sessionObject?._id else {return}
+//        let myURL = "http://139.59.129.92/api/dummyorder/\(id)"
+//        let request = NSMutableURLRequest(url: NSURL(string: myURL)! as URL)
+//        request.httpMethod = "PATCH"
+//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//        let encoder = JSONEncoder()
+//        do{
+//            let json: [String: Any] = ["_updated": "nicht komplett"]
+//            let jsonData = try? JSONSerialization.data(withJSONObject: json)
+//            request.httpBody = jsonData
+//            print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
+//        } catch {
+//            print("ERROR")
+//        }
+//
+//        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+//            data, response, error in
+//
+//            if error != nil {
+//                print("error=\(error)")
+//                //completion(false)
+//                return
+//            }
+//
+//            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+//            print("responseString = \(responseString)")
+//            //completion(true)
+//            return
+//        }
+//        task.resume()
+//    }
     
     
     func saveResultToServer(){
@@ -223,7 +225,7 @@ class CompleteWEViewController: UIViewController {
     @IBAction func abbrechenAction(_ sender: Any) {
         let Snummer = Picklist.sessionObject?.bestellungsNr
         let Susername = Picklist.username
-        cancelSession(wer: Susername, nummer: Snummer!)
+        cancelSession(wer: Susername!, nummer: Snummer!)
     }
     
     func cancelSession(wer : String, nummer: Int){

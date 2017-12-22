@@ -42,17 +42,26 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        initAllView()
+        addGesture()
         checkUser()
+        
     }
     func checkUser(){
         if self.userAlreadyExist(key: "login") == false {
             self.performSegue(withIdentifier: "login", sender: self)
         }
         else{
-            Picklist.username = UserDefaults.standard.object(forKey:"login") as! String
+           // Picklist.username = UserDefaults.standard.object(forKey:"login") as! String
+            Picklist.username = "Osmans"
             self.eingeloggt = true
             //username
             self.loginLabel.text = "Osman Ashraf"
+            if Picklist.UserLagerChef.contains(Picklist.username!){
+               lagerChefView(darf: true)
+            }else{
+                lagerChefView(darf: false)
+            }
         }
     }
     
@@ -88,7 +97,7 @@ class MainViewController: UIViewController {
 
     func alleAufträge(){
         let longString = """
-        http://139.59.129.92/api/dummyorder?q={"filters":[{"name":"status","op":"eq","val":"IN BEARBEITUNG"}]}
+        http://139.59.129.92/api/dummyorder?q={"filters":[{"name":"status","op":"eq","val":"WA"}]}
         """
         let urlString = longString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
         urlWithForBestellung(url: urlString!) {(result : antwort) in
@@ -108,20 +117,16 @@ class MainViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
-        initAllView()
-        checkLastSession()
-        alleBestellungen()
-        alleAufträge()
+            self.checkUser()
+            self.checkLastSession()
+            self.alleBestellungen()
+            self.alleAufträge()
     }
     
     func checkLastSession(){
         if self.userAlreadyExist(key: "session"){
             let dafaults = UserDefaults.standard
             if let was = dafaults.object(forKey: "was"){
-                sessionBtn.isHidden = false
-                //sessionBtn.isEnabled = true
-                sessionImage.isHidden = false
                 switch(String(describing: was)){
                 case "bestellung":
                     print("bestellung")
@@ -135,28 +140,56 @@ class MainViewController: UIViewController {
                     break
                 }
             }
-            firstViewBadge.backgroundColor = UIColor.gray
-            lastBadge.backgroundColor = UIColor.gray
+            sessionBtn.isHidden = false
+            sessionImage.isHidden = false
             makeAllViewDisable()
         }
         else{
-            firstViewBadge.backgroundColor = UIColor(rgb: 0x395270)
-            lastBadge.backgroundColor = UIColor(rgb: 0x395270)
-           // sessionBtn.isEnabled = false
             sessionBtn.isHidden = true
             sessionImage.isHidden = true
-            addGesture()
+            //addGesture()
+            makeAllViewAble()
         }
     }
     
-    func makeAllViewDisable(){
-        DispatchQueue.main.async {
-            self.view.gestureRecognizers?.removeAll()
+    func makeAllViewAble(){
+        
+        firstViewBadge.backgroundColor = UIColor(rgb: 0x395270)
+        lastBadge.backgroundColor = UIColor(rgb: 0x395270)
+        
+        bestellungsBild.tintImageColor(color: UIColor(rgb: 0x395270))
+        auftragBild.tintImageColor(color: UIColor(rgb: 0x395270))
+        //inventurBild.tintImageColor(color: UIColor(rgb: 0x395270))
+        picklisteBild.tintImageColor(color: UIColor(rgb: 0x395270))
+        
+        self.firstView.isUserInteractionEnabled = true
+        //self.secondView.isUserInteractionEnabled = true
+        self.thirdView.isUserInteractionEnabled = true
+        self.LastView.isUserInteractionEnabled = true
+    }
+    func lagerChefView(darf : Bool){
+        if darf{
+              inventurBild.tintImageColor(color: UIColor(rgb: 0x395270))
+             self.secondView.isUserInteractionEnabled = true
+        }else{
+                inventurBild.tintImageColor(color: UIColor.gray)
+              self.secondView.isUserInteractionEnabled = false
         }
+    }
+    func makeAllViewDisable(){
+        
+        firstViewBadge.backgroundColor = UIColor.gray
+        lastBadge.backgroundColor = UIColor.gray
+        
         bestellungsBild.tintImageColor(color: UIColor.gray)
         auftragBild.tintImageColor(color: UIColor.gray)
-        inventurBild.tintImageColor(color: UIColor.gray)
+        //inventurBild.tintImageColor(color: UIColor.gray)
         picklisteBild.tintImageColor(color: UIColor.gray)
+        
+        self.firstView.isUserInteractionEnabled = false
+        //self.secondView.isUserInteractionEnabled = false
+        self.thirdView.isUserInteractionEnabled = false
+        self.LastView.isUserInteractionEnabled = false
     }
     
 
@@ -205,7 +238,7 @@ class MainViewController: UIViewController {
         //performSegue(withIdentifier: "Inventur", sender: self)
     }
     @objc func imageTappedThird(){
-        performSegue(withIdentifier: "picken", sender: self)
+       // performSegue(withIdentifier: "picken", sender: self)
     }
     
     @objc func imageTappedLast(){
@@ -220,13 +253,6 @@ class MainViewController: UIViewController {
     }
 
     func initAllView(){
-        
-        
-        bestellungsBild.tintImageColor(color: UIColor(rgb: 0x395270))
-        auftragBild.tintImageColor(color: UIColor(rgb: 0x395270))
-        inventurBild.tintImageColor(color: UIColor(rgb: 0x395270))
-        picklisteBild.tintImageColor(color: UIColor(rgb: 0x395270))
-        
         firstView.layer.cornerRadius = 10.0
         firstView.layer.shadowColor = UIColor.gray.cgColor
         firstView.layer.masksToBounds = false

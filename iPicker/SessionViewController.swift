@@ -12,7 +12,7 @@ class SessionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+       print(Picklist.username)
         // Do any additional setup after loading the view.
     }
 

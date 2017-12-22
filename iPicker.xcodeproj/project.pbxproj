@@ -226,6 +226,9 @@
 				152FAECF1FAF92AB00D68C42 /* LaunchScreen.storyboard */,
 				152FAEC71FAF92AB00D68C42 /* Main.storyboard */,
 				AC843BB51FEAE2FB00818323 /* SessionViewController.swift */,
+				159E61E81FD315B400B8117B /* PufferViewController.swift */,
+				15A5D0A61FCF4F6200015FAB /* WarenEingangTableViewCell.swift */,
+				15A5D09E1FCF448C00015FAB /* WareneingagViewController.swift */,
 				152FAECD1FAF92AB00D68C42 /* Assets.xcassets */,
 				152FAED21FAF92AB00D68C42 /* Info.plist */,
 				152FAECA1FAF92AB00D68C42 /* iPicker.xcdatamodeld */,
@@ -278,10 +281,6 @@
 				159E61E61FD3019600B8117B /* WEViewController.swift */,
 				15A5D0A21FCF4B5700015FAB /* WareneingangListeViewController.swift */,
 				1510D5E51FDA7DF7003A9EC8 /* CompleteWEViewController.swift */,
-				159E61E81FD315B400B8117B /* PufferViewController.swift */,
-				15A5D0A41FCF4E5500015FAB /* WECell.xib */,
-				15A5D0A61FCF4F6200015FAB /* WarenEingangTableViewCell.swift */,
-				15A5D09E1FCF448C00015FAB /* WareneingagViewController.swift */,
 			);
 			path = WarenEingang;
 			sourceTree = "<group>";
@@ -333,6 +332,7 @@
 		AC29903A1FC8599800A7CFA4 /* xibDateien */ = {
 			isa = PBXGroup;
 			children = (
+				15A5D0A41FCF4E5500015FAB /* WECell.xib */,
 				AC7CC0821FBF1EDA0007724F /* PickerCell.xib */,
 			);
 			path = xibDateien;

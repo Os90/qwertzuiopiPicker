@@ -19,6 +19,11 @@ class WarenausgangListeViewController: UIViewController {
     var wrongArrary : [Int] = []
     var count = 0
     var komplett  = true
+    
+    var artikelwithOk : [artikel] = []
+    var tmpObject : [artikel] = []
+    
+    
 
     @IBOutlet weak var mytbl: UITableView!
     override func viewDidLoad() {
@@ -35,6 +40,106 @@ class WarenausgangListeViewController: UIViewController {
         if self.navigationController?.interactivePopGestureRecognizer?.isEnabled != nil {
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         }
+        
+        if userAlreadyExist(key: "session"){
+            filterByOk()
+        }else{
+            ChechIN()
+        }
+    }
+    func userAlreadyExist(key : String) -> Bool {
+        return UserDefaults.standard.object(forKey:key) != nil
+    }
+    func updateStatus1(){
+        updateStatus(completion: { isSuccess in
+            if isSuccess{
+                self.filterByOk()
+            }
+            else{
+                print("kein Internet")
+            }
+        })
+    }
+    func filterByOk(){
+        
+        for index in (Picklist.sessionObject?.artikel)!{
+            
+            if index.comment == "OK"{
+                if index.pickerID != Int(Picklist.username!){
+                    artikelwithOk.append(index)
+                }else{
+                    tmpObject.append(index)
+                }
+            }else{
+                tmpObject.append(index)
+            }
+        }
+        Picklist.sessionObject?.artikel?.removeAll()
+        Picklist.sessionObject?.artikel  = tmpObject
+        DispatchQueue.main.async {
+            self.mytbl.reloadData()
+        }
+        
+    }
+    func ChechIN(){
+        guard let id = Picklist.sessionObject?._id else {return}
+        let longString = "http://139.59.129.92/api/dummyorder/\(id)"
+        let urlString = longString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        urlforCheck(url: urlString!) {(result : objects) in
+            if result.status == "WA"{
+                self.updateStatus1()
+            }else{
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+        }
+    }
+    func urlforCheck(url: String, completion: @escaping (_ result: objects) -> Void) {
+        let jsonUrlString = url
+        guard let url = URL(string: jsonUrlString) else {
+            return
+        }
+        URLSession.shared.dataTask(with: url){(data,response,err) in
+            guard let data = data else {return}
+            do{
+                let webSiteDesc = try JSONDecoder().decode(objects.self, from: data)
+                completion(webSiteDesc)
+            }catch let jsonErr{
+                print(jsonErr)
+            }
+            
+            }.resume()
+        
+    }
+    func updateStatus(completion: @escaping (_ wert : Bool) -> Void) {
+        guard let id = Picklist.sessionObject?._id else {return}
+        let request = NSMutableURLRequest(url: NSURL(string: "http://139.59.129.92/api/dummyorder/\(id)")! as URL)
+        request.httpMethod = "PATCH"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        // let encoder = JSONEncoder()
+        do{
+            let json: [String: Any] = ["status": "IN BEARBEITUNG"]
+            let jsonData = try? JSONSerialization.data(withJSONObject: json)
+            request.httpBody = jsonData
+            print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
+        } catch {
+            print("ERROR")
+        }
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            
+            if error != nil {
+                print("error=\(String(describing: error))")
+                completion(false)
+                return
+            }
+            
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(String(describing: responseString))")
+            completion(true)
+            return
+        }
+        task.resume()
     }
     
     @objc func backAction(){
@@ -60,6 +165,18 @@ class WarenausgangListeViewController: UIViewController {
         
         
         
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "done"{
+            
+            tmpObject = (Picklist.sessionObject?.artikel)!
+            
+            for index in artikelwithOk{
+                Picklist.sessionObject?.artikel?.append(index)
+            }
+            let destinationVC = segue.destination as! CompleteWAViewController
+            destinationVC.myartikel = tmpObject
+        }
     }
 
     @objc func goForward()
@@ -183,7 +300,7 @@ extension WarenausgangListeViewController: UITableViewDelegate,UITableViewDataSo
         alert.addAction(UIAlertAction(title: "JA!", style: UIAlertActionStyle.default, handler: { action in
             Picklist.sessionObject?.artikel![myindex.row].belegt = 0
             Picklist.sessionObject?.artikel![myindex.row].comment = "Ware nicht vorhanden!"
-            Picklist.sessionObject?.artikel![myindex.row].pickerID = 99
+            Picklist.sessionObject?.artikel![myindex.row].pickerID = Int(Picklist.username!)
             //Picklist.username
             
             self.mytbl.reloadData()
@@ -192,7 +309,7 @@ extension WarenausgangListeViewController: UITableViewDelegate,UITableViewDataSo
         alert.addAction(UIAlertAction(title: "Andere Gründe(nicht komplett,beschädigt usw..)", style: UIAlertActionStyle.destructive, handler: { action in
             Picklist.sessionObject?.artikel![myindex.row].belegt = 0
             Picklist.sessionObject?.artikel![myindex.row].comment = "Andere Gründe"
-            Picklist.sessionObject?.artikel![myindex.row].pickerID = 99
+            Picklist.sessionObject?.artikel![myindex.row].pickerID = Int(Picklist.username!)
             self.mytbl.reloadData()
             
         }))
@@ -208,7 +325,7 @@ extension WarenausgangListeViewController: UITableViewDelegate,UITableViewDataSo
             AudioServicesPlaySystemSound (self.DonesystemSoundID)
             Picklist.sessionObject?.artikel![indexPath.row].belegt = 1
             Picklist.sessionObject?.artikel![indexPath.row].comment = "OK"
-            Picklist.sessionObject?.artikel![indexPath.row].pickerID = 99
+            Picklist.sessionObject?.artikel![indexPath.row].pickerID = Int(Picklist.username!)
             
             success(true)
             self.mytbl.reloadData()

@@ -23,6 +23,9 @@ class WareneingangListeViewController: UIViewController {
     var startTime = TimeInterval()
     var subtitle = String()
     
+    var artikelwithOk : [artikel] = []
+    var tmpObject : [artikel] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
          navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Zurück", style: .plain, target: self, action: #selector(self.backAction))
@@ -32,19 +35,81 @@ class WareneingangListeViewController: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: aSelector, userInfo: nil, repeats: true)
         startTime = Date.timeIntervalSinceReferenceDate
         addButon()
-        
-        updateStatus(completion: { isSuccess in
-            if isSuccess{
-                print("isSuccess")
-            }
-            else{
-                print("kein Internet")
-            }
-        })
-        
-       // Picklist.sessionObject?.start_time = 3333
+        if userAlreadyExist(key: "session"){
+            filterByOk()
+        }else{
+           ChechIN()
+        }
         
     }
+    func userAlreadyExist(key : String) -> Bool {
+        return UserDefaults.standard.object(forKey:key) != nil
+    }
+    
+    func updateStatus1(){
+                updateStatus(completion: { isSuccess in
+                    if isSuccess{
+                       self.filterByOk()
+                    }
+                    else{
+                        print("kein Internet")
+                    }
+                })
+    }
+    
+    func filterByOk(){
+        
+        for index in (Picklist.sessionObject?.artikel)!{
+            
+            if index.comment == "OK"{
+                if index.pickerID != Int(Picklist.username!){
+                    artikelwithOk.append(index)
+                }else{
+                     tmpObject.append(index)
+                }
+            }else{
+                 tmpObject.append(index)
+            }
+        }
+        Picklist.sessionObject?.artikel?.removeAll()
+        Picklist.sessionObject?.artikel  = tmpObject
+        DispatchQueue.main.async {
+           self.mytbl.reloadData()
+        }
+        
+    }
+    
+    func ChechIN(){
+        guard let id = Picklist.sessionObject?._id else {return}
+        let longString = "http://139.59.129.92/api/dummyorder/\(id)"
+        let urlString = longString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        urlforCheck(url: urlString!) {(result : objects) in
+            if result.status == "WE"{
+                self.updateStatus1()
+            }else{
+                 self.navigationController?.popToRootViewController(animated: true)
+            }
+        }
+    }
+    
+    func urlforCheck(url: String, completion: @escaping (_ result: objects) -> Void) {
+        let jsonUrlString = url
+        guard let url = URL(string: jsonUrlString) else {
+            return
+        }
+        URLSession.shared.dataTask(with: url){(data,response,err) in
+            guard let data = data else {return}
+            do{
+                let webSiteDesc = try JSONDecoder().decode(objects.self, from: data)
+                completion(webSiteDesc)
+            }catch let jsonErr{
+                print(jsonErr)
+            }
+            
+            }.resume()
+        
+    }
+    
     
     func updateStatus(completion: @escaping (_ wert : Bool) -> Void) {
         guard let id = Picklist.sessionObject?._id else {return}
@@ -105,6 +170,10 @@ class WareneingangListeViewController: UIViewController {
    
     }
     func saveSession(){
+        for index in artikelwithOk{
+            Picklist.sessionObject?.artikel?.append(index)
+        }
+        
         let defaults = UserDefaults.standard
         defaults.set(true, forKey: "session")
         defaults.set("bestellung", forKey: "was")
@@ -148,7 +217,19 @@ class WareneingangListeViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ok"{
-            //bestellugAntwort.bestellugEnd_time = 2
+            
+            for i in 0 ... (Picklist.sessionObject?.artikel?.count)!{
+                
+                Picklist.sessionObject?.artikel?[i].pickerID = Int(Picklist.username!)
+            }
+            
+            tmpObject = (Picklist.sessionObject?.artikel)!
+            
+            for index in artikelwithOk{
+                Picklist.sessionObject?.artikel?.append(index)
+            }
+            let destinationVC = segue.destination as! CompleteWEViewController
+            destinationVC.myartikel = tmpObject
         }
     }
     
@@ -283,7 +364,7 @@ extension WareneingangListeViewController: UITableViewDelegate,UITableViewDataSo
         alert.addAction(UIAlertAction(title: "JA!", style: UIAlertActionStyle.default, handler: { action in
             Picklist.sessionObject?.artikel![myindex.row].belegt = 0
             Picklist.sessionObject?.artikel![myindex.row].comment = "Position schon belegt"
-            Picklist.sessionObject?.artikel![myindex.row].pickerID = 99
+            Picklist.sessionObject?.artikel![myindex.row].pickerID = Int(Picklist.username!)
             //Picklist.username
 
             self.mytbl.reloadData()
@@ -293,7 +374,7 @@ extension WareneingangListeViewController: UITableViewDelegate,UITableViewDataSo
         alert.addAction(UIAlertAction(title: "Andere Gruende", style: UIAlertActionStyle.destructive, handler: { action in
             Picklist.sessionObject?.artikel![myindex.row].belegt = 0
             Picklist.sessionObject?.artikel![myindex.row].comment = "Andere Gründe"
-            Picklist.sessionObject?.artikel![myindex.row].pickerID = 99
+            Picklist.sessionObject?.artikel![myindex.row].pickerID = Int(Picklist.username!)
             self.mytbl.reloadData()
             
         }))
@@ -310,7 +391,7 @@ extension WareneingangListeViewController: UITableViewDelegate,UITableViewDataSo
             AudioServicesPlaySystemSound (self.DonesystemSoundID)
             Picklist.sessionObject?.artikel![indexPath.row].belegt = 1
             Picklist.sessionObject?.artikel![indexPath.row].comment = "OK"
-            Picklist.sessionObject?.artikel![indexPath.row].pickerID = 99
+            Picklist.sessionObject?.artikel![indexPath.row].pickerID = Int(Picklist.username!)
             
             success(true)
             self.mytbl.reloadData()

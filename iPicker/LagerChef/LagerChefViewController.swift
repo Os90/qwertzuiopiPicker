@@ -13,7 +13,7 @@ class LagerChefViewController: UIViewController {
     var komplett : antwort?
     var nichtkomplett : antwort?
     var objectTosend : [artikel] = []
-    
+    var selectedIndexFromDid = 0
     
     @IBOutlet weak var segement: UISegmentedControl!
     
@@ -32,6 +32,9 @@ class LagerChefViewController: UIViewController {
         if segue.identifier == "weiter"{
             let destinationVC = segue.destination as! LagerDetailViewController
             destinationVC.artikelReceeive = objectTosend
+            
+            guard let id  = nichtkomplett?.objects![selectedIndexFromDid]._id else {return}
+            destinationVC.nummer = String(id)
         }
     }
     
@@ -118,8 +121,9 @@ extension LagerChefViewController : UITableViewDelegate,UITableViewDataSource{
                                cell.textLabel?.text  = String(describing:nummer)
                         }
             if let detail = nichtkomplett?.objects?[indexPath.row].comment{
-                                cell.detailTextLabel?.text = detail
-                        }
+                cell.detailTextLabel?.text = detail
+            }
+              cell.isUserInteractionEnabled = true
             break
         case 1:
             if let nummer = komplett?.objects?[indexPath.row].bestellungsNr{
@@ -128,6 +132,7 @@ extension LagerChefViewController : UITableViewDelegate,UITableViewDataSource{
             if let detail = komplett?.objects?[indexPath.row].comment{
                 cell.detailTextLabel?.text = detail
             }
+            cell.isUserInteractionEnabled = false
             break
             
         default:
@@ -138,21 +143,21 @@ extension LagerChefViewController : UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedIndexFromDid = indexPath.row
         switch(segement.selectedSegmentIndex)
         {
         case 0:
-            guard let object  = komplett?.objects![indexPath.row].artikel else {return }
+            guard let object  = nichtkomplett?.objects![indexPath.row].artikel else {return }
             objectTosend = object
             break
         case 1:
-            guard let object  = nichtkomplett?.objects![indexPath.row].artikel else {return }
+            guard let object  = komplett?.objects![indexPath.row].artikel else {return }
             objectTosend = object
             break
         default:
             break
             
         }
-        
         self.performSegue(withIdentifier: "weiter", sender: self)
     }
     
