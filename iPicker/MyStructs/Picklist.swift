@@ -27,8 +27,12 @@ struct Picklist : Codable {
     static var sessionName = String()
 
     static var UserLagerChef : [String] = ["Kemal","Osman","Mimoun"]
+    
+  
 }
 
 var Timestamp: String {
     return "\(NSDate().timeIntervalSince1970 * 1000)"
 }
+
+

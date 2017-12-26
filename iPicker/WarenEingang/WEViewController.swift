@@ -22,9 +22,6 @@ class WEViewController: UIViewController {
             self.performSegue(withIdentifier: "liste", sender: self)
         }
     }
-    func userAlreadyExist(key : String) -> Bool {
-        return UserDefaults.standard.object(forKey:key) != nil
-    }
     @objc func goBack()
     {
         if let navigationController = navigationController {

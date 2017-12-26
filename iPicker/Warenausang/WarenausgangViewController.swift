@@ -30,9 +30,7 @@ class WarenausgangViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    func userAlreadyExist(key : String) -> Bool {
-        return UserDefaults.standard.object(forKey:key) != nil
-    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         var objectToSend : objects?
         

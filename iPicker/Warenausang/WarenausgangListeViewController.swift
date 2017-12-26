@@ -47,9 +47,6 @@ class WarenausgangListeViewController: UIViewController {
             ChechIN()
         }
     }
-    func userAlreadyExist(key : String) -> Bool {
-        return UserDefaults.standard.object(forKey:key) != nil
-    }
     func updateStatus1(){
         updateStatus(completion: { isSuccess in
             if isSuccess{

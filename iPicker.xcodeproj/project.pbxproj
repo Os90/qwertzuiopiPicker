@@ -31,6 +31,8 @@
 		159E61E51FD2D1FA00B8117B /* Receive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159E61E41FD2D1FA00B8117B /* Receive.swift */; };
 		159E61E71FD3019600B8117B /* WEViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159E61E61FD3019600B8117B /* WEViewController.swift */; };
 		159E61E91FD315B400B8117B /* PufferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159E61E81FD315B400B8117B /* PufferViewController.swift */; };
+		15A0F1641FEEBEAB0015CFD8 /* info.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15A0F1631FEEBEAA0015CFD8 /* info.storyboard */; };
+		15A0F1661FEEBEBE0015CFD8 /* infoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A0F1651FEEBEBE0015CFD8 /* infoViewController.swift */; };
 		15A5D09D1FCF443400015FAB /* Wareneingang.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15A5D09C1FCF443400015FAB /* Wareneingang.storyboard */; };
 		15A5D09F1FCF448C00015FAB /* WareneingagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A5D09E1FCF448C00015FAB /* WareneingagViewController.swift */; };
 		15A5D0A31FCF4B5700015FAB /* WareneingangListeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A5D0A21FCF4B5700015FAB /* WareneingangListeViewController.swift */; };
@@ -121,6 +123,8 @@
 		159E61E41FD2D1FA00B8117B /* Receive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receive.swift; sourceTree = "<group>"; };
 		159E61E61FD3019600B8117B /* WEViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WEViewController.swift; sourceTree = "<group>"; };
 		159E61E81FD315B400B8117B /* PufferViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PufferViewController.swift; sourceTree = "<group>"; };
+		15A0F1631FEEBEAA0015CFD8 /* info.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = info.storyboard; sourceTree = "<group>"; };
+		15A0F1651FEEBEBE0015CFD8 /* infoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = infoViewController.swift; sourceTree = "<group>"; };
 		15A5D09C1FCF443400015FAB /* Wareneingang.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Wareneingang.storyboard; sourceTree = "<group>"; };
 		15A5D09E1FCF448C00015FAB /* WareneingagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WareneingagViewController.swift; sourceTree = "<group>"; };
 		15A5D0A21FCF4B5700015FAB /* WareneingangListeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WareneingangListeViewController.swift; sourceTree = "<group>"; };
@@ -209,6 +213,8 @@
 		152FAEC21FAF92AB00D68C42 /* iPicker */ = {
 			isa = PBXGroup;
 			children = (
+				15A0F1671FEEC5FC0015CFD8 /* Müll */,
+				15A0F1621FEEBE950015CFD8 /* Info */,
 				158953221FEB157800DA49BC /* LagerChef */,
 				159E61E31FD2D1BA00B8117B /* MyStructs */,
 				15A5D0A81FCF572E00015FAB /* Warenausang */,
@@ -216,23 +222,13 @@
 				AC2990391FC8598100A7CFA4 /* Picken */,
 				AC29903A1FC8599800A7CFA4 /* xibDateien */,
 				15AF50551FC762C3004BF17F /* Inventur */,
-				152FAEC51FAF92AB00D68C42 /* ViewController.swift */,
+				152FAEC71FAF92AB00D68C42 /* Main.storyboard */,
+				152FAECF1FAF92AB00D68C42 /* LaunchScreen.storyboard */,
 				153816721FB2657C00B46230 /* MainViewController.swift */,
 				15AF50531FC7577C004BF17F /* AuthViewController.swift */,
-				156688AA1FB442BA00D16525 /* AbschlussViewController.swift */,
-				153816741FB26F5F00B46230 /* SeocondViewController.swift */,
-				151048D61FB0E6A8004352A8 /* MyCollectionViewCell.swift */,
 				152FAEC31FAF92AB00D68C42 /* AppDelegate.swift */,
-				152FAECF1FAF92AB00D68C42 /* LaunchScreen.storyboard */,
-				152FAEC71FAF92AB00D68C42 /* Main.storyboard */,
-				AC843BB51FEAE2FB00818323 /* SessionViewController.swift */,
-				159E61E81FD315B400B8117B /* PufferViewController.swift */,
-				15A5D0A61FCF4F6200015FAB /* WarenEingangTableViewCell.swift */,
-				15A5D09E1FCF448C00015FAB /* WareneingagViewController.swift */,
 				152FAECD1FAF92AB00D68C42 /* Assets.xcassets */,
 				152FAED21FAF92AB00D68C42 /* Info.plist */,
-				152FAECA1FAF92AB00D68C42 /* iPicker.xcdatamodeld */,
-				152FAEF51FAF949700D68C42 /* MyFile.swift */,
 			);
 			path = iPicker;
 			sourceTree = "<group>";
@@ -272,6 +268,33 @@
 				159E61E41FD2D1FA00B8117B /* Receive.swift */,
 			);
 			path = MyStructs;
+			sourceTree = "<group>";
+		};
+		15A0F1621FEEBE950015CFD8 /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				15A0F1631FEEBEAA0015CFD8 /* info.storyboard */,
+				15A0F1651FEEBEBE0015CFD8 /* infoViewController.swift */,
+			);
+			path = Info;
+			sourceTree = "<group>";
+		};
+		15A0F1671FEEC5FC0015CFD8 /* Müll */ = {
+			isa = PBXGroup;
+			children = (
+				156688AA1FB442BA00D16525 /* AbschlussViewController.swift */,
+				153816741FB26F5F00B46230 /* SeocondViewController.swift */,
+				151048D61FB0E6A8004352A8 /* MyCollectionViewCell.swift */,
+				152FAEC51FAF92AB00D68C42 /* ViewController.swift */,
+				AC843BB51FEAE2FB00818323 /* SessionViewController.swift */,
+				159E61E81FD315B400B8117B /* PufferViewController.swift */,
+				15A5D0A61FCF4F6200015FAB /* WarenEingangTableViewCell.swift */,
+				15A5D09E1FCF448C00015FAB /* WareneingagViewController.swift */,
+				152FAECA1FAF92AB00D68C42 /* iPicker.xcdatamodeld */,
+				152FAEF51FAF949700D68C42 /* MyFile.swift */,
+			);
+			name = "Müll";
+			path = "Müll";
 			sourceTree = "<group>";
 		};
 		15A5D0A11FCF44B500015FAB /* WarenEingang */ = {
@@ -476,6 +499,7 @@
 				152FAECE1FAF92AB00D68C42 /* Assets.xcassets in Resources */,
 				158953241FEB158E00DA49BC /* Lager.storyboard in Resources */,
 				AC2990401FC85A7500A7CFA4 /* ListPickCell.xib in Resources */,
+				15A0F1641FEEBEAB0015CFD8 /* info.storyboard in Resources */,
 				ACB6997C1FE5CFA700124C11 /* test.storyboard in Resources */,
 				152FAEC91FAF92AB00D68C42 /* Main.storyboard in Resources */,
 			);
@@ -664,6 +688,7 @@
 				155A8D1A1FC1CD5B00A10E01 /* Picklist.swift in Sources */,
 				1527D6CF1FD9AC3D00F90377 /* CompleteWAViewController.swift in Sources */,
 				ACF576AF1FEC0A6200471DDA /* LagerDetailViewController.swift in Sources */,
+				15A0F1661FEEBEBE0015CFD8 /* infoViewController.swift in Sources */,
 				15532C011FCF589F00029798 /* WarenausgangViewController.swift in Sources */,
 				15AF50541FC7577C004BF17F /* AuthViewController.swift in Sources */,
 				152FAEC61FAF92AB00D68C42 /* ViewController.swift in Sources */,

@@ -18,9 +18,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var firstView: UIView!
     @IBOutlet weak var secondView: UIView!
     @IBOutlet weak var thirdView: UIView!
-    
     @IBOutlet weak var LastView: UIView!
-    
     @IBOutlet weak var firstViewBadge: UILabel!
     @IBOutlet var secondViewLabel: UIView!
     @IBOutlet var thirdVuewLabel: UIView!
@@ -29,9 +27,6 @@ class MainViewController: UIViewController {
     @IBOutlet weak var sessionView: UIView!
     
     @IBOutlet weak var sessionImage: UIImageView!
-    
-    
-  
     
     var eingeloggt = false
     
@@ -48,12 +43,13 @@ class MainViewController: UIViewController {
         
     }
     func checkUser(){
-        if self.userAlreadyExist(key: "login") == false {
+        
+        if userAlreadyExist(key: "login") == false {
             self.performSegue(withIdentifier: "login", sender: self)
         }
         else{
            // Picklist.username = UserDefaults.standard.object(forKey:"login") as! String
-            Picklist.username = "Osmans"
+            Picklist.username = "Osman"
             self.eingeloggt = true
             //username
             self.loginLabel.text = "Osman Ashraf"
@@ -71,30 +67,13 @@ class MainViewController: UIViewController {
         """
         let urlString = longString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
         urlWithForBestellung(url: urlString!) {(result : antwort) in
-            //print(result)
             self.bestellungsAntwort = result
-            if let myresult = result.objects{
-                DispatchQueue.main.async {
-                   // let a = myresult.count - Picklist.durchlaufBestellungen
-                    self.firstViewBadge.text = String(myresult.count)
-                }
+            guard let count = result.objects?.count else {return}
+            DispatchQueue.main.async {
+                self.firstViewBadge.text = String(count)
             }
         }
     }
-    
-    @IBAction func sessionAction(_ sender: Any) {
-        goToSesion()
-    }
-    
-    func goToSesion(){
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "SessionViewController") as! SessionViewController
-        if let navigationController = navigationController {
-            navigationController.pushViewController(recentSearchesViewController, animated: true)
-        }
-    }
-    
-
     func alleAufträge(){
         let longString = """
         http://139.59.129.92/api/dummyorder?q={"filters":[{"name":"status","op":"eq","val":"WA"}]}
@@ -112,10 +91,20 @@ class MainViewController: UIViewController {
         }
     }
     
-    func userAlreadyExist(key : String) -> Bool {
-        return UserDefaults.standard.object(forKey:key) != nil
+    
+    @IBAction func sessionAction(_ sender: Any) {
+        goToSesion()
     }
     
+    func goToSesion(){
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "SessionViewController") as! SessionViewController
+        if let navigationController = navigationController {
+            navigationController.pushViewController(recentSearchesViewController, animated: true)
+        }
+    }
+    
+
     override func viewDidAppear(_ animated: Bool) {
             self.checkUser()
             self.checkLastSession()
@@ -220,46 +209,64 @@ class MainViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Lager", bundle: nil)
         let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "LagerChefViewController") as! LagerChefViewController
         if let navigationController = navigationController {
-//            if let obejcts = auftragsAntwort?.objects{
-//                recentSearchesViewController.ListBestellung = obejcts
-//            }
             navigationController.pushViewController(recentSearchesViewController, animated: true)
         }
     }
-    
-    
     @objc func imageTappedFirst(){
         goToWareneingang()
         }
-    
-    
+
     @objc func imageTappedSecond(){
         goToLagerChef()
-        //performSegue(withIdentifier: "Inventur", sender: self)
     }
     @objc func imageTappedThird(){
-       // performSegue(withIdentifier: "picken", sender: self)
     }
     
     @objc func imageTappedLast(){
-
         goToWarenausang()
-        
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func goToInfo(){
+        let storyboard = UIStoryboard(name: "info", bundle: nil)
+        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "infoViewController") as! infoViewController
+        if let navigationController = navigationController {
+            navigationController.pushViewController(recentSearchesViewController, animated: true)
+        }
+    }
+    
+    @objc func goInfo()
+    {
+        if Picklist.UserLagerChef.contains(Picklist.username!){
+            goToInfo()
+        }else{
+            // create the alert
+            let alert = UIAlertController(title: "Keine Berechtigung!!", message: "Not Allowed", preferredStyle: UIAlertControllerStyle.alert)
+            
+            // add the actions (buttons)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { action in
+                //self.performSegue(withIdentifier: "done", sender: self)
+            }))
+            // show the alert
+            self.present(alert, animated: true, completion: nil)
+        }
+        
+        
+    }
 
     func initAllView(){
+        let closeButtonImage = UIImage(named: "icons8-info_filled")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: closeButtonImage, style: .plain, target: self, action:  #selector(self.goInfo))
+        
         firstView.layer.cornerRadius = 10.0
         firstView.layer.shadowColor = UIColor.gray.cgColor
         firstView.layer.masksToBounds = false
         firstView.layer.shadowOffset = CGSize(width: 0.0 , height: 5.0)
         firstView.layer.shadowOpacity = 1.0
         firstView.layer.shadowRadius = 5
-        
         
         secondView.layer.cornerRadius = 10.0
         secondView.layer.shadowColor = UIColor.gray.cgColor
@@ -326,11 +333,11 @@ class MainViewController: UIViewController {
 
 extension UIViewController{
     
+    func userAlreadyExist(key : String) -> Bool {
+        return UserDefaults.standard.object(forKey:key) != nil
+    }
     
     func urlWithForBestellung(url: String, completion: @escaping (_ result: antwort) -> Void) {
-
-        
-        
         let jsonUrlString = url
         guard let url = URL(string: jsonUrlString) else {
             return
