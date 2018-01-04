@@ -254,12 +254,16 @@ class MainViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
         }
         
-        
     }
 
     func initAllView(){
-        let closeButtonImage = UIImage(named: "icons8-info_filled")
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: closeButtonImage, style: .plain, target: self, action:  #selector(self.goInfo))
+        let infoButton = UIImage(named: "icons8-info_filled")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: infoButton, style: .plain, target: self, action:  #selector(self.goInfo))
+        //navigationController?.navigationBar.barTintColor = UIColor.lightGray
+        
+        let logOutButton = UIImage(named: "icons8-logout_rounded_up_filled")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: logOutButton, style: .plain, target: self, action:  #selector(self.goInfo))
+        
         
         firstView.layer.cornerRadius = 10.0
         firstView.layer.shadowColor = UIColor.gray.cgColor

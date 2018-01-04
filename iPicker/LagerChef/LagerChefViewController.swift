@@ -22,7 +22,7 @@ class LagerChefViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "Lager Chef Ansicht (Puffer Lager)"
+        self.navigationItem.title = "Lager Chef Ansicht"
         
         alleNotComplete()
 

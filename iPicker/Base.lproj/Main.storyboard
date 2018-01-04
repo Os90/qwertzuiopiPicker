@@ -1079,4 +1079,5 @@
         <image name="icons8-move_by_trolley_filled" width="100" height="100"/>
         <image name="icons8-right_4" width="50" height="50"/>
     </resources>
+    <color key="tintColor" red="0.22352941179999999" green="0.32156862749999998" blue="0.43921568630000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
 </document>
