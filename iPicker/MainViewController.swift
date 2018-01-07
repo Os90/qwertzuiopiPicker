@@ -42,6 +42,45 @@ class MainViewController: UIViewController {
         checkUser()
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+         rechtsOben()
+    }
+    
+    func rechtsOben(){
+        var id = 0
+        let userDefults = UserDefaults.standard
+        if let highScore = userDefults.value(forKey: "status"){
+            id = highScore as! Int
+        }
+        
+        var name = ""
+        switch id {
+        case 1:
+            name = "icons8-porridge_filled-2"
+            break
+        case 2:
+            name = "icons8-sleep_filled-2"
+            break
+        case 3:
+            name = "icons8-logout_rounded_up_filled"
+            break
+        case 4:
+            name = "icons8-worker_filled-2"
+            break
+        default:
+            break
+        }
+        
+        
+        let logOutButton = UIImage(named: name)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: logOutButton, style: .plain, target: self,   action:  #selector(self.goChangedStatus))
+      
+        
+        
+    }
+        
+        
     func checkUser(){
         
         if userAlreadyExist(key: "login") == false {
@@ -255,14 +294,24 @@ class MainViewController: UIViewController {
         }
         
     }
+    
+    @objc func goChangedStatus()
+    {
+        
+        let storyboard = UIStoryboard(name: "abmelden", bundle: nil)
+        let recentSearchesViewController = storyboard.instantiateViewController(withIdentifier: "AbmeldenViewController") as! AbmeldenViewController
+        if let navigationController = navigationController {
+            navigationController.pushViewController(recentSearchesViewController, animated: true)
+        }
+    }
 
     func initAllView(){
         let infoButton = UIImage(named: "icons8-info_filled")
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: infoButton, style: .plain, target: self, action:  #selector(self.goInfo))
         //navigationController?.navigationBar.barTintColor = UIColor.lightGray
         
-        let logOutButton = UIImage(named: "icons8-logout_rounded_up_filled")
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: logOutButton, style: .plain, target: self, action:  #selector(self.goInfo))
+//        let logOutButton = UIImage(named: "icons8-change_filled")
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: logOutButton, style: .plain, target: self, action:  #selector(self.goChangedStatus))
         
         
         firstView.layer.cornerRadius = 10.0
